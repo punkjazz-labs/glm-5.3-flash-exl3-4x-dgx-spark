@@ -234,3 +234,22 @@ aggregate 45 instead of 60 tok/s, 8-stream aggregate 66 instead of 84 tok/s, fir
 more free memory per rank. The draft is pinned but inactive; re-enable with `SPEC_METHOD=dflash` after an upstream
 fix and the same 150-minute soak.
 
+**Correction, 15:01Z the same day.** The full validation suite run on the spec-off production (`TP4-spec0-full`, for a
+like-for-like table) died in its cold phase: the 282k prefill, **running alone with the draft off** (scheduler dump:
+`num_running_reqs=1`, 218624 of 282k tokens computed, 1792 scheduled), stalled ~165 s in and the engine died 300 s later
+on the same `RPC call to sample_tokens timed out` (`evidence/soak-crash-20260903T1456Z/`). The watchdog recovered it
+unattended (15:02Z -> healthy 15:12Z). So the draft is not the cause: **long chunked prefill on the c190db1 build can
+stall on its own**, with a per-prefill probability that the draft and concurrency raise. Yesterday's two 282k passes and
+this morning's ~150 completed 96k prompts were the other side of that coin. `SPEC_METHOD=none` stays in production as the
+better-odds setting until the overnight runs answer the real question: run 5 is the 493cb88 image with the draft on
+(never soaked this hard), run 6 is `DFLASH_TOKENS=1` on c190db1. If 493cb88 survives, the stall is a c190db1 regression
+(PR77 fat kernel is already excluded; PR86 indexer workspace and PR96 spinwait are the candidates) and production goes
+back to it with the draft, giving up the +17 % prefill and the 2.9 s coding first token for 32-37 tok/s decode and no
+stall. If it hangs too, the problem is older than the E2 series and needs a vLLM-level fix; the watchdog is then the
+production answer and prompts above ~100k should be kept off the shared engine.
+
+Numbers the spec-off suite produced before it died (same suite as yesterday's table): coding first token behind the 24k
+prefill 0.3 / 1.8 / 1.8 s (fresh prompts; fat+draft 2.9 s), coding 4-way per-stream decode 15.2 tok/s (3072-token answers
+202 s instead of 146 s), 12k generation decode 22.7 tok/s (36.8), warm 12k follow-up 9.6 s with **no prefix-cache hits**
+(3.1 s with hits yesterday: to be understood), 24k cron prefill 18.8 s TTFT (19.7).
+

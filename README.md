@@ -47,7 +47,7 @@ Receipts: `evidence/workload-tp4.json` (untuned), `evidence/workload-tp4-final.j
 | Item | Value |
 |---|---|
 | Model | `Mia-AiLab/GLM-5.3-Flash-EXL3-TR3-4bpw` @ `25a44fdbf16862a46b7cc9921142c6c81350af2f` (163.6 GiB) |
-| Draft model | **off** (`SPEC_METHOD=none`) since the 2026-09-03 soak: with DFlash2 on, a 96k chunked prefill next to draft-verified decode streams hangs all four ranks (3/3 soaks, 31-78 min); the same soak with the draft off passed 150 min. Pinned for re-enabling: `incoai/GLM-5.3-Flash-DFlash2` @ `dc77ff1c99eeb2df044ee3d4f0094eb033fee410`, 3 tokens, draft TP 4 |
+| Draft model | **off** (`SPEC_METHOD=none`) since the 2026-09-03 soaks, as a mitigation: long chunked prefills can stall all four ranks on this build (3/3 soaks with the draft on, once with it off, see below). Pinned for re-enabling: `incoai/GLM-5.3-Flash-DFlash2` @ `dc77ff1c99eeb2df044ee3d4f0094eb033fee410`, 3 tokens, draft TP 4 |
 | Engine | vLLM `0.1.dev20051` + exllamav3 for sm_121a, as built by the MiaAI-Lab recipe Dockerfile |
 | Upstream recipe commit | `493cb88` for the untuned/tuned receipts; `c190db1` (PR77 fat-expert prefill kernel, PR63 template fix) for the batch-3 receipts |
 | Overlay + chat template | `overlay/` and `files/` of the same upstream commit, byte-identical on every rank (`ROOT`) |
@@ -132,9 +132,11 @@ the engine three times out of three (78, 31, 35 min). Each time a 96k prompt had
 shares steps with 6-7 speculative-decode streams, all four TP ranks stop at the same forward pass, the GPUs spin at 96 %
 utilisation and ~21 W, and five minutes later vLLM dies on `RPC call to sample_tokens timed out`. Nothing in dmesg, no
 NVRM or Xid line. Turning the fat-expert kernel off changed nothing; turning the DFlash2 draft off (`SPEC_METHOD=none`)
-made the identical soak pass 150 minutes with 472 requests and 0 errors. The recipe therefore ships with the draft off:
-single-stream decode 22-23 tok/s instead of 32-37, everything else unchanged. If you keep the draft on, keep prompts under
-~64k or keep a watchdog: ours relaunches the quartet in about 10 minutes. `soak_report.py` summarises a soak receipt;
+made the identical soak pass 150 minutes with 472 requests and 0 errors, and then the next 282k cold prefill, running
+alone with the draft off, stalled the same way (218624 tokens computed). So the stall is in long chunked prefill on this
+build; the draft and concurrency raise its odds. The recipe ships with the draft off as the better-odds setting
+(single-stream decode 22-23 tok/s instead of 32-37, everything else unchanged) and with the watchdog as the real safety
+net: it relaunches the quartet in about 10 minutes. Whether the 493cb88 image has the same stall is being soaked next. `soak_report.py` summarises a soak receipt;
 `SOAK_KINDS`, `SOAK_WORKERS` and `SOAK_MIN` reproduce the mix (`workload-run.sh <label> warmup,sanity,soak,sanity_end`).
 
 ## Reliability notes
