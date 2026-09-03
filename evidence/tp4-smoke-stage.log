@@ -1,0 +1,29 @@
+2026-09-02T08:14:25Z host keys verified for 4 nodes
+2026-09-02T08:14:27Z image present on 2d65
+cat: /home/spark/AI/tp4-smoke/image.tar: No such file or directory
+cat: /home/spark/AI/tp4-smoke/image.tar: No such file or directory
+cat: /home/spark/AI/tp4-smoke/image.tar: No such file or directory
+invalid archive: does not contain a manifest.json
+unrecognized image format
+2026-09-02T08:14:28Z ERROR image 2051
+2026-09-02T08:14:28Z ERROR image 2b4f
+invalid archive: does not contain a manifest.json
+2026-09-02T08:14:28Z ERROR image 37c4
+2026-09-02T08:14:28Z runtime root -> 10.200.0.15
+2026-09-02T08:14:29Z runtime root -> 10.200.0.16
+2026-09-02T08:14:29Z runtime root on 2d65
+2026-09-02T08:14:29Z runtime root on 2b4f
+2026-09-02T08:15:08Z image already on 2b4f
+Loaded image ID: sha256:ad0cdd86d1ddd15ee758f519d16da15ac237f7f0648a5c52fbc20f9554944263
+Loaded image ID: sha256:ad0cdd86d1ddd15ee758f519d16da15ac237f7f0648a5c52fbc20f9554944263
+2026-09-02T08:17:44Z image loaded on 10.200.0.16
+2026-09-02T08:17:44Z image loaded on 10.200.0.15
+10.200.0.14: sha256:9bb1557a4234fce63d59599e44d10747eabd742beb337eebf9e7070be8a0fd58 linux/arm64
+10.200.0.15: 
+10.200.0.16: 
+2026-09-02T08:17:45Z IMAGE STAGE DONE
+2026-09-02T08:19:05Z model copied 2b4f->37c4
+2026-09-02T08:19:11Z model copied 2d65->2051
+2026-09-02T08:19:13Z model verified on 10.200.0.15 (153 178058030882)
+2026-09-02T08:19:13Z model verified on 10.200.0.16 (153 178058030882)
+2026-09-02T08:19:13Z STAGING DONE

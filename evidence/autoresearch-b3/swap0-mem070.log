@@ -1,0 +1,51 @@
+00:23:08 start swap0-mem070 http://127.0.0.1:8890/v1 salt 20260903T002305Z phases ['warmup', 'sanity', 'coding', 'longgen', 'cold', 'conc', 'cancel']
+00:23:08 phase warmup begin
+00:24:03 warmup warm-think 11.133 ttft 1.827 err None
+00:24:03 warmup warm-tools 4.797 ttft 2.968 err None
+00:24:03 warmup warm-gen 25.217 ttft 0.359 err None
+00:24:03 warmup warm-12k 11.831 ttft 11.623 err None
+00:24:03 warmup warm-12k-again 1.835 ttft 1.534 err None
+00:24:05 phase warmup end 55.4 s
+00:24:05 phase sanity begin
+00:24:07 sanity {'exact_json': True, 'normal_eos': True, 'tool_call': True, 'json_schema': True, 'json_schema_text': '{"host": "spark-f1cc", "healthy": true, "ranks": 4}', 'all_pass': True}
+00:24:09 phase sanity end 2.1 s
+00:24:09 phase coding begin
+00:24:42 coding cron_digest done {'wall_s': 32.576, 'ttft_s': 21.11, 'decode_tps': 16.92, 'prompt_tokens': 24734, 'completion_tokens': 195, 'finish_reason': 'stop', 'error': None}
+00:24:44 coding cron_digest followup {'wall_s': 2.414, 'ttft_s': 1.96, 'prompt_tokens': 24948, 'prefix_hits_delta': 23296, 'completion_tokens': 16, 'error': None}
+00:26:18 coding go_bugfix done {'wall_s': 128.806, 'ttft_s': 21.111, 'decode_tps': 28.52, 'prompt_tokens': 154, 'completion_tokens': 3072, 'finish_reason': 'length', 'error': None}
+00:26:22 coding go_bugfix followup {'wall_s': 3.663, 'ttft_s': 0.71, 'prompt_tokens': 174, 'prefix_hits_delta': 0, 'completion_tokens': 71, 'error': None}
+00:26:34 coding bash_review done {'wall_s': 144.304, 'ttft_s': 21.11, 'decode_tps': 24.93, 'prompt_tokens': 140, 'completion_tokens': 3072, 'finish_reason': 'length', 'error': None}
+00:26:37 coding bash_review followup {'wall_s': 3.04, 'ttft_s': 0.641, 'prompt_tokens': 160, 'prefix_hits_delta': 0, 'completion_tokens': 66, 'error': None}
+00:26:38 coding py_lru_ttl done {'wall_s': 148.985, 'ttft_s': 20.602, 'decode_tps': 23.92, 'prompt_tokens': 54, 'completion_tokens': 3072, 'finish_reason': 'length', 'error': None}
+00:26:41 coding py_lru_ttl followup {'wall_s': 2.637, 'ttft_s': 0.282, 'prompt_tokens': 74, 'prefix_hits_delta': 0, 'completion_tokens': 76, 'error': None}
+00:26:43 phase coding end 151.6 s
+00:26:43 phase longgen begin
+00:26:49 longgen short primary 0 {'wall_s': 0.37, 'ttft_s': 0.288, 'completion_tokens': 2, 'error': None}
+00:27:05 longgen short primary 1 {'wall_s': 1.532, 'ttft_s': 0.318, 'completion_tokens': 30, 'error': None}
+00:27:24 longgen short primary 2 {'wall_s': 0.483, 'ttft_s': 0.317, 'completion_tokens': 8, 'error': None}
+00:28:54 longgen primary {'wall_s': 131.009, 'ttft_s': 0.234, 'decode_tps': 31.31, 'prefill_tps': 196.5, 'prompt_tokens': 46, 'completion_tokens': 4096, 'finish_reason': 'length', 'error': None} preview: The pager went off at 00:23:05 UTC, which was how the whole 
+00:28:56 longgen short followup 3 {'wall_s': 0.896, 'ttft_s': 0.313, 'completion_tokens': 25, 'error': None}
+00:28:56 longgen followup {'wall_s': 2.041, 'ttft_s': 0.846, 'prompt_tokens': 4156, 'prefix_hits_delta': 3584, 'completion_tokens': 37, 'error': None} preview: The main character was Sam, the team's SRE and the first-per
+00:29:00 longgen short followup 4 {'wall_s': 0.25, 'ttft_s': 0.185, 'completion_tokens': 2, 'error': None}
+00:29:05 longgen short followup 5 {'wall_s': 0.269, 'ttft_s': 0.206, 'completion_tokens': 3, 'error': None}
+00:29:06 phase longgen end 141.3 s
+00:29:06 phase cold begin
+00:29:18 cold short primary 0 {'wall_s': 6.439, 'ttft_s': 4.8, 'completion_tokens': 2, 'error': None}
+00:29:53 cold short primary 1 {'wall_s': 26.405, 'ttft_s': 4.643, 'completion_tokens': 30, 'error': None}
+00:29:55 cold short primary 2 {'wall_s': 8.073, 'ttft_s': 4.742, 'completion_tokens': 8, 'error': None}
+00:30:01 cold primary {'wall_s': 54.105, 'ttft_s': 53.948, 'decode_tps': 38.05, 'prefill_tps': 1191.4, 'prompt_tokens': 64275, 'completion_tokens': 7, 'finish_reason': 'stop', 'error': None} preview: ORCHID-305Z
+00:30:02 cold followup {'wall_s': 1.817, 'ttft_s': 1.649, 'prompt_tokens': 64304, 'prefix_hits_delta': 62720, 'completion_tokens': 2, 'error': None} preview: unknown
+00:30:03 cold short followup 3 {'wall_s': 1.483, 'ttft_s': 0.823, 'completion_tokens': 31, 'error': None}
+00:30:06 cold short followup 4 {'wall_s': 0.247, 'ttft_s': 0.184, 'completion_tokens': 2, 'error': None}
+00:30:11 cold short followup 5 {'wall_s': 0.267, 'ttft_s': 0.202, 'completion_tokens': 3, 'error': None}
+00:30:11 cold needle ORCHID-305Z found
+00:30:13 phase cold end 64.4 s
+00:30:13 phase conc begin
+00:30:36 conc 4 aggregate tps 89.51 decode p50 24.265 ttft p50/max 0.919 1.104 errors 0
+00:31:07 conc 8 aggregate tps 132.45 decode p50 18.835 ttft p50/max 1.246 1.482 errors 0
+00:31:08 phase conc end 53.8 s
+00:31:08 phase cancel begin
+00:31:15 cancel mid-decode drain_s 0.51 next short ttft 0.19 err None
+00:32:41 cancel mid-prefill drain_s 0.51 next short ttft 0.196 err None
+00:32:43 phase cancel end 92.7 s
+00:32:44 done /home/spark/AI/autoresearch-b3/swap0-mem070.json

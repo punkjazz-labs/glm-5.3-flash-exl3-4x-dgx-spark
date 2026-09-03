@@ -1,0 +1,10 @@
+# Batch 3 (2026-09-02 evening). Host change before the batch: vm.swappiness=0 on all four ranks (was 60, 3-4 GiB swapped each).
+# Prompts are salted per request from this batch on (no prefix-cache hits in coding/short TTFT).
+# fat-* run the upstream c190db1 image (PR77 E2 fat-expert prefill kernel, PR63 reasoning-effort template fix) with the matching overlay root.
+swap0-shipped	GPU_MEM_UTIL=0.75 MAX_NUM_SEQS=8 DFLASH_TOKENS=3 MAX_NUM_BATCHED_TOKENS=2048
+swap0-shipped-rep	GPU_MEM_UTIL=0.75 MAX_NUM_SEQS=8 DFLASH_TOKENS=3 MAX_NUM_BATCHED_TOKENS=2048
+fat-shipped	IMG_ALL=glm53-exl3-c190db1:candidate ROOT=$HOME/AI/glm53-c190db1-root EXL3_FAT_KERNEL=1 GPU_MEM_UTIL=0.75 MAX_NUM_SEQS=8 DFLASH_TOKENS=3 MAX_NUM_BATCHED_TOKENS=2048
+fat-shipped-rep	IMG_ALL=glm53-exl3-c190db1:candidate ROOT=$HOME/AI/glm53-c190db1-root EXL3_FAT_KERNEL=1 GPU_MEM_UTIL=0.75 MAX_NUM_SEQS=8 DFLASH_TOKENS=3 MAX_NUM_BATCHED_TOKENS=2048
+fat-mnbt4096	IMG_ALL=glm53-exl3-c190db1:candidate ROOT=$HOME/AI/glm53-c190db1-root EXL3_FAT_KERNEL=1 GPU_MEM_UTIL=0.75 MAX_NUM_SEQS=8 DFLASH_TOKENS=3 MAX_NUM_BATCHED_TOKENS=4096
+fat-mnbt7168	IMG_ALL=glm53-exl3-c190db1:candidate ROOT=$HOME/AI/glm53-c190db1-root EXL3_FAT_KERNEL=1 GPU_MEM_UTIL=0.75 MAX_NUM_SEQS=8 DFLASH_TOKENS=3 MAX_NUM_BATCHED_TOKENS=7168
+swap0-mem080-dflash3	GPU_MEM_UTIL=0.80 MAX_NUM_SEQS=4 DFLASH_TOKENS=3 MAX_NUM_BATCHED_TOKENS=2048

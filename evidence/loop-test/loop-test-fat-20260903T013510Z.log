@@ -1,0 +1,28 @@
+nothink: n=40 capped=2 ['prose1', 'narrative3'] with_self_correction_marks=6 ['coding2x1', 'coding3x3', 'html4x2', 'prose1x1', 'narrative3x5', 'summarization4x2'] errors=0 wall=139s
+   coding         capped=0 marks=4 decode_med=25.1 tokens_med=502
+   reasoning      capped=0 marks=0 decode_med=21.1 tokens_med=50
+   json           capped=0 marks=0 decode_med=30.7 tokens_med=29
+   html           capped=0 marks=2 decode_med=28.5 tokens_med=77
+   prose          capped=1 marks=1 decode_med=17.5 tokens_med=169
+   narrative      capped=1 marks=5 decode_med=16.5 tokens_med=259
+   summarization  capped=0 marks=2 decode_med=24.0 tokens_med=70
+   format         capped=0 marks=0 decode_med=17.6 tokens_med=17
+low: n=40 capped=3 ['coding3', 'prose0', 'narrative3'] with_self_correction_marks=6 ['coding3x1', 'html0x1', 'html4x1', 'prose0x4', 'narrative1x1', 'narrative3x1'] errors=0 wall=152s
+   coding         capped=1 marks=1 decode_med=26.8 tokens_med=335
+   reasoning      capped=0 marks=0 decode_med=21.7 tokens_med=43
+   json           capped=0 marks=0 decode_med=31.3 tokens_med=29
+   html           capped=0 marks=2 decode_med=28.4 tokens_med=77
+   prose          capped=1 marks=4 decode_med=21.7 tokens_med=379
+   narrative      capped=1 marks=2 decode_med=17.0 tokens_med=314
+   summarization  capped=0 marks=0 decode_med=23.6 tokens_med=58
+   format         capped=0 marks=0 decode_med=18.5 tokens_med=18
+think: n=40 capped=10 ['coding0', 'coding3', 'prose0', 'prose1', 'prose3', 'narrative0', 'narrative1', 'narrative2', 'narrative3', 'narrative4'] with_self_correction_marks=0 [] errors=0 wall=355s
+   coding         capped=2 marks=0 decode_med=184.8 tokens_med=1449
+   reasoning      capped=0 marks=0 decode_med=155.9 tokens_med=291
+   json           capped=0 marks=0 decode_med=302.0 tokens_med=138
+   html           capped=0 marks=0 decode_med=218.8 tokens_med=344
+   prose          capped=3 marks=0 decode_med=262.1 tokens_med=2048
+   narrative      capped=5 marks=0 decode_med=None tokens_med=2048
+   summarization  capped=0 marks=0 decode_med=177.7 tokens_med=273
+   format         capped=0 marks=0 decode_med=235.1 tokens_med=108
+wrote /home/spark/AI/loop-test-fat-20260903T013510Z.json

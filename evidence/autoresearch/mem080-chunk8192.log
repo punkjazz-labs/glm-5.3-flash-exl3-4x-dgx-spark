@@ -1,0 +1,51 @@
+17:02:20 start mem080-chunk8192 http://127.0.0.1:8890/v1 salt 20260902T170218Z phases ['warmup', 'sanity', 'coding', 'longgen', 'cold', 'conc', 'cancel']
+17:02:20 phase warmup begin
+17:03:32 warmup warm-think 15.931 ttft 6.739 err None
+17:03:32 warmup warm-tools 6.234 ttft 5.019 err None
+17:03:32 warmup warm-gen 29.789 ttft 0.414 err None
+17:03:32 warmup warm-12k 15.573 ttft 15.483 err None
+17:03:32 warmup warm-12k-again 3.585 ttft 3.492 err None
+17:03:35 phase warmup end 72.5 s
+17:03:35 phase sanity begin
+17:03:39 sanity {'exact_json': True, 'normal_eos': True, 'tool_call': True, 'json_schema': True, 'json_schema_text': '{"host":"spark-f1cc","healthy":true,"ranks":4}', 'all_pass': True}
+17:03:40 phase sanity end 3.7 s
+17:03:40 phase coding begin
+17:04:06 coding cron_digest done {'wall_s': 26.164, 'ttft_s': 25.048, 'decode_tps': 25.09, 'prompt_tokens': 24600, 'completion_tokens': 29, 'finish_reason': 'tool_calls', 'error': None}
+17:04:14 coding cron_digest followup {'wall_s': 8.234, 'ttft_s': 7.969, 'prompt_tokens': 24623, 'prefix_hits_delta': 16128, 'completion_tokens': 16, 'error': None}
+17:05:45 coding go_bugfix done {'wall_s': 125.514, 'ttft_s': 14.846, 'decode_tps': 27.75, 'prompt_tokens': 140, 'completion_tokens': 3072, 'finish_reason': 'length', 'error': None}
+17:05:49 coding go_bugfix followup {'wall_s': 3.307, 'ttft_s': 0.823, 'prompt_tokens': 160, 'prefix_hits_delta': 0, 'completion_tokens': 64, 'error': None}
+17:06:23 coding bash_review done {'wall_s': 163.083, 'ttft_s': 0.451, 'decode_tps': 18.88, 'prompt_tokens': 126, 'completion_tokens': 3072, 'finish_reason': 'length', 'error': None}
+17:06:26 coding bash_review followup {'wall_s': 2.901, 'ttft_s': 0.688, 'prompt_tokens': 146, 'prefix_hits_delta': 0, 'completion_tokens': 60, 'error': None}
+17:06:31 coding py_lru_ttl done {'wall_s': 171.081, 'ttft_s': 25.333, 'decode_tps': 21.07, 'prompt_tokens': 40, 'completion_tokens': 3072, 'finish_reason': 'length', 'error': None}
+17:06:33 coding py_lru_ttl followup {'wall_s': 2.152, 'ttft_s': 0.27, 'prompt_tokens': 60, 'prefix_hits_delta': 0, 'completion_tokens': 54, 'error': None}
+17:06:35 phase coding end 173.3 s
+17:06:35 phase longgen begin
+17:06:40 longgen short primary 0 {'wall_s': 0.401, 'ttft_s': 0.303, 'completion_tokens': 2, 'error': None}
+17:06:57 longgen short primary 1 {'wall_s': 1.864, 'ttft_s': 0.368, 'completion_tokens': 35, 'error': None}
+17:07:15 longgen short primary 2 {'wall_s': 0.465, 'ttft_s': 0.351, 'completion_tokens': 8, 'error': None}
+17:09:09 longgen primary {'wall_s': 153.792, 'ttft_s': 0.231, 'decode_tps': 26.67, 'prefill_tps': 147.2, 'prompt_tokens': 34, 'completion_tokens': 4096, 'finish_reason': 'length', 'error': None} preview: The first thing Mara noticed when she pushed through the gla
+17:09:12 longgen followup {'wall_s': 3.243, 'ttft_s': 2.778, 'prompt_tokens': 4143, 'prefix_hits_delta': 1792, 'completion_tokens': 16, 'error': None} preview: Mara, the lead engineer who brought up the four-node inferen
+17:09:12 longgen short followup 3 {'wall_s': 2.425, 'ttft_s': 1.929, 'completion_tokens': 25, 'error': None}
+17:09:14 longgen short followup 4 {'wall_s': 0.234, 'ttft_s': 0.157, 'completion_tokens': 2, 'error': None}
+17:09:19 longgen short followup 5 {'wall_s': 0.25, 'ttft_s': 0.181, 'completion_tokens': 3, 'error': None}
+17:09:21 phase longgen end 164.0 s
+17:09:21 phase cold begin
+17:09:49 cold short primary 0 {'wall_s': 23.397, 'ttft_s': 16.684, 'completion_tokens': 2, 'error': None}
+17:10:18 cold short primary 2 {'wall_s': 16.77, 'ttft_s': 16.349, 'completion_tokens': 8, 'error': None}
+17:10:18 cold primary {'wall_s': 57.007, 'ttft_s': 56.771, 'decode_tps': 25.36, 'prefill_tps': 1137.1, 'prompt_tokens': 64556, 'completion_tokens': 7, 'finish_reason': 'stop', 'error': None} preview: ORCHID-218Z
+17:10:18 cold short primary 1 {'wall_s': 37.675, 'ttft_s': 15.177, 'completion_tokens': 39, 'error': None}
+17:10:19 cold followup {'wall_s': 0.529, 'ttft_s': 0.504, 'prompt_tokens': 64585, 'prefix_hits_delta': 64512, 'completion_tokens': 2, 'error': None} preview: 190
+17:10:20 cold short followup 3 {'wall_s': 0.63, 'ttft_s': 0.161, 'completion_tokens': 25, 'error': None}
+17:10:24 cold short followup 4 {'wall_s': 0.234, 'ttft_s': 0.158, 'completion_tokens': 2, 'error': None}
+17:10:29 cold short followup 5 {'wall_s': 0.245, 'ttft_s': 0.168, 'completion_tokens': 3, 'error': None}
+17:10:29 cold needle ORCHID-218Z found
+17:10:31 phase cold end 68.0 s
+17:10:31 phase conc begin
+17:10:56 conc 4 aggregate tps 82.06 decode p50 24.645 ttft p50/max 0.817 1.125 errors 0
+17:11:42 conc 8 aggregate tps 88.11 decode p50 23.445 ttft p50/max 10.046 24.714 errors 0
+17:11:44 phase conc end 71.4 s
+17:11:44 phase cancel begin
+17:11:53 cancel mid-decode drain_s 0.53 next short ttft 0.169 err None
+17:13:19 cancel mid-prefill drain_s 0.52 next short ttft 0.157 err None
+17:13:21 phase cancel end 94.4 s
+17:13:22 done /home/spark/AI/autoresearch/mem080-chunk8192.json

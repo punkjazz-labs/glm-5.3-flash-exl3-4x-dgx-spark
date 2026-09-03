@@ -1,0 +1,4 @@
+2026-09-02T20:11:43Z batch 2 finished; best: 1.086	mem075-dflash3-seqs8	GPU_MEM_UTIL=0.75 DFLASH_TOKENS=3 MAX_NUM_SEQS=8
+DFLASH_TOKENS=3 GLM53_MIXED_PREFILL_CHUNK=off GPU_MEM_UTIL=0.75 MAX_NUM_BATCHED_TOKENS=2048 MAX_NUM_SEQS=8 SPEC_METHOD=dflash 
+2026-09-02T20:11:44Z starting final validation
+pid 2853019 log /home/spark/AI/workload-TP4-final-20260902T201144Z.log receipt /home/spark/AI/workload-TP4-final-20260902T201144Z.json

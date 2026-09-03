@@ -1,0 +1,44 @@
+2026-09-02T12:02:39Z === TP4 cutover start (cfg=prod-alt.env dry_run=0) ===
+rank 0 10.200.0.11 first-addr=169.254.199.81
+rank 1 10.200.0.12 first-addr=169.254.25.1
+rank 2 10.200.0.13 first-addr=10.200.0.13
+rank 3 10.200.0.15 first-addr=169.254.20.51
+2026-09-02T12:02:51Z preflight PASS
+2026-09-02T12:02:52Z preconditions OK: TP2 healthy, preflight PASS, runtime roots identical on 4 ranks
+2026-09-02T12:02:52Z stopping TP2 head+worker
+2026-09-02T12:03:24Z TP2 stopped; MemAvailable rank0=117GiB
+2026-09-02T12:03:27Z rank 0 (10.200.0.11): rc=0 rank=0 host=spark-f1cc fabric=10.200.0.11 gid=5 link=200000Mb/s mem-available-GiB=118.1 mem-free-GiB=118.7 started glm53-tp4-alt-r0 
+2026-09-02T12:03:30Z rank 1 (10.200.0.12): rc=0 rank=1 host=spark-a393 fabric=10.200.0.12 gid=6 link=200000Mb/s mem-available-GiB=118.2 mem-free-GiB=118.9 started glm53-tp4-alt-r1 
+2026-09-02T12:03:32Z rank 2 (10.200.0.13): rc=0 rank=2 host=spark-2d65 fabric=10.200.0.13 gid=3 link=100000Mb/s mem-available-GiB=118.3 mem-free-GiB=119.0 started glm53-tp4-alt-r2 
+2026-09-02T12:03:34Z rank 3 (10.200.0.15): rc=0 rank=3 host=edgexpert-2051 fabric=10.200.0.15 gid=5 link=200000Mb/s mem-available-GiB=118.0 mem-free-GiB=118.6 started glm53-tp4-alt-r3 
+2026-09-02T12:03:34Z launched 4 ranks (tag=alt, logs in /home/spark/AI/tp4-alt-logs)
+2026-09-02T12:03:35Z waiting... health=000 r0: 
+2026-09-02T12:04:07Z waiting... health=000 r0: __init__.py: reasoning fix patched (#53046)
+2026-09-02T12:04:39Z waiting... health=000 r0: glm53: video placeholders aligned to encoder grid_t (Glm5Next→glm46v)
+2026-09-02T12:05:11Z waiting... health=000 r0: (Worker_TP0 pid=1381) Loading safetensors checkpoint shards:   6% Completed | 7/120 [00:14<03:51,  2.05s/it]
+2026-09-02T12:05:42Z waiting... health=000 r0: (Worker_TP0 pid=1381) Loading safetensors checkpoint shards:  19% Completed | 23/120 [00:43<02:47,  1.73s/it]
+2026-09-02T12:06:15Z waiting... health=000 r0: (Worker_TP0 pid=1381) Loading safetensors checkpoint shards:  33% Completed | 40/120 [01:18<02:42,  2.03s/it]
+2026-09-02T12:06:47Z waiting... health=000 r0: (Worker_TP0 pid=1381) Loading safetensors checkpoint shards:  48% Completed | 57/120 [01:50<01:53,  1.81s/it]
+2026-09-02T12:07:20Z waiting... health=000 r0: (Worker_TP0 pid=1381) Loading safetensors checkpoint shards:  61% Completed | 73/120 [02:21<01:28,  1.89s/it]
+2026-09-02T12:07:51Z waiting... health=000 r0: (Worker_TP0 pid=1381) Loading safetensors checkpoint shards:  74% Completed | 89/120 [02:53<01:01,  1.98s/it]
+2026-09-02T12:08:23Z waiting... health=000 r0: (Worker_TP0 pid=1381) Loading safetensors checkpoint shards:  90% Completed | 108/120 [03:24<00:16,  1.39s/it]
+2026-09-02T12:08:55Z waiting... health=000 r0: (EngineCore pid=1225) INFO 09-02 12:08:54 [torch_utils.py:262] Reducing Torch threads from 20 to 1 for serving. Set OMP_NUM_THREADS in the external environment 
+2026-09-02T12:09:27Z waiting... health=000 r0: (Worker_TP0 pid=1381)   warn("tl.make_block_ptr is deprecated. Use TensorDescriptor or tl.make_tensor_descriptor instead.")
+2026-09-02T12:09:58Z waiting... health=000 r0: (EngineCore pid=1225) INFO 09-02 12:09:56 [shm_broadcast.py:801] No available shared memory broadcast block found in 60 seconds. This typically happens when som
+2026-09-02T12:10:31Z waiting... health=000 r0: (Worker_TP0 pid=1381) INFO 09-02 12:10:03 [kernel.py:306] Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['vllm_c', 'native']
+2026-09-02T12:11:03Z waiting... health=000 r0: (Worker_TP0 pid=1381) INFO 09-02 12:11:00 [kernel_warmup.py:170] Skipping FlashInfer autotune because it is disabled.
+2026-09-02T12:11:35Z waiting... health=000 r0: (Worker_TP0 pid=1381) Capturing CUDA graphs (FULL):   0%|          | 0/4 [00:00<?, ?it/s]Capturing CUDA graphs (FULL):  25%|██▌       | 1/4 [00:00<00:01
+2026-09-02T12:12:07Z waiting... health=000 r0: (EngineCore pid=1225) INFO 09-02 12:11:57 [core.py:363] init engine (profile, create kv cache, warmup model) took 182.48 s
+2026-09-02T12:12:40Z waiting... health=000 r0: (APIServer pid=1) INFO 09-02 12:12:33 [base.py:235] Multi-modal warmup completed in 13.776s
+2026-09-02T12:13:10Z HEALTHY after 576s
+2026-09-02T12:13:23Z TP4 healthy and answering
+{"contract": {"all_pass": true, "long_prefill_pass": true, "normal_eos_pass": true}, "receipt": "/home/spark/AI/tp4-benchmark-20260902T120239Z.json", "result": "PASS", "suite_sha256": "305f0830b2db9566f73937c11cab11085147315cb75d72cdd23a195013b53e55", "summary": {"median_concurrency4_aggregate_tps": 55.78234, "median_decode_tps": 34.233696, "median_long_prefill_tps": 17756.352386, "p50_ttft_s": 0.214338, "p95_e2e_latency_s": 0.3021112}}
+metric                                   baseline    candidate   ratio  verdict
+median_decode_tps                         21.1783      34.2337   1.616  ok
+median_long_prefill_tps                 7792.2663   17756.3524   2.279  ok
+median_concurrency4_aggregate_tps         27.4276      55.7823   2.034  ok
+p50_ttft_s                                 0.3138       0.2143   0.683  ok
+p95_e2e_latency_s                          0.4405       0.3021   0.686  ok
+contract all_pass: True
+RESULT: PASS
+2026-09-02T12:16:08Z PROMOTED: TP4 is live on :8890; TP2 containers retained (stopped). Rollback: ./tp4-rollback.sh prod-alt.env

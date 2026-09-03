@@ -1,0 +1,36 @@
+13:24:59 start TP4-alt-mixoff http://127.0.0.1:8890/v1 salt 20260902T132458Z phases ['warmup', 'sanity', 'coding', 'longgen', 'cancel']
+13:24:59 phase warmup begin
+13:26:29 warmup warm-think 27.27 ttft 17.274 err None
+13:26:29 warmup warm-tools 7.83 ttft 6.281 err None
+13:26:29 warmup warm-gen 27.967 ttft 0.482 err None
+13:26:29 warmup warm-12k 23.024 ttft 22.918 err None
+13:26:29 warmup warm-12k-again 2.086 ttft 1.964 err None
+13:26:29 phase warmup end 89.5 s
+13:26:29 phase sanity begin
+13:26:33 sanity {'exact_json': True, 'normal_eos': True, 'tool_call': True, 'json_schema': True, 'json_schema_text': '{"host": "spark-f1cc", "healthy": true, "ranks": 4}', 'all_pass': True}
+13:26:33 phase sanity end 4.2 s
+13:26:33 phase coding begin
+13:27:03 coding cron_digest done {'wall_s': 29.85, 'ttft_s': 27.76, 'decode_tps': 16.74, 'prompt_tokens': 24624, 'completion_tokens': 36, 'finish_reason': 'tool_calls', 'error': None}
+13:27:05 coding cron_digest followup {'wall_s': 2.288, 'ttft_s': 1.915, 'prompt_tokens': 24647, 'prefix_hits_delta': 23296, 'completion_tokens': 16, 'error': None}
+13:28:37 coding go_bugfix done {'wall_s': 123.905, 'ttft_s': 4.129, 'decode_tps': 25.64, 'prompt_tokens': 140, 'completion_tokens': 3072, 'finish_reason': 'length', 'error': None}
+13:28:50 coding go_bugfix followup {'wall_s': 13.282, 'ttft_s': 8.975, 'prompt_tokens': 330, 'prefix_hits_delta': 0, 'completion_tokens': 57, 'error': None}
+13:29:14 coding bash_review done {'wall_s': 161.675, 'ttft_s': 2.357, 'decode_tps': 19.28, 'prompt_tokens': 126, 'completion_tokens': 3072, 'finish_reason': 'length', 'error': None}
+13:29:15 coding py_lru_ttl done {'wall_s': 162.695, 'ttft_s': 0.28, 'decode_tps': 18.91, 'prompt_tokens': 40, 'completion_tokens': 3072, 'finish_reason': 'length', 'error': None}
+13:29:18 coding bash_review followup {'wall_s': 3.076, 'ttft_s': 0.666, 'prompt_tokens': 146, 'prefix_hits_delta': 0, 'completion_tokens': 59, 'error': None}
+13:29:18 coding py_lru_ttl followup {'wall_s': 2.929, 'ttft_s': 0.427, 'prompt_tokens': 60, 'prefix_hits_delta': 0, 'completion_tokens': 56, 'error': None}
+13:29:18 phase coding end 165.7 s
+13:29:18 phase longgen begin
+13:29:24 longgen short primary 0 {'wall_s': 0.462, 'ttft_s': 0.359, 'completion_tokens': 2, 'error': None}
+13:29:40 longgen short primary 1 {'wall_s': 1.845, 'ttft_s': 0.357, 'completion_tokens': 35, 'error': None}
+13:29:59 longgen short primary 2 {'wall_s': 0.675, 'ttft_s': 0.494, 'completion_tokens': 8, 'error': None}
+13:35:11 longgen primary {'wall_s': 352.834, 'ttft_s': 0.445, 'decode_tps': 34.87, 'prefill_tps': 76.3, 'prompt_tokens': 34, 'completion_tokens': 12288, 'finish_reason': 'length', 'error': None} preview: The first message arrived at 4:47 in the morning, a Slack pi
+13:35:20 longgen short followup 4 {'wall_s': 4.026, 'ttft_s': 3.677, 'completion_tokens': 2, 'error': None}
+13:35:21 longgen followup {'wall_s': 9.454, 'ttft_s': 9.018, 'prompt_tokens': 12326, 'prefix_hits_delta': 3584, 'completion_tokens': 15, 'error': None} preview: Priya, the datacenter engineer who led the cluster bring-up.
+13:35:21 longgen short followup 3 {'wall_s': 8.95, 'ttft_s': 4.973, 'completion_tokens': 42, 'error': None}
+13:35:22 longgen short followup 5 {'wall_s': 0.275, 'ttft_s': 0.197, 'completion_tokens': 3, 'error': None}
+13:35:22 phase longgen end 363.1 s
+13:35:22 phase cancel begin
+13:35:32 cancel mid-decode drain_s 0.54 next short ttft 0.169 err None
+13:37:27 cancel mid-prefill drain_s 0.56 next short ttft 0.194 err None
+13:37:27 phase cancel end 125.2 s
+13:37:29 done /home/spark/AI/workload-TP4-alt-mixoff-20260902T132458Z.json

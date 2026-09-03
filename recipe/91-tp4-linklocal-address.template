@@ -1,0 +1,18 @@
+#!/bin/sh
+# TP4 fabric address persistence (NetworkManager dispatcher, additive, identity-guarded).
+# Re-adds this rank's fabric addresses (10.200.0.x/24 and, where not link-local managed, 169.254.x/16) whenever
+# the fabric interface comes up. NCCL advertises the first IPv4 of NCCL_SOCKET_IFNAME, so every rank must reach both subnets.
+set -eu
+IFACE='enp1s0f1np1'
+ADDRS='__ADDRS__'
+[ "${1:-}" = "$IFACE" ] || exit 0
+case "${2:-}" in up|dhcp4-change) ;; *) exit 0 ;; esac
+[ "$(hostname)" = '__HOSTNAME__' ]
+[ "$(cat /etc/machine-id)" = '__MACHINE_ID__' ]
+[ "$(cat /sys/class/net/$IFACE/address)" = '__MAC__' ]
+[ "$(cat /sys/class/dmi/id/product_name)" = NVIDIA_DGX_Spark ]
+for cidr in $ADDRS; do
+  if ! /usr/sbin/ip -4 -o addr show dev "$IFACE" | grep -q " $cidr "; then
+    /usr/sbin/ip addr add "$cidr" dev "$IFACE"
+  fi
+done

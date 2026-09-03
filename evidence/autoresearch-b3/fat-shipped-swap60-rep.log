@@ -1,0 +1,51 @@
+23:24:37 start fat-shipped-swap60-rep http://127.0.0.1:8890/v1 salt 20260902T232434Z phases ['warmup', 'sanity', 'coding', 'longgen', 'cold', 'conc', 'cancel']
+23:24:37 phase warmup begin
+23:25:32 warmup warm-think 12.808 ttft 1.943 err None
+23:25:32 warmup warm-tools 3.236 ttft 1.359 err None
+23:25:32 warmup warm-gen 27.515 ttft 0.388 err None
+23:25:32 warmup warm-12k 9.702 ttft 9.624 err None
+23:25:32 warmup warm-12k-again 1.658 ttft 1.459 err None
+23:25:34 phase warmup end 55.6 s
+23:25:34 phase sanity begin
+23:25:37 sanity {'exact_json': True, 'normal_eos': True, 'tool_call': True, 'json_schema': True, 'json_schema_text': '{"host": "spark-f1cc", "healthy": true, "ranks": 4}', 'all_pass': True}
+23:25:38 phase sanity end 2.7 s
+23:25:38 phase coding begin
+23:25:58 coding cron_digest done {'wall_s': 19.841, 'ttft_s': 19.475, 'decode_tps': 30.13, 'prompt_tokens': 24569, 'completion_tokens': 12, 'finish_reason': 'tool_calls', 'error': None}
+23:26:00 coding cron_digest followup {'wall_s': 1.946, 'ttft_s': 1.473, 'prompt_tokens': 24592, 'prefix_hits_delta': 23296, 'completion_tokens': 16, 'error': None}
+23:27:44 coding go_bugfix done {'wall_s': 125.27, 'ttft_s': 3.585, 'decode_tps': 25.24, 'prompt_tokens': 155, 'completion_tokens': 3072, 'finish_reason': 'length', 'error': None}
+23:27:47 coding go_bugfix followup {'wall_s': 3.291, 'ttft_s': 0.721, 'prompt_tokens': 182, 'prefix_hits_delta': 0, 'completion_tokens': 53, 'error': None}
+23:27:59 coding bash_review done {'wall_s': 140.771, 'ttft_s': 0.523, 'decode_tps': 21.9, 'prompt_tokens': 141, 'completion_tokens': 3072, 'finish_reason': 'length', 'error': None}
+23:28:02 coding bash_review followup {'wall_s': 2.711, 'ttft_s': 0.674, 'prompt_tokens': 168, 'prefix_hits_delta': 0, 'completion_tokens': 58, 'error': None}
+23:28:03 coding py_lru_ttl done {'wall_s': 144.771, 'ttft_s': 2.109, 'decode_tps': 21.53, 'prompt_tokens': 55, 'completion_tokens': 3072, 'finish_reason': 'length', 'error': None}
+23:28:05 coding py_lru_ttl followup {'wall_s': 1.659, 'ttft_s': 0.289, 'prompt_tokens': 82, 'prefix_hits_delta': 0, 'completion_tokens': 41, 'error': None}
+23:28:07 phase coding end 146.5 s
+23:28:07 phase longgen begin
+23:28:12 longgen short primary 0 {'wall_s': 0.404, 'ttft_s': 0.334, 'completion_tokens': 2, 'error': None}
+23:28:28 longgen short primary 1 {'wall_s': 1.294, 'ttft_s': 0.31, 'completion_tokens': 30, 'error': None}
+23:28:47 longgen short primary 2 {'wall_s': 0.531, 'ttft_s': 0.363, 'completion_tokens': 8, 'error': None}
+23:30:07 longgen primary {'wall_s': 119.964, 'ttft_s': 0.27, 'decode_tps': 34.21, 'prefill_tps': 200.0, 'prompt_tokens': 54, 'completion_tokens': 4096, 'finish_reason': 'length', 'error': None} preview: <p>They came in on a Tuesday, which was itself a small omen,
+23:30:12 longgen short followup 3 {'wall_s': 3.74, 'ttft_s': 2.665, 'completion_tokens': 28, 'error': None}
+23:30:12 longgen followup {'wall_s': 5.312, 'ttft_s': 3.897, 'prompt_tokens': 4162, 'prefix_hits_delta': 0, 'completion_tokens': 35, 'error': None} preview: <p>Sam, the newest member of the five-person team, whose thr
+23:30:12 longgen short followup 4 {'wall_s': 0.388, 'ttft_s': 0.319, 'completion_tokens': 2, 'error': None}
+23:30:17 longgen short followup 5 {'wall_s': 0.293, 'ttft_s': 0.231, 'completion_tokens': 3, 'error': None}
+23:30:19 phase longgen end 130.3 s
+23:30:19 phase cold begin
+23:30:29 cold short primary 0 {'wall_s': 5.238, 'ttft_s': 3.805, 'completion_tokens': 2, 'error': None}
+23:30:55 cold short primary 1 {'wall_s': 16.134, 'ttft_s': 3.12, 'completion_tokens': 28, 'error': None}
+23:31:06 cold short primary 2 {'wall_s': 6.547, 'ttft_s': 3.428, 'completion_tokens': 8, 'error': None}
+23:31:07 cold primary {'wall_s': 47.699, 'ttft_s': 47.535, 'decode_tps': 42.47, 'prefill_tps': 1355.9, 'prompt_tokens': 64453, 'completion_tokens': 8, 'finish_reason': 'stop', 'error': None} preview: ORCHID-434Z
+23:31:09 cold followup {'wall_s': 1.826, 'ttft_s': 1.651, 'prompt_tokens': 64483, 'prefix_hits_delta': 62720, 'completion_tokens': 2, 'error': None} preview: 189
+23:31:09 cold short followup 3 {'wall_s': 1.495, 'ttft_s': 0.833, 'completion_tokens': 28, 'error': None}
+23:31:12 cold short followup 4 {'wall_s': 0.285, 'ttft_s': 0.219, 'completion_tokens': 2, 'error': None}
+23:31:17 cold short followup 5 {'wall_s': 0.292, 'ttft_s': 0.227, 'completion_tokens': 3, 'error': None}
+23:31:17 cold needle ORCHID-434Z found
+23:31:18 phase cold end 58.0 s
+23:31:18 phase conc begin
+23:31:40 conc 4 aggregate tps 94.15 decode p50 25.105 ttft p50/max 0.815 1.127 errors 0
+23:32:10 conc 8 aggregate tps 138.17 decode p50 18.47 ttft p50/max 1.063 1.066 errors 0
+23:32:12 phase conc end 51.4 s
+23:32:12 phase cancel begin
+23:32:19 cancel mid-decode drain_s 0.51 next short ttft 0.207 err None
+23:33:34 cancel mid-prefill drain_s 0.52 next short ttft 0.204 err None
+23:33:36 phase cancel end 82.1 s
+23:33:37 done /home/spark/AI/autoresearch-b3/fat-shipped-swap60-rep.json

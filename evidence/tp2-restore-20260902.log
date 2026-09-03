@@ -1,0 +1,8 @@
+ssh: connect to host 10.200.0.14 port 22: No route to host
+rank 2: removed
+rank 1: removed
+rank 0: removed
+2026-09-02T10:07:18Z stopped tag=prod
+2026-09-02T10:07:19Z TP2 worker started
+2026-09-02T10:07:23Z TP2 head started
+2026-09-02T10:15:24Z TP2 healthy on :8890 (head=running worker=running)

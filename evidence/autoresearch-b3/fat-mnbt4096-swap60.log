@@ -1,0 +1,52 @@
+23:43:50 start fat-mnbt4096-swap60 http://127.0.0.1:8890/v1 salt 20260902T234348Z phases ['warmup', 'sanity', 'coding', 'longgen', 'cold', 'conc', 'cancel']
+23:43:50 phase warmup begin
+23:45:30 warmup warm-think 30.581 ttft 2.013 err None
+23:45:30 warmup warm-tools 3.337 ttft 1.173 err None
+23:45:30 warmup warm-gen 50.815 ttft 0.406 err None
+23:45:30 warmup warm-12k 9.029 ttft 8.933 err None
+23:45:30 warmup warm-12k-again 3.176 ttft 2.945 err None
+23:45:32 phase warmup end 99.8 s
+23:45:32 phase sanity begin
+23:45:49 sanity {'exact_json': True, 'normal_eos': True, 'tool_call': True, 'json_schema': True, 'json_schema_text': '{"host": "spark-f1cc", "healthy": true, "ranks": 4}', 'all_pass': True}
+23:45:51 phase sanity end 17.2 s
+23:45:51 phase coding begin
+23:46:32 coding cron_digest done {'wall_s': 40.943, 'ttft_s': 18.708, 'decode_tps': 7.38, 'prompt_tokens': 24712, 'completion_tokens': 165, 'finish_reason': 'stop', 'error': None}
+23:46:36 coding cron_digest followup {'wall_s': 4.119, 'ttft_s': 3.41, 'prompt_tokens': 24896, 'prefix_hits_delta': 21504, 'completion_tokens': 15, 'error': None}
+23:49:19 coding go_bugfix done {'wall_s': 207.705, 'ttft_s': 6.085, 'decode_tps': 15.23, 'prompt_tokens': 156, 'completion_tokens': 3072, 'finish_reason': 'length', 'error': None}
+23:49:23 coding go_bugfix followup {'wall_s': 4.13, 'ttft_s': 0.722, 'prompt_tokens': 183, 'prefix_hits_delta': 0, 'completion_tokens': 96, 'error': None}
+23:49:39 coding bash_review done {'wall_s': 228.22, 'ttft_s': 6.086, 'decode_tps': 13.82, 'prompt_tokens': 142, 'completion_tokens': 3072, 'finish_reason': 'length', 'error': None}
+23:49:40 coding py_lru_ttl done {'wall_s': 229.483, 'ttft_s': 3.283, 'decode_tps': 13.58, 'prompt_tokens': 56, 'completion_tokens': 3072, 'finish_reason': 'length', 'error': None}
+23:49:42 coding bash_review followup {'wall_s': 2.719, 'ttft_s': 0.659, 'prompt_tokens': 169, 'prefix_hits_delta': 0, 'completion_tokens': 57, 'error': None}
+23:49:43 coding py_lru_ttl followup {'wall_s': 2.268, 'ttft_s': 0.382, 'prompt_tokens': 83, 'prefix_hits_delta': 0, 'completion_tokens': 49, 'error': None}
+23:49:45 phase coding end 231.8 s
+23:49:45 phase longgen begin
+23:49:50 longgen short primary 0 {'wall_s': 0.387, 'ttft_s': 0.304, 'completion_tokens': 2, 'error': None}
+23:50:06 longgen short primary 1 {'wall_s': 1.064, 'ttft_s': 0.321, 'completion_tokens': 28, 'error': None}
+23:50:25 longgen short primary 2 {'wall_s': 0.468, 'ttft_s': 0.302, 'completion_tokens': 8, 'error': None}
+23:51:56 longgen primary {'wall_s': 131.251, 'ttft_s': 0.241, 'decode_tps': 31.26, 'prefill_tps': 228.2, 'prompt_tokens': 55, 'completion_tokens': 4096, 'finish_reason': 'length', 'error': None} preview: The pager went off at 11:47 p.m. on a Tuesday, which was how
+23:51:58 longgen followup {'wall_s': 1.769, 'ttft_s': 0.815, 'prompt_tokens': 4165, 'prefix_hits_delta': 3584, 'completion_tokens': 30, 'error': None} preview: Mara Okonkwo, the senior engineer whose refusal to immediate
+23:51:58 longgen short followup 3 {'wall_s': 1.109, 'ttft_s': 0.367, 'completion_tokens': 28, 'error': None}
+23:52:01 longgen short followup 4 {'wall_s': 0.265, 'ttft_s': 0.201, 'completion_tokens': 2, 'error': None}
+23:52:06 longgen short followup 5 {'wall_s': 0.288, 'ttft_s': 0.227, 'completion_tokens': 3, 'error': None}
+23:52:09 phase longgen end 141.5 s
+23:52:09 phase cold begin
+23:52:23 cold short primary 0 {'wall_s': 9.305, 'ttft_s': 6.525, 'completion_tokens': 2, 'error': None}
+23:52:55 cold short primary 2 {'wall_s': 6.167, 'ttft_s': 5.764, 'completion_tokens': 8, 'error': None}
+23:52:55 cold short primary 1 {'wall_s': 26.356, 'ttft_s': 8.312, 'completion_tokens': 28, 'error': None}
+23:52:55 cold primary {'wall_s': 46.356, 'ttft_s': 46.085, 'decode_tps': 25.8, 'prefill_tps': 1396.6, 'prompt_tokens': 64364, 'completion_tokens': 8, 'finish_reason': 'stop', 'error': None} preview: ORCHID-348Z
+23:52:58 cold followup {'wall_s': 3.014, 'ttft_s': 2.957, 'prompt_tokens': 64394, 'prefix_hits_delta': 60928, 'completion_tokens': 2, 'error': None} preview: 189
+23:52:58 cold short followup 3 {'wall_s': 2.495, 'ttft_s': 1.965, 'completion_tokens': 25, 'error': None}
+23:53:00 cold short followup 4 {'wall_s': 0.273, 'ttft_s': 0.208, 'completion_tokens': 2, 'error': None}
+23:53:05 cold short followup 5 {'wall_s': 0.297, 'ttft_s': 0.23, 'completion_tokens': 3, 'error': None}
+23:53:05 cold needle ORCHID-348Z found
+23:53:07 phase cold end 56.7 s
+23:53:07 phase conc begin
+23:53:29 conc 4 aggregate tps 91.93 decode p50 25.285 ttft p50/max 0.929 1.21 errors 0
+23:54:02 conc 8 aggregate tps 125.72 decode p50 16.9 ttft p50/max 1.284 1.287 errors 0
+23:54:04 phase conc end 54.9 s
+23:54:04 phase cancel begin
+23:54:11 cancel mid-decode drain_s 0.51 next short ttft 0.223 err None
+23:55:26 cancel mid-prefill drain_s 0.52 next short ttft 0.222 err None
+23:55:28 phase cancel end 81.8 s
+23:55:29 WARNING: engine served 12 requests that were not part of this run (foreign traffic during the benchmark)
+23:55:29 done /home/spark/AI/autoresearch-b3/fat-mnbt4096-swap60.json

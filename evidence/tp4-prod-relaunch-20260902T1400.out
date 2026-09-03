@@ -1,0 +1,24 @@
+2026-09-02T14:01:36Z stop alt
+rank 3: removed
+rank 2: removed
+rank 1: removed
+rank 0: removed
+2026-09-02T14:02:00Z stopped tag=alt
+2026-09-02T14:02:15Z preflight prod
+rank 0 10.200.0.11 first-addr=169.254.199.81
+rank 1 10.200.0.12 first-addr=169.254.25.1
+rank 2 10.200.0.13 first-addr=169.254.200.13
+rank 3 10.200.0.14 first-addr=169.254.200.14
+2026-09-02T14:02:26Z preflight PASS
+2026-09-02T14:02:26Z launch prod
+2026-09-02T14:02:29Z rank 0 (10.200.0.11): rc=0 rank=0 host=spark-f1cc fabric=10.200.0.11 gid=5 link=200000Mb/s mem-available-GiB=118.1 mem-free-GiB=118.7 started glm53-tp4-prod-r0 
+2026-09-02T14:02:31Z rank 1 (10.200.0.12): rc=0 rank=1 host=spark-a393 fabric=10.200.0.12 gid=6 link=200000Mb/s mem-available-GiB=118.3 mem-free-GiB=118.9 started glm53-tp4-prod-r1 
+2026-09-02T14:02:33Z rank 2 (10.200.0.13): rc=0 rank=2 host=spark-2d65 fabric=10.200.0.13 gid=6 link=100000Mb/s mem-available-GiB=118.4 mem-free-GiB=119.0 started glm53-tp4-prod-r2 
+2026-09-02T14:02:34Z rank 3 (10.200.0.14): rc=0 rank=3 host=spark-2b4f fabric=10.200.0.14 gid=3 link=100000Mb/s mem-available-GiB=118.0 mem-free-GiB=118.5 started glm53-tp4-prod-r3 
+2026-09-02T14:02:34Z launched 4 ranks (tag=prod, logs in /home/spark/AI/tp4-prod-logs)
+2026-09-02T14:02:36Z waiting... health=000 r0: 
+2026-09-02T14:03:08Z waiting... health=000 r0: patched kv_cache_coordinator.py (hybrid APC: drafter SWA skipped in min, eagle on SWA only)
+2026-09-02T14:03:40Z waiting... health=000 r0: (EngineCore pid=1226) INFO 09-02 14:03:39 [multiproc_executor.py:149] DP group leader: node_rank=0, node_rank_within_dp=0, master_addr=10.200.0.11, mq_connect_i
+2026-09-02T14:04:11Z waiting... health=000 r0: (Worker pid=1423) INFO 09-02 14:03:55 [cuda_communicator.py:266] Using ['PYNCCL'] all-reduce backends (in dispatch order) for group 'tp:0' out of potential back
+2026-09-02T14:04:43Z waiting... health=000 r0: (Worker pid=1423) INFO 09-02 14:03:55 [cuda_communicator.py:266] Using ['PYNCCL'] all-reduce backends (in dispatch order) for group 'tp:0' out of potential back
+2026-09-02T14:05:15Z waiting... health=000 r0: (Worker pid=1423) INFO 09-02 14:03:55 [cuda_communicator.py:266] Using ['PYNCCL'] all-reduce backends (in dispatch order) for group 'tp:0' out of potential back

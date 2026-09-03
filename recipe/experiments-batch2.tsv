@@ -1,0 +1,8 @@
+# batch 2: around the batch-1 winners (0.80 utilisation, DFLASH_TOKENS=3) plus the concurrency cap that needs more headroom
+live-mem080-dflash3-rep	GPU_MEM_UTIL=0.80 DFLASH_TOKENS=3
+mem080-dflash2	GPU_MEM_UTIL=0.80 DFLASH_TOKENS=2
+mem080-dflash4	GPU_MEM_UTIL=0.80 DFLASH_TOKENS=4
+mem075-dflash3-seqs8	GPU_MEM_UTIL=0.75 DFLASH_TOKENS=3 MAX_NUM_SEQS=8
+mem080-nospec	GPU_MEM_UTIL=0.80 SPEC_METHOD=none
+mem080-dflash3-chunk1024	GPU_MEM_UTIL=0.80 DFLASH_TOKENS=3 MAX_NUM_BATCHED_TOKENS=1024
+mem080-dflash4-rep	GPU_MEM_UTIL=0.80 DFLASH_TOKENS=4

@@ -1,0 +1,51 @@
+00:05:13 start fat-mnbt7168-swap60 http://127.0.0.1:8890/v1 salt 20260903T000510Z phases ['warmup', 'sanity', 'coding', 'longgen', 'cold', 'conc', 'cancel']
+00:05:13 phase warmup begin
+00:06:12 warmup warm-think 12.353 ttft 2.008 err None
+00:06:12 warmup warm-tools 3.164 ttft 1.299 err None
+00:06:12 warmup warm-gen 28.074 ttft 0.4 err None
+00:06:12 warmup warm-12k 9.535 ttft 9.477 err None
+00:06:12 warmup warm-12k-again 4.671 ttft 4.507 err None
+00:06:15 phase warmup end 59.6 s
+00:06:15 phase sanity begin
+00:06:17 sanity {'exact_json': True, 'normal_eos': True, 'tool_call': True, 'json_schema': True, 'json_schema_text': '{"host": "spark-f1cc", "healthy": true, "ranks": 4}', 'all_pass': True}
+00:06:19 phase sanity end 2.6 s
+00:06:19 phase coding begin
+00:06:38 coding cron_digest done {'wall_s': 18.812, 'ttft_s': 17.882, 'decode_tps': 30.13, 'prompt_tokens': 24629, 'completion_tokens': 29, 'finish_reason': 'tool_calls', 'error': None}
+00:06:41 coding cron_digest followup {'wall_s': 3.493, 'ttft_s': 3.022, 'prompt_tokens': 24652, 'prefix_hits_delta': 21504, 'completion_tokens': 16, 'error': None}
+00:08:25 coding go_bugfix done {'wall_s': 126.428, 'ttft_s': 17.706, 'decode_tps': 28.25, 'prompt_tokens': 155, 'completion_tokens': 3072, 'finish_reason': 'length', 'error': None}
+00:08:29 coding go_bugfix followup {'wall_s': 4.144, 'ttft_s': 0.756, 'prompt_tokens': 182, 'prefix_hits_delta': 0, 'completion_tokens': 96, 'error': None}
+00:08:42 coding bash_review done {'wall_s': 142.704, 'ttft_s': 0.529, 'decode_tps': 21.6, 'prompt_tokens': 141, 'completion_tokens': 3072, 'finish_reason': 'length', 'error': None}
+00:08:44 coding bash_review followup {'wall_s': 2.22, 'ttft_s': 0.663, 'prompt_tokens': 168, 'prefix_hits_delta': 0, 'completion_tokens': 46, 'error': None}
+00:08:45 coding py_lru_ttl done {'wall_s': 145.791, 'ttft_s': 5.273, 'decode_tps': 21.85, 'prompt_tokens': 55, 'completion_tokens': 3072, 'finish_reason': 'length', 'error': None}
+00:08:46 coding py_lru_ttl followup {'wall_s': 1.808, 'ttft_s': 0.3, 'prompt_tokens': 82, 'prefix_hits_delta': 0, 'completion_tokens': 55, 'error': None}
+00:08:48 phase coding end 147.6 s
+00:08:48 phase longgen begin
+00:08:54 longgen short primary 0 {'wall_s': 0.402, 'ttft_s': 0.318, 'completion_tokens': 2, 'error': None}
+00:09:10 longgen short primary 1 {'wall_s': 1.387, 'ttft_s': 0.293, 'completion_tokens': 33, 'error': None}
+00:09:29 longgen short primary 2 {'wall_s': 0.491, 'ttft_s': 0.321, 'completion_tokens': 8, 'error': None}
+00:10:36 longgen primary {'wall_s': 107.52, 'ttft_s': 0.271, 'decode_tps': 38.18, 'prefill_tps': 199.4, 'prompt_tokens': 54, 'completion_tokens': 4096, 'finish_reason': 'length', 'error': None} preview: The timestamp in the working title, 20260903T000510Z, was no
+00:10:37 longgen followup {'wall_s': 1.348, 'ttft_s': 0.988, 'prompt_tokens': 4164, 'prefix_hits_delta': 3584, 'completion_tokens': 9, 'error': None} preview: Priya, the scheduler's owner.
+00:10:38 longgen short followup 3 {'wall_s': 0.87, 'ttft_s': 0.352, 'completion_tokens': 25, 'error': None}
+00:10:41 longgen short followup 4 {'wall_s': 0.267, 'ttft_s': 0.201, 'completion_tokens': 2, 'error': None}
+00:10:46 longgen short followup 5 {'wall_s': 0.293, 'ttft_s': 0.227, 'completion_tokens': 3, 'error': None}
+00:10:48 phase longgen end 117.8 s
+00:10:48 phase cold begin
+00:11:12 cold short primary 0 {'wall_s': 18.816, 'ttft_s': 14.073, 'completion_tokens': 2, 'error': None}
+00:11:33 cold short primary 2 {'wall_s': 4.57, 'ttft_s': 4.41, 'completion_tokens': 8, 'error': None}
+00:11:33 cold primary {'wall_s': 44.688, 'ttft_s': 44.41, 'decode_tps': 25.17, 'prefill_tps': 1450.5, 'prompt_tokens': 64416, 'completion_tokens': 8, 'finish_reason': 'stop', 'error': None} preview: ORCHID-510Z
+00:11:33 cold short primary 1 {'wall_s': 24.827, 'ttft_s': 13.544, 'completion_tokens': 28, 'error': None}
+00:11:39 cold followup {'wall_s': 5.554, 'ttft_s': 5.383, 'prompt_tokens': 64446, 'prefix_hits_delta': 57344, 'completion_tokens': 2, 'error': None} preview: 190
+00:11:39 cold short followup 4 {'wall_s': 0.664, 'ttft_s': 0.56, 'completion_tokens': 2, 'error': None}
+00:11:39 cold short followup 3 {'wall_s': 5.065, 'ttft_s': 4.39, 'completion_tokens': 25, 'error': None}
+00:11:43 cold short followup 5 {'wall_s': 0.294, 'ttft_s': 0.227, 'completion_tokens': 3, 'error': None}
+00:11:43 cold needle ORCHID-510Z found
+00:11:45 phase cold end 55.2 s
+00:11:45 phase conc begin
+00:12:07 conc 4 aggregate tps 93.2 decode p50 24.89 ttft p50/max 0.84 1.015 errors 0
+00:12:37 conc 8 aggregate tps 133.51 decode p50 17.915 ttft p50/max 1.056 1.059 errors 0
+00:12:40 phase conc end 52.7 s
+00:12:40 phase cancel begin
+00:12:47 cancel mid-decode drain_s 0.51 next short ttft 0.206 err None
+00:13:57 cancel mid-prefill drain_s 1.02 next short ttft 0.215 err None
+00:13:59 phase cancel end 77.4 s
+00:14:01 done /home/spark/AI/autoresearch-b3/fat-mnbt7168-swap60.json

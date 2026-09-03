@@ -1,0 +1,47 @@
+2026-09-02T09:05:33Z === TP4 cutover start (cfg=prod.env dry_run=0) ===
+rank 0 10.200.0.11 first-addr=169.254.199.81
+rank 1 10.200.0.12 first-addr=169.254.25.1
+rank 2 10.200.0.13 first-addr=10.200.0.13
+rank 3 10.200.0.14 first-addr=10.200.0.14
+2026-09-02T09:05:44Z preflight PASS
+2026-09-02T09:05:45Z preconditions OK: TP2 healthy, preflight PASS, runtime roots identical on 4 ranks
+2026-09-02T09:05:45Z stopping TP2 head+worker
+2026-09-02T09:06:31Z TP2 stopped; MemAvailable rank0=117GiB
+2026-09-02T09:06:36Z rank 0 (10.200.0.11): rc=0 rank=0 host=spark-f1cc fabric=10.200.0.11 gid=5 link=200000Mb/s mem-available-GiB=118.1 mem-free-GiB=118.7 started glm53-tp4-prod-r0 
+2026-09-02T09:06:38Z rank 1 (10.200.0.12): rc=0 rank=1 host=spark-a393 fabric=10.200.0.12 gid=6 link=200000Mb/s mem-available-GiB=118.2 mem-free-GiB=118.8 started glm53-tp4-prod-r1 
+2026-09-02T09:06:40Z rank 2 (10.200.0.13): rc=0 rank=2 host=spark-2d65 fabric=10.200.0.13 gid=3 link=200000Mb/s mem-available-GiB=118.3 mem-free-GiB=119.0 started glm53-tp4-prod-r2 
+2026-09-02T09:06:42Z rank 3 (10.200.0.14): rc=0 rank=3 host=spark-2b4f fabric=10.200.0.14 gid=3 link=100000Mb/s mem-available-GiB=117.6 mem-free-GiB=118.1 started glm53-tp4-prod-r3 
+2026-09-02T09:06:42Z launched 4 ranks (tag=prod, logs in /home/spark/AI/tp4-prod-logs)
+2026-09-02T09:06:44Z waiting... health=000 r0: 
+2026-09-02T09:07:15Z waiting... health=000 r0: patched kv_cache_coordinator.py (hybrid APC: drafter SWA skipped in min, eagle on SWA only)
+2026-09-02T09:07:47Z waiting... health=000 r0: (APIServer pid=1) INFO 09-02 09:07:44 [arg_utils.py:2168] Inferred data_parallel_rank 0 from node_rank 0
+2026-09-02T09:08:19Z waiting... health=000 r0: (Worker pid=1672) INFO 09-02 09:08:17 [cuda_communicator.py:266] Using ['PYNCCL'] all-reduce backends (in dispatch order) for group 'tp:0' out of potential back
+2026-09-02T09:08:50Z waiting... health=000 r0: (Worker_TP0 pid=1672) Loading safetensors checkpoint shards:  11% Completed | 13/120 [00:25<03:27,  1.94s/it]
+2026-09-02T09:09:22Z waiting... health=000 r0: (Worker_TP0 pid=1672) Loading safetensors checkpoint shards:  24% Completed | 29/120 [00:56<03:16,  2.16s/it]
+2026-09-02T09:09:55Z waiting... health=000 r0: (Worker_TP0 pid=1672) Loading safetensors checkpoint shards:  38% Completed | 46/120 [01:29<02:20,  1.90s/it]
+2026-09-02T09:10:27Z waiting... health=000 r0: (Worker_TP0 pid=1672) Loading safetensors checkpoint shards:  52% Completed | 62/120 [02:01<01:52,  1.93s/it]
+2026-09-02T09:10:59Z waiting... health=000 r0: (Worker_TP0 pid=1672) Loading safetensors checkpoint shards:  66% Completed | 79/120 [02:34<01:20,  1.96s/it]
+2026-09-02T09:11:31Z waiting... health=000 r0: (Worker_TP0 pid=1672) Loading safetensors checkpoint shards:  79% Completed | 95/120 [03:05<00:46,  1.86s/it]
+2026-09-02T09:12:02Z waiting... health=000 r0: (Worker_TP0 pid=1672) Loading safetensors checkpoint shards:  96% Completed | 115/120 [03:36<00:07,  1.51s/it]
+2026-09-02T09:12:34Z waiting... health=000 r0: [09:12:30] : Warning: T.vectorized loop over `i_hci` with extent 4 is lowered as a serial loop because TileLang could not find a valid vectorization plan. Scala
+2026-09-02T09:13:06Z waiting... health=000 r0: (Worker_TP0 pid=1672)   warn("tl.make_block_ptr is deprecated. Use TensorDescriptor or tl.make_tensor_descriptor instead.")
+2026-09-02T09:13:38Z waiting... health=000 r0: (EngineCore pid=1497) INFO 09-02 09:13:22 [shm_broadcast.py:801] No available shared memory broadcast block found in 60 seconds. This typically happens when som
+2026-09-02T09:14:11Z waiting... health=000 r0: (Worker_TP0 pid=1672) INFO 09-02 09:14:01 [kernel.py:306] Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['vllm_c', 'native']
+2026-09-02T09:14:42Z waiting... health=000 r0: (Worker_TP0 pid=1672) INFO 09-02 09:14:01 [kernel.py:306] Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['vllm_c', 'native']
+2026-09-02T09:15:15Z waiting... health=000 r0: (Worker_TP0 pid=1672) INFO 09-02 09:14:49 [kernel_warmup.py:170] Skipping FlashInfer autotune because it is disabled.
+2026-09-02T09:15:47Z waiting... health=000 r0: (EngineCore pid=1497) INFO 09-02 09:15:44 [shm_broadcast.py:801] No available shared memory broadcast block found in 60 seconds. This typically happens when som
+2026-09-02T09:16:20Z waiting... health=000 r0: (EngineCore pid=1497) INFO 09-02 09:16:14 [core.py:363] init engine (profile, create kv cache, warmup model) took 233.43 s
+2026-09-02T09:16:51Z waiting... health=000 r0: (APIServer pid=1) INFO 09-02 09:16:35 [hf.py:551] Detected the chat template content format to be 'openai'. You can set `--chat-template-content-format` to over
+2026-09-02T09:17:24Z waiting... health=000 r0: (APIServer pid=1) INFO:     Waiting for application startup.
+2026-09-02T09:17:54Z HEALTHY after 672s
+2026-09-02T09:18:07Z TP4 healthy and answering
+{"contract": {"all_pass": true, "long_prefill_pass": true, "normal_eos_pass": true}, "receipt": "/home/spark/AI/tp4-benchmark-20260902T090533Z.json", "result": "PASS", "suite_sha256": "305f0830b2db9566f73937c11cab11085147315cb75d72cdd23a195013b53e55", "summary": {"median_concurrency4_aggregate_tps": 50.362522, "median_decode_tps": 27.668136, "median_long_prefill_tps": 9404.63613, "p50_ttft_s": 0.240349, "p95_e2e_latency_s": 0.3173041}}
+metric                                   baseline    candidate   ratio  verdict
+median_decode_tps                         21.1783      27.6681   1.306  ok
+median_long_prefill_tps                 7792.2663    9404.6361   1.207  ok
+median_concurrency4_aggregate_tps         27.4276      50.3625   1.836  ok
+p50_ttft_s                                 0.3138       0.2403   0.766  ok
+p95_e2e_latency_s                          0.4405       0.3173   0.720  ok
+contract all_pass: True
+RESULT: PASS
+2026-09-02T09:21:25Z PROMOTED: TP4 is live on :8890; TP2 containers retained (stopped). Rollback: ./tp4-rollback.sh prod.env

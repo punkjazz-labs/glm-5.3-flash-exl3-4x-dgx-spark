@@ -1,0 +1,8 @@
+2026-09-02T21:41:12Z driver start
+2026-09-02T21:41:12Z image copy done
+2026-09-02T21:48:12Z loop test done: /home/spark/AI/loop-test-shipped-20260902T213852Z.json
+2026-09-02T21:48:12Z watchdog paused
+2026-09-02T22:19:17Z driver b3b start
+2026-09-02T22:27:17Z health=200 after wait; starting queue b3b
+2026-09-03T01:34:44Z queue finished rc=0
+2026-09-03T01:34:44Z watchdog resumed; health=200

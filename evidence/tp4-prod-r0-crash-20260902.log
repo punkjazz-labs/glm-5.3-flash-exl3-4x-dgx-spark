@@ -1,0 +1,72 @@
+(APIServer pid=1) INFO 09-02 09:43:59 [metrics.py:120] SpecDecoding metrics: Mean acceptance length: 3.00, Accepted throughput: 0.01 tokens/s, Drafted throughput: 0.01 tokens/s, Accepted: 4 tokens, Drafted: 8 tokens, Per-position acceptance rate: 1.000, 0.500, 0.500, 0.000, 0.000, 0.000, 0.000, Avg Draft acceptance rate: 50.0%
+(APIServer pid=1) INFO 09-02 09:44:09 [loggers.py:310] Engine 000: Avg prompt throughput: 434.8 tokens/s, Avg generation throughput: 3.1 tokens/s, Running: 1 reqs, Waiting: 0 reqs, GPU KV cache usage: 1.6%, Prefix cache hit rate: 60.2%
+(APIServer pid=1) INFO 09-02 09:44:09 [metrics.py:120] SpecDecoding metrics: Mean acceptance length: 2.73, Accepted throughput: 1.90 tokens/s, Drafted throughput: 7.70 tokens/s, Accepted: 19 tokens, Drafted: 77 tokens, Per-position acceptance rate: 0.727, 0.545, 0.091, 0.091, 0.091, 0.091, 0.091, Avg Draft acceptance rate: 24.7%
+(EngineCore pid=1497) ERROR 09-02 09:44:16 [backend_xgrammar.py:168] Failed to advance FSM for request chatcmpl-9a0aae04abf41a98-830be769 for tokens 154827. Please file an issue.
+(EngineCore pid=1497) ERROR 09-02 09:44:16 [scheduler.py:1896] Unexpected: grammar rejected tokens [277, 2105, 92, 154827] for request chatcmpl-9a0aae04abf41a98-830be769. Terminating request.
+(APIServer pid=1) ERROR 09-02 09:44:16 [serving.py:175] Request chatcmpl-9a0aae04abf41a98 failed with an internal error during generation
+(APIServer pid=1) INFO:     127.0.0.1:54608 - "POST /v1/chat/completions HTTP/1.1" 500 Internal Server Error
+(APIServer pid=1) INFO 09-02 09:44:19 [loggers.py:310] Engine 000: Avg prompt throughput: 76.8 tokens/s, Avg generation throughput: 26.0 tokens/s, Running: 1 reqs, Waiting: 0 reqs, GPU KV cache usage: 1.6%, Prefix cache hit rate: 61.3%
+(APIServer pid=1) INFO 09-02 09:44:19 [metrics.py:120] SpecDecoding metrics: Mean acceptance length: 2.78, Accepted throughput: 16.57 tokens/s, Drafted throughput: 63.20 tokens/s, Accepted: 166 tokens, Drafted: 633 tokens, Per-position acceptance rate: 0.720, 0.419, 0.258, 0.151, 0.097, 0.086, 0.054, Avg Draft acceptance rate: 26.2%
+(APIServer pid=1) INFO:     127.0.0.1:54608 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+(APIServer pid=1) INFO 09-02 09:44:29 [loggers.py:310] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 25.3 tokens/s, Running: 0 reqs, Waiting: 0 reqs, GPU KV cache usage: 0.0%, Prefix cache hit rate: 61.3%
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [dump_input.py:79] Dumping scheduler output for model execution: SchedulerOutput(scheduled_new_reqs=[], scheduled_cached_reqs=CachedRequestData(req_ids=['chatcmpl-9549b4ab74731f94-931d0c75'],resumed_req_ids=set(),new_token_ids_lens=[],all_token_ids_lens={},new_block_ids=[([], [], [], [], [], [], [3535])],num_computed_tokens=[53809],num_output_tokens=[3887
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [dump_input.py:81] Dumping scheduler stats: SchedulerStats(num_running_reqs=1, num_waiting_reqs=0, num_skipped_waiting_reqs=2, step_counter=0, current_wave=0, kv_cache_usage=0.02265372168284785, iteration_details=None, prefix_cache_stats=PrefixCacheStats(reset=False, requests=0, queries=0, hits=0, preempted_requests=0, preempted_queries=0, preempted_hits=
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357] EngineCore encountered a fatal error.
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357] Traceback (most recent call last):
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357]   File "/usr/local/lib/python3.12/dist-packages/vllm/v1/executor/multiproc_executor.py", line 416, in get_response
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357]     status, result = mq.dequeue(timeout=dequeue_timeout)
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357]                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357]   File "/usr/local/lib/python3.12/dist-packages/vllm/distributed/device_communicators/shm_broadcast.py", line 889, in dequeue
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357]     with self.acquire_read(timeout, indefinite) as buf:
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357]   File "/usr/lib/python3.12/contextlib.py", line 137, in __enter__
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357]     return next(self.gen)
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357]            ^^^^^^^^^^^^^^
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357]   File "/usr/local/lib/python3.12/dist-packages/vllm/distributed/device_communicators/shm_broadcast.py", line 794, in acquire_read
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357]     self._spin_condition.wait(timeout_ms=read_timeout.timeout_ms())
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357]                                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357]   File "/usr/local/lib/python3.12/dist-packages/vllm/distributed/device_communicators/shm_broadcast.py", line 747, in timeout_ms
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357]     raise TimeoutError
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357] TimeoutError
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357] 
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357] The above exception was the direct cause of the following exception:
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357] 
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357] Traceback (most recent call last):
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357]   File "/usr/local/lib/python3.12/dist-packages/vllm/v1/engine/core.py", line 1348, in run_engine_core
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357]     engine_core.run_busy_loop()
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357]   File "/usr/local/lib/python3.12/dist-packages/vllm/v1/fault_tolerance/engine_core_sentinel.py", line 179, in run_with_fault_tolerance
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357]     busy_loop_func(self)
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357]   File "/usr/local/lib/python3.12/dist-packages/vllm/v1/engine/core.py", line 1392, in run_busy_loop
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357]     self._process_engine_step()
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357]   File "/usr/local/lib/python3.12/dist-packages/vllm/v1/engine/core.py", line 1445, in _process_engine_step
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357]     outputs, model_executed = self.step_fn()
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357]                               ^^^^^^^^^^^^^^
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357]   File "/usr/local/lib/python3.12/dist-packages/vllm/v1/engine/core.py", line 709, in step_with_batch_queue
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357]     model_output = future.result()
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357]                    ^^^^^^^^^^^^^^^
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357]   File "/usr/local/lib/python3.12/dist-packages/vllm/v1/executor/multiproc_executor.py", line 98, in result
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357]     return super().result()
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357]            ^^^^^^^^^^^^^^^^
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357]   File "/usr/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357]     return self.__get_result()
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357]            ^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357]   File "/usr/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357]     raise self._exception
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357]   File "/usr/local/lib/python3.12/dist-packages/vllm/v1/executor/multiproc_executor.py", line 102, in _wait_for_response
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357]     response = self.aggregate(self.get_response())
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357]                               ^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357]   File "/usr/local/lib/python3.12/dist-packages/vllm/v1/executor/multiproc_executor.py", line 418, in get_response
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357]     raise TimeoutError(f"RPC call to {method} timed out.") from e
+(EngineCore pid=1497) ERROR 09-02 10:00:28 [core.py:1357] TimeoutError: RPC call to sample_tokens timed out.
+(APIServer pid=1) ERROR 09-02 10:00:28 [async_llm.py:744] AsyncLLM output_handler failed.
+(APIServer pid=1) ERROR 09-02 10:00:28 [async_llm.py:744] Traceback (most recent call last):
+(APIServer pid=1) ERROR 09-02 10:00:28 [async_llm.py:744]   File "/usr/local/lib/python3.12/dist-packages/vllm/v1/engine/async_llm.py", line 690, in output_handler
+(APIServer pid=1) ERROR 09-02 10:00:28 [async_llm.py:744]     outputs = await engine_core.get_output_async()
+(APIServer pid=1) ERROR 09-02 10:00:28 [async_llm.py:744]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=1) ERROR 09-02 10:00:28 [async_llm.py:744]   File "/usr/local/lib/python3.12/dist-packages/vllm/v1/engine/core_client.py", line 1104, in get_output_async
+(APIServer pid=1) ERROR 09-02 10:00:28 [async_llm.py:744]     raise self._format_exception(outputs) from None
+(APIServer pid=1) ERROR 09-02 10:00:28 [async_llm.py:744] vllm.v1.engine.exceptions.EngineDeadError: EngineCore encountered an issue. See stack trace (above) for the root cause.
+(APIServer pid=1) INFO:     127.0.0.1:50258 - "POST /v1/chat/completions HTTP/1.1" 500 Internal Server Error
+(EngineCore pid=1497) INFO 09-02 10:00:28 [multiproc_executor.py:455] [shutdown] Executor: waiting for worker exit count=1
+(Worker_TP0 pid=1672) 2026-09-02 09:43:59  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:129): TileLang begins to compile kernel `mhc_pre_big_fuse_with_norm_tilelang` with `out_idx=None`
+(Worker_TP0 pid=1672) 2026-09-02 09:44:04  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang completes to compile kernel `mhc_pre_big_fuse_with_norm_tilelang`
+(Worker_TP0 pid=1672) 2026-09-02 09:45:12  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:129): TileLang begins to compile kernel `mhc_pre_big_fuse_with_norm_tilelang` with `out_idx=None`

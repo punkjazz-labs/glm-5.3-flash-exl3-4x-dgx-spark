@@ -1,0 +1,51 @@
+21:57:16 start swap0-shipped http://127.0.0.1:8890/v1 salt 20260902T215713Z phases ['warmup', 'sanity', 'coding', 'longgen', 'cold', 'conc', 'cancel']
+21:57:16 phase warmup begin
+21:58:12 warmup warm-think 10.95 ttft 1.853 err None
+21:58:12 warmup warm-tools 4.844 ttft 2.839 err None
+21:58:12 warmup warm-gen 26.306 ttft 0.322 err None
+21:58:12 warmup warm-12k 11.128 ttft 11.028 err None
+21:58:12 warmup warm-12k-again 1.83 ttft 1.534 err None
+21:58:13 phase warmup end 56.2 s
+21:58:13 phase sanity begin
+21:58:16 sanity {'exact_json': True, 'normal_eos': True, 'tool_call': True, 'json_schema': True, 'json_schema_text': '{"host": "spark-f1cc", "healthy": true, "ranks": 4}', 'all_pass': True}
+21:58:18 phase sanity end 2.6 s
+21:58:18 phase coding begin
+21:58:50 coding cron_digest done {'wall_s': 31.841, 'ttft_s': 22.051, 'decode_tps': 18.69, 'prompt_tokens': 24651, 'completion_tokens': 184, 'finish_reason': 'stop', 'error': None}
+21:58:53 coding cron_digest followup {'wall_s': 2.38, 'ttft_s': 1.809, 'prompt_tokens': 24854, 'prefix_hits_delta': 23296, 'completion_tokens': 16, 'error': None}
+22:00:27 coding go_bugfix done {'wall_s': 129.002, 'ttft_s': 0.507, 'decode_tps': 23.9, 'prompt_tokens': 155, 'completion_tokens': 3072, 'finish_reason': 'length', 'error': None}
+22:00:31 coding go_bugfix followup {'wall_s': 3.917, 'ttft_s': 1.029, 'prompt_tokens': 583, 'prefix_hits_delta': 0, 'completion_tokens': 60, 'error': None}
+22:00:41 coding bash_review done {'wall_s': 142.379, 'ttft_s': 3.849, 'decode_tps': 22.17, 'prompt_tokens': 141, 'completion_tokens': 3072, 'finish_reason': 'length', 'error': None}
+22:00:43 coding bash_review followup {'wall_s': 2.086, 'ttft_s': 0.659, 'prompt_tokens': 161, 'prefix_hits_delta': 0, 'completion_tokens': 40, 'error': None}
+22:00:49 coding py_lru_ttl done {'wall_s': 151.09, 'ttft_s': 21.781, 'decode_tps': 23.75, 'prompt_tokens': 55, 'completion_tokens': 3072, 'finish_reason': 'length', 'error': None}
+22:00:52 coding py_lru_ttl followup {'wall_s': 2.211, 'ttft_s': 0.283, 'prompt_tokens': 75, 'prefix_hits_delta': 0, 'completion_tokens': 56, 'error': None}
+22:00:53 phase coding end 153.3 s
+22:00:53 phase longgen begin
+22:00:59 longgen short primary 0 {'wall_s': 0.371, 'ttft_s': 0.29, 'completion_tokens': 2, 'error': None}
+22:01:15 longgen short primary 1 {'wall_s': 1.734, 'ttft_s': 0.273, 'completion_tokens': 44, 'error': None}
+22:01:34 longgen short primary 2 {'wall_s': 0.507, 'ttft_s': 0.341, 'completion_tokens': 8, 'error': None}
+22:03:06 longgen primary {'wall_s': 132.392, 'ttft_s': 0.231, 'decode_tps': 30.98, 'prefill_tps': 203.7, 'prompt_tokens': 47, 'completion_tokens': 4096, 'finish_reason': 'length', 'error': None} preview: The pager went off at 4:47 in the morning, which Priya noted
+22:03:09 longgen followup {'wall_s': 3.134, 'ttft_s': 2.648, 'prompt_tokens': 4155, 'prefix_hits_delta': 1792, 'completion_tokens': 19, 'error': None} preview: Priya, the orchestration and scheduling engineer who led the
+22:03:09 longgen short followup 3 {'wall_s': 2.22, 'ttft_s': 1.653, 'completion_tokens': 25, 'error': None}
+22:03:12 longgen short followup 4 {'wall_s': 1.462, 'ttft_s': 0.193, 'completion_tokens': 58, 'error': None}
+22:03:16 longgen short followup 5 {'wall_s': 0.269, 'ttft_s': 0.206, 'completion_tokens': 3, 'error': None}
+22:03:18 phase longgen end 142.7 s
+22:03:18 phase cold begin
+22:03:30 cold short primary 0 {'wall_s': 6.576, 'ttft_s': 4.92, 'completion_tokens': 2, 'error': None}
+22:04:05 cold short primary 1 {'wall_s': 26.758, 'ttft_s': 4.758, 'completion_tokens': 29, 'error': None}
+22:04:07 cold short primary 2 {'wall_s': 8.432, 'ttft_s': 5.071, 'completion_tokens': 8, 'error': None}
+22:04:13 cold primary {'wall_s': 54.562, 'ttft_s': 54.404, 'decode_tps': 44.44, 'prefill_tps': 1182.2, 'prompt_tokens': 64319, 'completion_tokens': 8, 'finish_reason': 'stop', 'error': None} preview: ORCHID-713Z
+22:04:15 cold followup {'wall_s': 1.929, 'ttft_s': 1.756, 'prompt_tokens': 64349, 'prefix_hits_delta': 62720, 'completion_tokens': 2, 'error': None} preview: unknown
+22:04:16 cold short followup 3 {'wall_s': 1.911, 'ttft_s': 0.937, 'completion_tokens': 33, 'error': None}
+22:04:18 cold short followup 4 {'wall_s': 0.642, 'ttft_s': 0.19, 'completion_tokens': 20, 'error': None}
+22:04:23 cold short followup 5 {'wall_s': 0.275, 'ttft_s': 0.211, 'completion_tokens': 3, 'error': None}
+22:04:23 cold needle ORCHID-713Z found
+22:04:25 phase cold end 64.9 s
+22:04:25 phase conc begin
+22:04:46 conc 4 aggregate tps 97.8 decode p50 26.455 ttft p50/max 0.871 1.057 errors 0
+22:05:16 conc 8 aggregate tps 138.4 decode p50 18.235 ttft p50/max 1.07 1.072 errors 0
+22:05:17 phase conc end 50.5 s
+22:05:17 phase cancel begin
+22:05:24 cancel mid-decode drain_s 0.51 next short ttft 0.195 err None
+22:13:38 cancel mid-prefill drain_s None next short ttft None err URLError: <urlopen error [Errno 111] Connection refused>
+22:13:40 phase cancel end 500.4 s
+22:13:41 done /home/spark/AI/autoresearch-b3/swap0-shipped.json

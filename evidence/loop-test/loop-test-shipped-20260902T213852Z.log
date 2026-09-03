@@ -1,0 +1,19 @@
+nothink: n=40 capped=1 ['narrative3'] with_self_correction_marks=3 ['coding3x5', 'narrative1x1', 'narrative3x2'] errors=0 wall=97s
+   coding         capped=0 marks=5 decode_med=26.1 tokens_med=360
+   reasoning      capped=0 marks=0 decode_med=25.5 tokens_med=33
+   json           capped=0 marks=0 decode_med=33.2 tokens_med=20
+   html           capped=0 marks=0 decode_med=29.4 tokens_med=88
+   prose          capped=0 marks=0 decode_med=18.6 tokens_med=138
+   narrative      capped=1 marks=3 decode_med=17.5 tokens_med=254
+   summarization  capped=0 marks=0 decode_med=25.6 tokens_med=43
+   format         capped=0 marks=0 decode_med=19.3 tokens_med=17
+think: n=40 capped=7 ['coding0', 'coding3', 'narrative0', 'narrative1', 'narrative2', 'narrative3', 'narrative4'] with_self_correction_marks=0 [] errors=0 wall=459s
+   coding         capped=2 marks=0 decode_med=153.8 tokens_med=1377
+   reasoning      capped=0 marks=0 decode_med=157.2 tokens_med=265
+   json           capped=0 marks=0 decode_med=239.9 tokens_med=136
+   html           capped=0 marks=0 decode_med=149.0 tokens_med=420
+   prose          capped=0 marks=0 decode_med=209.5 tokens_med=950
+   narrative      capped=5 marks=0 decode_med=None tokens_med=2048
+   summarization  capped=0 marks=0 decode_med=131.5 tokens_med=364
+   format         capped=0 marks=0 decode_med=263.5 tokens_med=158
+wrote /home/spark/AI/loop-test-shipped-20260902T213852Z.json

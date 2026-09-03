@@ -1,0 +1,3439 @@
+{
+ "label": "TP4-alt",
+ "url": "http://127.0.0.1:8890/v1",
+ "salt": "20260902T121726Z",
+ "started": "2026-09-02T12:17:26Z",
+ "models": [
+  "GLM-5.3-Flash-EXL3"
+ ],
+ "soak_min": 30.0,
+ "cold_tokens_target": 280000,
+ "metrics_before": {
+  "running": 0.0,
+  "waiting": 0.0,
+  "kv_usage": 0.0,
+  "prefix_queries": 73049.0,
+  "prefix_hits": 46592.0,
+  "spec_accepted": 2701.0,
+  "spec_drafts": 14200.0
+ },
+ "memory_before": {
+  "r0": {
+   "MemAvailable_GiB": 1.43,
+   "SwapFree_GiB": 9.49
+  },
+  "r1": {
+   "MemAvailable_GiB": 1.84,
+   "SwapFree_GiB": 12.54
+  },
+  "r2": {
+   "MemAvailable_GiB": 1.89,
+   "SwapFree_GiB": 12.72
+  },
+  "r3": {
+   "MemAvailable_GiB": 1.8,
+   "SwapFree_GiB": 11.7
+  }
+ },
+ "phases": [
+  "warmup",
+  "sanity",
+  "coding",
+  "longgen",
+  "cold",
+  "cancel",
+  "soak",
+  "sanity_end"
+ ],
+ "warmup": {
+  "requests": [
+   {
+    "name": "warm-think",
+    "wall_s": 6.196,
+    "ttft_s": 0.305,
+    "decode_tps": 43.28,
+    "prefill_tps": 131.2,
+    "prompt_tokens": 40,
+    "cached_tokens": null,
+    "completion_tokens": 256,
+    "finish_reason": "length",
+    "chunks": 75,
+    "reasoning_chars": 1086,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 0,
+    "text_sha256": "e3b0c44298fc1c14",
+    "text_preview": ""
+   },
+   {
+    "name": "warm-tools",
+    "wall_s": 17.857,
+    "ttft_s": 16.694,
+    "decode_tps": 54.2,
+    "prefill_tps": 33.5,
+    "prompt_tokens": 559,
+    "cached_tokens": null,
+    "completion_tokens": 64,
+    "finish_reason": "length",
+    "chunks": 11,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 257,
+    "text_sha256": "8ce3a2dc7e51a2ce",
+    "text_preview": "- search_notes \u2014 Search the knowledge base\n- read_file \u2014 Read a file\n- list_dir \u2014 List a directory\n- run_check \u2014 Run a h"
+   },
+   {
+    "name": "warm-gen",
+    "wall_s": 18.008,
+    "ttft_s": 0.47,
+    "decode_tps": 29.14,
+    "prefill_tps": 27.6,
+    "prompt_tokens": 13,
+    "cached_tokens": null,
+    "completion_tokens": 512,
+    "finish_reason": "length",
+    "chunks": 223,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 2742,
+    "text_sha256": "1871c4313c6f3051",
+    "text_preview": "# Switches: The Fundamental Mechanisms of Control\n\n## Introduction\n\nFew devices in human history have proven as quietly "
+   },
+   {
+    "name": "warm-12k",
+    "wall_s": 14.222,
+    "ttft_s": 14.205,
+    "decode_tps": 236.02,
+    "prefill_tps": 849.9,
+    "prompt_tokens": 12073,
+    "cached_tokens": null,
+    "completion_tokens": 5,
+    "finish_reason": "stop",
+    "chunks": 2,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 6,
+    "text_sha256": "a1ea2828edca1246",
+    "text_preview": "WARM-1"
+   },
+   {
+    "name": "warm-12k-again",
+    "wall_s": 9.58,
+    "ttft_s": 9.384,
+    "decode_tps": 20.43,
+    "prefill_tps": 1286.2,
+    "prompt_tokens": 12070,
+    "cached_tokens": null,
+    "completion_tokens": 5,
+    "finish_reason": "stop",
+    "chunks": 3,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 6,
+    "text_sha256": "a1ea2828edca1246",
+    "text_preview": "WARM-1",
+    "prefix_hits_delta": 10752,
+    "prefix_queries_delta": 12132
+   }
+  ],
+  "shorts": {
+   "n": 16,
+   "errors": 0,
+   "completion_tokens": 271,
+   "wall_s": {
+    "p50": 6.612,
+    "p95": 17.606,
+    "min": 0.582,
+    "max": 17.903
+   },
+   "ttft_s": {
+    "p50": 6.017,
+    "p95": 16.568,
+    "min": 0.495,
+    "max": 17.808
+   }
+  }
+ },
+ "phase_wall_s": {
+  "warmup": 66.6,
+  "sanity": 2.1,
+  "coding": 254.6,
+  "longgen": 360.8,
+  "cold": 397.0,
+  "cancel": 114.7,
+  "soak": 1903.7,
+  "sanity_end": 2.9
+ },
+ "sanity": {
+  "exact_json": true,
+  "normal_eos": true,
+  "tool_call": true,
+  "json_schema": true,
+  "json_schema_text": "{\"host\": \"spark-f1cc\", \"healthy\": true, \"ranks\": 4}",
+  "all_pass": true
+ },
+ "coding": {
+  "wall_s": 254.6,
+  "requests": {
+   "py_lru_ttl": {
+    "name": "py_lru_ttl",
+    "wall_s": 74.255,
+    "ttft_s": 0.241,
+    "decode_tps": 41.49,
+    "prefill_tps": 165.7,
+    "prompt_tokens": 40,
+    "cached_tokens": null,
+    "completion_tokens": 3072,
+    "finish_reason": "length",
+    "chunks": 875,
+    "reasoning_chars": 12746,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 0,
+    "text_sha256": "e3b0c44298fc1c14",
+    "text_preview": ""
+   },
+   "bash_review": {
+    "name": "bash_review",
+    "wall_s": 160.501,
+    "ttft_s": 76.065,
+    "decode_tps": 36.37,
+    "prefill_tps": 1.7,
+    "prompt_tokens": 126,
+    "cached_tokens": null,
+    "completion_tokens": 3072,
+    "finish_reason": "length",
+    "chunks": 1016,
+    "reasoning_chars": 10466,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 0,
+    "text_sha256": "e3b0c44298fc1c14",
+    "text_preview": ""
+   },
+   "go_bugfix": {
+    "name": "go_bugfix",
+    "wall_s": 222.915,
+    "ttft_s": 162.439,
+    "decode_tps": 50.78,
+    "prefill_tps": 0.9,
+    "prompt_tokens": 140,
+    "cached_tokens": null,
+    "completion_tokens": 3072,
+    "finish_reason": "length",
+    "chunks": 709,
+    "reasoning_chars": 9784,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 0,
+    "text_sha256": "e3b0c44298fc1c14",
+    "text_preview": ""
+   },
+   "cron_digest": {
+    "name": "cron_digest",
+    "wall_s": 251.376,
+    "ttft_s": 250.258,
+    "decode_tps": 35.79,
+    "prefill_tps": 98.0,
+    "prompt_tokens": 24525,
+    "cached_tokens": null,
+    "completion_tokens": 41,
+    "finish_reason": "tool_calls",
+    "chunks": 9,
+    "reasoning_chars": 0,
+    "tool_calls": 9,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 0,
+    "text_sha256": "e3b0c44298fc1c14",
+    "text_preview": ""
+   }
+  },
+  "followups": {
+   "py_lru_ttl": {
+    "name": "py_lru_ttl-followup",
+    "wall_s": 169.495,
+    "ttft_s": 168.005,
+    "decode_tps": 27.51,
+    "prefill_tps": 0.4,
+    "prompt_tokens": 60,
+    "cached_tokens": null,
+    "completion_tokens": 42,
+    "finish_reason": "stop",
+    "chunks": 20,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 230,
+    "text_sha256": "9d732b23f01870c8",
+    "text_preview": "The riskiest part is the eviction logic \u2014 specifically the interaction between TTL expiry and LRU ordering under concurr",
+    "prefix_hits_delta": 0,
+    "prefix_queries_delta": 25157
+   },
+   "bash_review": {
+    "name": "bash_review-followup",
+    "wall_s": 91.522,
+    "ttft_s": 89.572,
+    "decode_tps": 19.49,
+    "prefill_tps": 1.6,
+    "prompt_tokens": 146,
+    "cached_tokens": null,
+    "completion_tokens": 39,
+    "finish_reason": "stop",
+    "chunks": 16,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 155,
+    "text_sha256": "460bc7a1555db77c",
+    "text_preview": "The riskiest part is the `find . -name \"*.tmp\" -exec rm {} \\;` line, since a glob or path mistake there could delete uni",
+    "prefix_hits_delta": 0,
+    "prefix_queries_delta": 366
+   },
+   "go_bugfix": {
+    "name": "go_bugfix-followup",
+    "wall_s": 30.029,
+    "ttft_s": 27.168,
+    "decode_tps": 27.26,
+    "prefill_tps": 5.9,
+    "prompt_tokens": 160,
+    "cached_tokens": null,
+    "completion_tokens": 79,
+    "finish_reason": "stop",
+    "chunks": 28,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 293,
+    "text_sha256": "581a8608556bbef7",
+    "text_preview": "The riskiest part is the merge condition `iv[i][0] <= cur[1]` combined with `cur[1] = iv[i][1]` \u2014 if the next interval s",
+    "prefix_hits_delta": 0,
+    "prefix_queries_delta": 366
+   },
+   "cron_digest": {
+    "name": "cron_digest-followup",
+    "wall_s": 3.161,
+    "ttft_s": 2.991,
+    "decode_tps": 88.41,
+    "prefill_tps": 8206.0,
+    "prompt_tokens": 24548,
+    "cached_tokens": null,
+    "completion_tokens": 16,
+    "finish_reason": "stop",
+    "chunks": 4,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 47,
+    "text_sha256": "b5a4d40f41c94758",
+    "text_preview": "BK-77 finished at 03:12 with 4 archives listed.",
+    "prefix_hits_delta": 23296,
+    "prefix_queries_delta": 24548
+   }
+  },
+  "summary": {
+   "aggregate_completion_tps": 36.37,
+   "followup_ttft_p50": 58.370000000000005,
+   "followup_prefix_hits": {
+    "py_lru_ttl": 0,
+    "bash_review": 0,
+    "go_bugfix": 0,
+    "cron_digest": 23296
+   }
+  }
+ },
+ "longgen": {
+  "primary": {
+   "name": "longgen",
+   "wall_s": 347.972,
+   "ttft_s": 0.278,
+   "decode_tps": 35.34,
+   "prefill_tps": 122.1,
+   "prompt_tokens": 34,
+   "cached_tokens": null,
+   "completion_tokens": 12288,
+   "finish_reason": "length",
+   "chunks": 4235,
+   "reasoning_chars": 0,
+   "tool_calls": 0,
+   "cancelled": false,
+   "error": null,
+   "text_chars": 57124,
+   "text_sha256": "b90524be5872d6cc",
+   "text_preview": "The first message arrived at 4:47 in the morning, a Slack notification that lit up Priya's phone on the nightstand and d"
+  },
+  "followup": {
+   "name": "longgen-followup",
+   "wall_s": 10.009,
+   "ttft_s": 9.57,
+   "decode_tps": 22.76,
+   "prefill_tps": 1288.9,
+   "prompt_tokens": 12335,
+   "cached_tokens": null,
+   "completion_tokens": 11,
+   "finish_reason": "stop",
+   "chunks": 6,
+   "reasoning_chars": 0,
+   "tool_calls": 0,
+   "cancelled": false,
+   "error": null,
+   "text_chars": 47,
+   "text_sha256": "156c57b97c28e40f",
+   "text_preview": "Priya, the on-call inference platform engineer.",
+   "prefix_hits_delta": 3584,
+   "prefix_queries_delta": 12363
+  },
+  "shorts_during_primary": {
+   "n": 3,
+   "errors": 0,
+   "completion_tokens": 49,
+   "wall_s": {
+    "p50": 330.438,
+    "p95": 342.837,
+    "min": 309.214,
+    "max": 344.215
+   },
+   "ttft_s": {
+    "p50": 328.458,
+    "p95": 341.958,
+    "min": 308.458,
+    "max": 343.458
+   }
+  },
+  "shorts_during_followup": {
+   "n": 3,
+   "errors": 0,
+   "completion_tokens": 30,
+   "wall_s": {
+    "p50": 3.491,
+    "p95": 5.322,
+    "min": 0.319,
+    "max": 5.525
+   },
+   "ttft_s": {
+    "p50": 3.409,
+    "p95": 4.963,
+    "min": 0.241,
+    "max": 5.136
+   }
+  },
+  "shorts": [
+   {
+    "name": "longgen-short-primary-2",
+    "wall_s": 309.214,
+    "ttft_s": 308.458,
+    "decode_tps": 9.26,
+    "prefill_tps": 0.1,
+    "prompt_tokens": 17,
+    "cached_tokens": null,
+    "completion_tokens": 8,
+    "finish_reason": "stop",
+    "chunks": 2,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 7,
+    "text_sha256": "34ff51c7b6320bbd",
+    "text_preview": "2, 3, 5",
+    "fired_at_s": 40,
+    "phase": "primary"
+   },
+   {
+    "name": "longgen-short-primary-0",
+    "wall_s": 344.215,
+    "ttft_s": 343.458,
+    "decode_tps": 1.32,
+    "prefill_tps": 0.1,
+    "prompt_tokens": 18,
+    "cached_tokens": null,
+    "completion_tokens": 2,
+    "finish_reason": "stop",
+    "chunks": 1,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 5,
+    "text_sha256": "5dd272b4f316b776",
+    "text_preview": "Paris",
+    "fired_at_s": 5,
+    "phase": "primary"
+   },
+   {
+    "name": "longgen-short-primary-1",
+    "wall_s": 330.438,
+    "ttft_s": 328.458,
+    "decode_tps": 19.19,
+    "prefill_tps": 0.0,
+    "prompt_tokens": 16,
+    "cached_tokens": null,
+    "completion_tokens": 39,
+    "finish_reason": "stop",
+    "chunks": 16,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 209,
+    "text_sha256": "db1aad3c7b792641",
+    "text_preview": "TCP uses sequence numbers to track the order of data bytes sent, allowing the receiver to reassemble segments correctly,",
+    "fired_at_s": 20,
+    "phase": "primary"
+   },
+   {
+    "name": "longgen-short-followup-3",
+    "wall_s": 5.525,
+    "ttft_s": 5.136,
+    "decode_tps": 61.78,
+    "prefill_tps": 3.1,
+    "prompt_tokens": 16,
+    "cached_tokens": null,
+    "completion_tokens": 25,
+    "finish_reason": "stop",
+    "chunks": 6,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 133,
+    "text_sha256": "aad954c575101f82",
+    "text_preview": "A mutex is a synchronization primitive that allows only one thread to access a shared resource at a time, preventing rac",
+    "fired_at_s": 1,
+    "phase": "followup"
+   },
+   {
+    "name": "longgen-short-followup-4",
+    "wall_s": 3.491,
+    "ttft_s": 3.409,
+    "decode_tps": 12.18,
+    "prefill_tps": 3.5,
+    "prompt_tokens": 12,
+    "cached_tokens": null,
+    "completion_tokens": 2,
+    "finish_reason": "stop",
+    "chunks": 1,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 5,
+    "text_sha256": "c2e3ac47f4a32546",
+    "text_preview": "READY",
+    "fired_at_s": 5,
+    "phase": "followup"
+   },
+   {
+    "name": "longgen-short-followup-5",
+    "wall_s": 0.319,
+    "ttft_s": 0.241,
+    "decode_tps": 25.78,
+    "prefill_tps": 74.6,
+    "prompt_tokens": 18,
+    "cached_tokens": null,
+    "completion_tokens": 3,
+    "finish_reason": "stop",
+    "chunks": 2,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 3,
+    "text_sha256": "a934c244755c66ae",
+    "text_preview": "391",
+    "fired_at_s": 10,
+    "phase": "followup"
+   }
+  ]
+ },
+ "cold": {
+  "primary": {
+   "name": "cold",
+   "wall_s": 386.449,
+   "ttft_s": 386.438,
+   "decode_tps": 597.79,
+   "prefill_tps": 730.8,
+   "prompt_tokens": 282420,
+   "cached_tokens": null,
+   "completion_tokens": 8,
+   "finish_reason": "stop",
+   "chunks": 2,
+   "reasoning_chars": 0,
+   "tool_calls": 0,
+   "cancelled": false,
+   "error": null,
+   "text_chars": 11,
+   "text_sha256": "5843e1a03d8db9c3",
+   "text_preview": "ORCHID-726Z"
+  },
+  "followup": {
+   "name": "cold-followup",
+   "wall_s": 8.297,
+   "ttft_s": 8.286,
+   "decode_tps": 92.59,
+   "prefill_tps": 34088.5,
+   "prompt_tokens": 282450,
+   "cached_tokens": null,
+   "completion_tokens": 2,
+   "finish_reason": "stop",
+   "chunks": 1,
+   "reasoning_chars": 0,
+   "tool_calls": 0,
+   "cancelled": false,
+   "error": null,
+   "text_chars": 7,
+   "text_sha256": "b23a6a8439c0dde5",
+   "text_preview": "unknown",
+   "prefix_hits_delta": 281344,
+   "prefix_queries_delta": 282478
+  },
+  "shorts_during_primary": {
+   "n": 3,
+   "errors": 0,
+   "completion_tokens": 45,
+   "wall_s": {
+    "p50": 4.599,
+    "p95": 4.784,
+    "min": 3.801,
+    "max": 4.805
+   },
+   "ttft_s": {
+    "p50": 3.725,
+    "p95": 4.633,
+    "min": 3.657,
+    "max": 4.734
+   }
+  },
+  "shorts_during_followup": {
+   "n": 3,
+   "errors": 0,
+   "completion_tokens": 43,
+   "wall_s": {
+    "p50": 3.689,
+    "p95": 8.115,
+    "min": 0.519,
+    "max": 8.607
+   },
+   "ttft_s": {
+    "p50": 3.569,
+    "p95": 7.169,
+    "min": 0.446,
+    "max": 7.569
+   }
+  },
+  "shorts": [
+   {
+    "name": "cold-short-primary-0",
+    "wall_s": 4.805,
+    "ttft_s": 4.734,
+    "decode_tps": 14.18,
+    "prefill_tps": 3.8,
+    "prompt_tokens": 18,
+    "cached_tokens": null,
+    "completion_tokens": 2,
+    "finish_reason": "stop",
+    "chunks": 1,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 5,
+    "text_sha256": "5dd272b4f316b776",
+    "text_preview": "Paris",
+    "fired_at_s": 5,
+    "phase": "primary"
+   },
+   {
+    "name": "cold-short-primary-1",
+    "wall_s": 4.599,
+    "ttft_s": 3.657,
+    "decode_tps": 36.09,
+    "prefill_tps": 4.4,
+    "prompt_tokens": 16,
+    "cached_tokens": null,
+    "completion_tokens": 35,
+    "finish_reason": "stop",
+    "chunks": 13,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 189,
+    "text_sha256": "4a1ded036e80d031",
+    "text_preview": "TCP uses sequence numbers to track the order of bytes sent so the receiver can reassemble data correctly, detect lost or",
+    "fired_at_s": 20,
+    "phase": "primary"
+   },
+   {
+    "name": "cold-short-primary-2",
+    "wall_s": 3.801,
+    "ttft_s": 3.725,
+    "decode_tps": 91.76,
+    "prefill_tps": 4.6,
+    "prompt_tokens": 17,
+    "cached_tokens": null,
+    "completion_tokens": 8,
+    "finish_reason": "stop",
+    "chunks": 2,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 7,
+    "text_sha256": "34ff51c7b6320bbd",
+    "text_preview": "2, 3, 5",
+    "fired_at_s": 40,
+    "phase": "primary"
+   },
+   {
+    "name": "cold-short-followup-4",
+    "wall_s": 3.689,
+    "ttft_s": 3.569,
+    "decode_tps": 8.3,
+    "prefill_tps": 3.4,
+    "prompt_tokens": 12,
+    "cached_tokens": null,
+    "completion_tokens": 2,
+    "finish_reason": "stop",
+    "chunks": 1,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 5,
+    "text_sha256": "c2e3ac47f4a32546",
+    "text_preview": "READY",
+    "fired_at_s": 5,
+    "phase": "followup"
+   },
+   {
+    "name": "cold-short-followup-3",
+    "wall_s": 8.607,
+    "ttft_s": 7.569,
+    "decode_tps": 35.67,
+    "prefill_tps": 2.1,
+    "prompt_tokens": 16,
+    "cached_tokens": null,
+    "completion_tokens": 38,
+    "finish_reason": "stop",
+    "chunks": 13,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 200,
+    "text_sha256": "c4d31b9ab9c96b29",
+    "text_preview": "A mutex is a synchronization primitive that allows only one thread to access a shared resource at a time, preventing rac",
+    "fired_at_s": 1,
+    "phase": "followup"
+   },
+   {
+    "name": "cold-short-followup-5",
+    "wall_s": 0.519,
+    "ttft_s": 0.446,
+    "decode_tps": 27.4,
+    "prefill_tps": 40.3,
+    "prompt_tokens": 18,
+    "cached_tokens": null,
+    "completion_tokens": 3,
+    "finish_reason": "stop",
+    "chunks": 2,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 3,
+    "text_sha256": "a934c244755c66ae",
+    "text_preview": "391",
+    "fired_at_s": 10,
+    "phase": "followup"
+   }
+  ],
+  "needle": "ORCHID-726Z",
+  "needle_found": true
+ },
+ "cancel": {
+  "mid_decode": {
+   "aborted": {
+    "name": "cancel-decode",
+    "wall_s": 8.091,
+    "ttft_s": 0.51,
+    "decode_tps": null,
+    "prefill_tps": null,
+    "prompt_tokens": 0,
+    "cached_tokens": null,
+    "completion_tokens": 0,
+    "finish_reason": null,
+    "chunks": 100,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": true,
+    "error": null,
+    "text_chars": 1309,
+    "text_sha256": "2eac40ae9e5b5082",
+    "text_preview": "# Network Fabrics: A Comprehensive Examination of Modern Data Center Interconnection Architectures\n\n## Introduction\n\nThe"
+   },
+   "drain_s": 0.52,
+   "metrics_after": {
+    "running": 0.0,
+    "waiting": 0.0,
+    "kv_usage": 0.0,
+    "prefix_queries": 725522.0,
+    "prefix_hits": 365568.0,
+    "spec_accepted": 18508.0,
+    "spec_drafts": 66588.0
+   },
+   "next_short": {
+    "name": "after-cancel-decode",
+    "wall_s": 0.257,
+    "ttft_s": 0.182,
+    "decode_tps": 13.32,
+    "prefill_tps": 99.0,
+    "prompt_tokens": 18,
+    "cached_tokens": null,
+    "completion_tokens": 2,
+    "finish_reason": "stop",
+    "chunks": 1,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 5,
+    "text_sha256": "5dd272b4f316b776",
+    "text_preview": "Paris"
+   }
+  },
+  "mid_prefill": {
+   "aborted": {
+    "name": "cancel-prefill",
+    "wall_s": 104.17,
+    "ttft_s": null,
+    "decode_tps": null,
+    "prefill_tps": null,
+    "prompt_tokens": 0,
+    "cached_tokens": null,
+    "completion_tokens": 0,
+    "finish_reason": null,
+    "chunks": 0,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": true,
+    "error": null,
+    "text_chars": 0,
+    "text_sha256": "e3b0c44298fc1c14",
+    "text_preview": ""
+   },
+   "drain_s": 0.53,
+   "metrics_after": {
+    "running": 0.0,
+    "waiting": 0.0,
+    "kv_usage": 0.0,
+    "prefix_queries": 826743.0,
+    "prefix_hits": 365568.0,
+    "spec_accepted": 18509.0,
+    "spec_drafts": 66602.0
+   },
+   "next_short": {
+    "name": "after-cancel-prefill",
+    "wall_s": 1.076,
+    "ttft_s": 0.207,
+    "decode_tps": 35.65,
+    "prefill_tps": 77.4,
+    "prompt_tokens": 16,
+    "cached_tokens": null,
+    "completion_tokens": 32,
+    "finish_reason": "length",
+    "chunks": 12,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 183,
+    "text_sha256": "b12c0f70f531e5b9",
+    "text_preview": "TCP uses sequence numbers to track the order of data bytes sent, allowing the receiver to reassemble segments correctly,"
+   }
+  },
+  "pass": true
+ },
+ "soak": {
+  "duration_s": 1903.7,
+  "requests": 66,
+  "errors": 0,
+  "error_samples": [],
+  "aggregate_completion_tps": 18.44,
+  "aggregate_prompt_tps": 178.3,
+  "by_kind": {
+   "coding": {
+    "n": 14,
+    "errors": 0,
+    "completion_tokens": 21504,
+    "wall_s": {
+     "p50": 102.977,
+     "p95": 625.382,
+     "min": 73.825,
+     "max": 639.56
+    },
+    "ttft_s": {
+     "p50": 57.949,
+     "p95": 585.862,
+     "min": 34.848,
+     "max": 610.693
+    },
+    "decode_tps": {
+     "p50": 37.515,
+     "p95": 53.355,
+     "min": 28.55,
+     "max": 53.7
+    },
+    "prefill_tps": {
+     "p50": 1.45,
+     "p95": 2.95,
+     "min": 0.1,
+     "max": 3.6
+    }
+   },
+   "short": {
+    "n": 25,
+    "errors": 0,
+    "completion_tokens": 223,
+    "wall_s": {
+     "p50": 50.915,
+     "p95": 119.742,
+     "min": 3.824,
+     "max": 528.914
+    },
+    "ttft_s": {
+     "p50": 50.59,
+     "p95": 118.135,
+     "min": 3.716,
+     "max": 528.797
+    },
+    "decode_tps": {
+     "p50": 12.16,
+     "p95": 31.518,
+     "min": 7.2,
+     "max": 40.02
+    },
+    "prefill_tps": {
+     "p50": 0.3,
+     "p95": 1.2,
+     "min": 0.0,
+     "max": 4.8
+    }
+   },
+   "long_prompt": {
+    "n": 14,
+    "errors": 0,
+    "completion_tokens": 68,
+    "wall_s": {
+     "p50": 115.844,
+     "p95": 342.318,
+     "min": 83.164,
+     "max": 630.111
+    },
+    "ttft_s": {
+     "p50": 115.672,
+     "p95": 342.234,
+     "min": 83.022,
+     "max": 630.041
+    },
+    "decode_tps": {
+     "p50": 28.09,
+     "p95": 48.321,
+     "min": 8.47,
+     "max": 57.07
+    },
+    "prefill_tps": {
+     "p50": 208.1,
+     "p95": 263.015,
+     "min": 38.2,
+     "max": 289.6
+    }
+   },
+   "medium_gen": {
+    "n": 13,
+    "errors": 0,
+    "completion_tokens": 13312,
+    "wall_s": {
+     "p50": 50.514,
+     "p95": 172.525,
+     "min": 33.022,
+     "max": 183.222
+    },
+    "ttft_s": {
+     "p50": 16.955,
+     "p95": 130.647,
+     "min": 0.234,
+     "max": 133.542
+    },
+    "decode_tps": {
+     "p50": 29.75,
+     "p95": 32.682,
+     "min": 20.59,
+     "max": 32.82
+    },
+    "prefill_tps": {
+     "p50": 1.3,
+     "p95": 41.24,
+     "min": 0.2,
+     "max": 94.1
+    }
+   }
+  },
+  "drift": {
+   "coding": {
+    "first_half_p50_wall": 79.212,
+    "second_half_p50_wall": 106.358
+   },
+   "short": {
+    "first_half_p50_wall": 53.629999999999995,
+    "second_half_p50_wall": 46.295
+   },
+   "long_prompt": {
+    "first_half_p50_wall": 107.67150000000001,
+    "second_half_p50_wall": 119.258
+   },
+   "medium_gen": {
+    "first_half_p50_wall": 48.905,
+    "second_half_p50_wall": 65.491
+   }
+  },
+  "long_prompt_needle_ok": 14,
+  "samples": [
+   {
+    "t": 0.0,
+    "metrics": {
+     "running": 0.0,
+     "waiting": 0.0,
+     "kv_usage": 0.0,
+     "prefix_queries": 826759.0,
+     "prefix_hits": 365568.0,
+     "spec_accepted": 18531.0,
+     "spec_drafts": 66679.0
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 2.2,
+      "SwapFree_GiB": 8.73
+     },
+     "r1": {
+      "MemAvailable_GiB": 2.33,
+      "SwapFree_GiB": 11.5
+     },
+     "r2": {
+      "MemAvailable_GiB": 1.82,
+      "SwapFree_GiB": 12.0
+     },
+     "r3": {
+      "MemAvailable_GiB": 1.34,
+      "SwapFree_GiB": 11.71
+     }
+    },
+    "requests_done": 0,
+    "errors": 0
+   },
+   {
+    "t": 62.7,
+    "metrics": {
+     "running": 2.0,
+     "waiting": 2.0,
+     "kv_usage": 0.02803958529688977,
+     "prefix_queries": 850934.0,
+     "prefix_hits": 365568.0,
+     "spec_accepted": 19927.0,
+     "spec_drafts": 71978.0
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 2.27,
+      "SwapFree_GiB": 8.73
+     },
+     "r1": {
+      "MemAvailable_GiB": 2.33,
+      "SwapFree_GiB": 11.5
+     },
+     "r2": {
+      "MemAvailable_GiB": 1.8,
+      "SwapFree_GiB": 12.0
+     },
+     "r3": {
+      "MemAvailable_GiB": 1.32,
+      "SwapFree_GiB": 11.71
+     }
+    },
+    "requests_done": 2,
+    "errors": 0
+   },
+   {
+    "t": 124.7,
+    "metrics": {
+     "running": 3.0,
+     "waiting": 1.0,
+     "kv_usage": 0.04806786050895384,
+     "prefix_queries": 875153.0,
+     "prefix_hits": 365568.0,
+     "spec_accepted": 20607.0,
+     "spec_drafts": 74393.0
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 2.26,
+      "SwapFree_GiB": 8.73
+     },
+     "r1": {
+      "MemAvailable_GiB": 2.37,
+      "SwapFree_GiB": 11.5
+     },
+     "r2": {
+      "MemAvailable_GiB": 1.79,
+      "SwapFree_GiB": 12.0
+     },
+     "r3": {
+      "MemAvailable_GiB": 1.29,
+      "SwapFree_GiB": 11.71
+     }
+    },
+    "requests_done": 5,
+    "errors": 0
+   },
+   {
+    "t": 186.7,
+    "metrics": {
+     "running": 2.0,
+     "waiting": 2.0,
+     "kv_usage": 0.034401508011310034,
+     "prefix_queries": 899209.0,
+     "prefix_hits": 365568.0,
+     "spec_accepted": 22232.0,
+     "spec_drafts": 81092.0
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 2.27,
+      "SwapFree_GiB": 8.74
+     },
+     "r1": {
+      "MemAvailable_GiB": 2.35,
+      "SwapFree_GiB": 11.5
+     },
+     "r2": {
+      "MemAvailable_GiB": 1.77,
+      "SwapFree_GiB": 12.0
+     },
+     "r3": {
+      "MemAvailable_GiB": 1.29,
+      "SwapFree_GiB": 11.71
+     }
+    },
+    "requests_done": 9,
+    "errors": 0
+   },
+   {
+    "t": 248.8,
+    "metrics": {
+     "running": 1.0,
+     "waiting": 3.0,
+     "kv_usage": 0.03369462770970777,
+     "prefix_queries": 899261.0,
+     "prefix_hits": 365568.0,
+     "spec_accepted": 23467.0,
+     "spec_drafts": 85978.0
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 2.26,
+      "SwapFree_GiB": 8.74
+     },
+     "r1": {
+      "MemAvailable_GiB": 2.35,
+      "SwapFree_GiB": 11.5
+     },
+     "r2": {
+      "MemAvailable_GiB": 1.81,
+      "SwapFree_GiB": 12.0
+     },
+     "r3": {
+      "MemAvailable_GiB": 1.26,
+      "SwapFree_GiB": 11.71
+     }
+    },
+    "requests_done": 12,
+    "errors": 0
+   },
+   {
+    "t": 310.8,
+    "metrics": {
+     "running": 2.0,
+     "waiting": 2.0,
+     "kv_usage": 0.03534401508011309,
+     "prefix_queries": 923459.0,
+     "prefix_hits": 365568.0,
+     "spec_accepted": 24505.0,
+     "spec_drafts": 90129.0
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 2.26,
+      "SwapFree_GiB": 8.74
+     },
+     "r1": {
+      "MemAvailable_GiB": 2.35,
+      "SwapFree_GiB": 11.5
+     },
+     "r2": {
+      "MemAvailable_GiB": 1.79,
+      "SwapFree_GiB": 12.0
+     },
+     "r3": {
+      "MemAvailable_GiB": 1.27,
+      "SwapFree_GiB": 11.71
+     }
+    },
+    "requests_done": 15,
+    "errors": 0
+   },
+   {
+    "t": 372.9,
+    "metrics": {
+     "running": 3.0,
+     "waiting": 1.0,
+     "kv_usage": 0.05325164938737037,
+     "prefix_queries": 947689.0,
+     "prefix_hits": 365568.0,
+     "spec_accepted": 25492.0,
+     "spec_drafts": 94147.0
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 2.26,
+      "SwapFree_GiB": 8.74
+     },
+     "r1": {
+      "MemAvailable_GiB": 2.37,
+      "SwapFree_GiB": 11.5
+     },
+     "r2": {
+      "MemAvailable_GiB": 1.8,
+      "SwapFree_GiB": 12.0
+     },
+     "r3": {
+      "MemAvailable_GiB": 1.27,
+      "SwapFree_GiB": 11.71
+     }
+    },
+    "requests_done": 17,
+    "errors": 0
+   },
+   {
+    "t": 434.9,
+    "metrics": {
+     "running": 3.0,
+     "waiting": 3.0,
+     "kv_usage": 0.054194156456173426,
+     "prefix_queries": 988134.0,
+     "prefix_hits": 365568.0,
+     "spec_accepted": 26011.0,
+     "spec_drafts": 96080.0
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 2.25,
+      "SwapFree_GiB": 8.74
+     },
+     "r1": {
+      "MemAvailable_GiB": 2.37,
+      "SwapFree_GiB": 11.5
+     },
+     "r2": {
+      "MemAvailable_GiB": 1.8,
+      "SwapFree_GiB": 12.0
+     },
+     "r3": {
+      "MemAvailable_GiB": 1.26,
+      "SwapFree_GiB": 11.71
+     }
+    },
+    "requests_done": 21,
+    "errors": 0
+   },
+   {
+    "t": 496.9,
+    "metrics": {
+     "running": 3.0,
+     "waiting": 4.0,
+     "kv_usage": 0.05348727615457116,
+     "prefix_queries": 1003324.0,
+     "prefix_hits": 365568.0,
+     "spec_accepted": 27058.0,
+     "spec_drafts": 100301.0
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 2.25,
+      "SwapFree_GiB": 8.74
+     },
+     "r1": {
+      "MemAvailable_GiB": 2.35,
+      "SwapFree_GiB": 11.5
+     },
+     "r2": {
+      "MemAvailable_GiB": 1.82,
+      "SwapFree_GiB": 12.0
+     },
+     "r3": {
+      "MemAvailable_GiB": 1.29,
+      "SwapFree_GiB": 11.71
+     }
+    },
+    "requests_done": 25,
+    "errors": 0
+   },
+   {
+    "t": 558.9,
+    "metrics": {
+     "running": 2.0,
+     "waiting": 5.0,
+     "kv_usage": 0.03887841658812441,
+     "prefix_queries": 1019528.0,
+     "prefix_hits": 365568.0,
+     "spec_accepted": 28522.0,
+     "spec_drafts": 104378.0
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 2.25,
+      "SwapFree_GiB": 8.74
+     },
+     "r1": {
+      "MemAvailable_GiB": 2.36,
+      "SwapFree_GiB": 11.5
+     },
+     "r2": {
+      "MemAvailable_GiB": 1.81,
+      "SwapFree_GiB": 12.0
+     },
+     "r3": {
+      "MemAvailable_GiB": 1.31,
+      "SwapFree_GiB": 11.71
+     }
+    },
+    "requests_done": 29,
+    "errors": 0
+   },
+   {
+    "t": 621.0,
+    "metrics": {
+     "running": 2.0,
+     "waiting": 7.0,
+     "kv_usage": 0.03958529688972667,
+     "prefix_queries": 1019528.0,
+     "prefix_hits": 365568.0,
+     "spec_accepted": 33791.0,
+     "spec_drafts": 109670.0
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 2.23,
+      "SwapFree_GiB": 8.74
+     },
+     "r1": {
+      "MemAvailable_GiB": 2.35,
+      "SwapFree_GiB": 11.5
+     },
+     "r2": {
+      "MemAvailable_GiB": 1.82,
+      "SwapFree_GiB": 12.0
+     },
+     "r3": {
+      "MemAvailable_GiB": 1.29,
+      "SwapFree_GiB": 11.71
+     }
+    },
+    "requests_done": 29,
+    "errors": 0
+   },
+   {
+    "t": 683.0,
+    "metrics": {
+     "running": 2.0,
+     "waiting": 8.0,
+     "kv_usage": 0.040056550424128146,
+     "prefix_queries": 1019528.0,
+     "prefix_hits": 365568.0,
+     "spec_accepted": 38508.0,
+     "spec_drafts": 114388.0
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 2.23,
+      "SwapFree_GiB": 8.75
+     },
+     "r1": {
+      "MemAvailable_GiB": 2.35,
+      "SwapFree_GiB": 11.5
+     },
+     "r2": {
+      "MemAvailable_GiB": 2.95,
+      "SwapFree_GiB": 11.07
+     },
+     "r3": {
+      "MemAvailable_GiB": 1.31,
+      "SwapFree_GiB": 11.71
+     }
+    },
+    "requests_done": 29,
+    "errors": 0
+   },
+   {
+    "t": 745.2,
+    "metrics": {
+     "running": 2.0,
+     "waiting": 9.0,
+     "kv_usage": 0.04076343072573041,
+     "prefix_queries": 1019528.0,
+     "prefix_hits": 365568.0,
+     "spec_accepted": 43436.0,
+     "spec_drafts": 119316.0
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 2.27,
+      "SwapFree_GiB": 8.75
+     },
+     "r1": {
+      "MemAvailable_GiB": 2.38,
+      "SwapFree_GiB": 11.5
+     },
+     "r2": {
+      "MemAvailable_GiB": 2.96,
+      "SwapFree_GiB": 11.08
+     },
+     "r3": {
+      "MemAvailable_GiB": 1.26,
+      "SwapFree_GiB": 11.71
+     }
+    },
+    "requests_done": 29,
+    "errors": 0
+   },
+   {
+    "t": 807.3,
+    "metrics": {
+     "running": 2.0,
+     "waiting": 10.0,
+     "kv_usage": 0.041705937794533465,
+     "prefix_queries": 1019528.0,
+     "prefix_hits": 365568.0,
+     "spec_accepted": 48777.0,
+     "spec_drafts": 124657.0
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 2.27,
+      "SwapFree_GiB": 8.76
+     },
+     "r1": {
+      "MemAvailable_GiB": 2.37,
+      "SwapFree_GiB": 11.5
+     },
+     "r2": {
+      "MemAvailable_GiB": 2.97,
+      "SwapFree_GiB": 11.08
+     },
+     "r3": {
+      "MemAvailable_GiB": 1.49,
+      "SwapFree_GiB": 11.71
+     }
+    },
+    "requests_done": 29,
+    "errors": 0
+   },
+   {
+    "t": 869.4,
+    "metrics": {
+     "running": 2.0,
+     "waiting": 10.0,
+     "kv_usage": 0.04264844486333652,
+     "prefix_queries": 1019528.0,
+     "prefix_hits": 365568.0,
+     "spec_accepted": 53775.0,
+     "spec_drafts": 129655.0
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 2.19,
+      "SwapFree_GiB": 8.76
+     },
+     "r1": {
+      "MemAvailable_GiB": 2.36,
+      "SwapFree_GiB": 11.5
+     },
+     "r2": {
+      "MemAvailable_GiB": 2.98,
+      "SwapFree_GiB": 11.08
+     },
+     "r3": {
+      "MemAvailable_GiB": 1.31,
+      "SwapFree_GiB": 11.71
+     }
+    },
+    "requests_done": 29,
+    "errors": 0
+   },
+   {
+    "t": 931.4,
+    "metrics": {
+     "running": 2.0,
+     "waiting": 10.0,
+     "kv_usage": 0.04311969839773799,
+     "prefix_queries": 1019528.0,
+     "prefix_hits": 365568.0,
+     "spec_accepted": 59136.0,
+     "spec_drafts": 135017.0
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 2.24,
+      "SwapFree_GiB": 8.77
+     },
+     "r1": {
+      "MemAvailable_GiB": 2.38,
+      "SwapFree_GiB": 11.5
+     },
+     "r2": {
+      "MemAvailable_GiB": 2.97,
+      "SwapFree_GiB": 11.08
+     },
+     "r3": {
+      "MemAvailable_GiB": 1.33,
+      "SwapFree_GiB": 11.71
+     }
+    },
+    "requests_done": 29,
+    "errors": 0
+   },
+   {
+    "t": 993.6,
+    "metrics": {
+     "running": 2.0,
+     "waiting": 10.0,
+     "kv_usage": 0.04406220546654105,
+     "prefix_queries": 1019528.0,
+     "prefix_hits": 365568.0,
+     "spec_accepted": 64237.0,
+     "spec_drafts": 140120.0
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 2.24,
+      "SwapFree_GiB": 8.78
+     },
+     "r1": {
+      "MemAvailable_GiB": 2.35,
+      "SwapFree_GiB": 11.5
+     },
+     "r2": {
+      "MemAvailable_GiB": 2.98,
+      "SwapFree_GiB": 11.08
+     },
+     "r3": {
+      "MemAvailable_GiB": 1.28,
+      "SwapFree_GiB": 11.71
+     }
+    },
+    "requests_done": 29,
+    "errors": 0
+   },
+   {
+    "t": 1055.9,
+    "metrics": {
+     "running": 2.0,
+     "waiting": 10.0,
+     "kv_usage": 0.03864278982092362,
+     "prefix_queries": 1043610.0,
+     "prefix_hits": 365568.0,
+     "spec_accepted": 67783.0,
+     "spec_drafts": 143950.0
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 2.24,
+      "SwapFree_GiB": 8.78
+     },
+     "r1": {
+      "MemAvailable_GiB": 2.37,
+      "SwapFree_GiB": 11.5
+     },
+     "r2": {
+      "MemAvailable_GiB": 2.98,
+      "SwapFree_GiB": 11.08
+     },
+     "r3": {
+      "MemAvailable_GiB": 1.28,
+      "SwapFree_GiB": 11.71
+     }
+    },
+    "requests_done": 30,
+    "errors": 0
+   },
+   {
+    "t": 1118.3,
+    "metrics": {
+     "running": 3.0,
+     "waiting": 8.0,
+     "kv_usage": 0.055607917059377954,
+     "prefix_queries": 1058016.0,
+     "prefix_hits": 365568.0,
+     "spec_accepted": 69145.0,
+     "spec_drafts": 147170.0
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 2.2,
+      "SwapFree_GiB": 8.78
+     },
+     "r1": {
+      "MemAvailable_GiB": 2.36,
+      "SwapFree_GiB": 11.5
+     },
+     "r2": {
+      "MemAvailable_GiB": 2.98,
+      "SwapFree_GiB": 11.08
+     },
+     "r3": {
+      "MemAvailable_GiB": 1.3,
+      "SwapFree_GiB": 11.71
+     }
+    },
+    "requests_done": 30,
+    "errors": 0
+   },
+   {
+    "t": 1180.9,
+    "metrics": {
+     "running": 1.0,
+     "waiting": 8.0,
+     "kv_usage": 0.01578699340245049,
+     "prefix_queries": 1089861.0,
+     "prefix_hits": 365568.0,
+     "spec_accepted": 70912.0,
+     "spec_drafts": 151363.0
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 2.22,
+      "SwapFree_GiB": 8.78
+     },
+     "r1": {
+      "MemAvailable_GiB": 2.35,
+      "SwapFree_GiB": 11.5
+     },
+     "r2": {
+      "MemAvailable_GiB": 2.99,
+      "SwapFree_GiB": 11.08
+     },
+     "r3": {
+      "MemAvailable_GiB": 1.27,
+      "SwapFree_GiB": 11.71
+     }
+    },
+    "requests_done": 33,
+    "errors": 0
+   },
+   {
+    "t": 1243.1,
+    "metrics": {
+     "running": 1.0,
+     "waiting": 6.0,
+     "kv_usage": 0.03345900094250709,
+     "prefix_queries": 1123534.0,
+     "prefix_hits": 365568.0,
+     "spec_accepted": 71353.0,
+     "spec_drafts": 153049.0
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 2.23,
+      "SwapFree_GiB": 8.79
+     },
+     "r1": {
+      "MemAvailable_GiB": 2.37,
+      "SwapFree_GiB": 11.5
+     },
+     "r2": {
+      "MemAvailable_GiB": 2.99,
+      "SwapFree_GiB": 11.08
+     },
+     "r3": {
+      "MemAvailable_GiB": 1.27,
+      "SwapFree_GiB": 11.71
+     }
+    },
+    "requests_done": 33,
+    "errors": 0
+   },
+   {
+    "t": 1305.6,
+    "metrics": {
+     "running": 3.0,
+     "waiting": 2.0,
+     "kv_usage": 0.05018850141376063,
+     "prefix_queries": 1139834.0,
+     "prefix_hits": 365568.0,
+     "spec_accepted": 72081.0,
+     "spec_drafts": 156220.0
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 2.24,
+      "SwapFree_GiB": 8.79
+     },
+     "r1": {
+      "MemAvailable_GiB": 2.34,
+      "SwapFree_GiB": 11.5
+     },
+     "r2": {
+      "MemAvailable_GiB": 2.98,
+      "SwapFree_GiB": 11.08
+     },
+     "r3": {
+      "MemAvailable_GiB": 1.29,
+      "SwapFree_GiB": 11.71
+     }
+    },
+    "requests_done": 34,
+    "errors": 0
+   },
+   {
+    "t": 1368.1,
+    "metrics": {
+     "running": 1.0,
+     "waiting": 3.0,
+     "kv_usage": 0.03345900094250709,
+     "prefix_queries": 1163964.0,
+     "prefix_hits": 365568.0,
+     "spec_accepted": 74162.0,
+     "spec_drafts": 162280.0
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 2.23,
+      "SwapFree_GiB": 8.79
+     },
+     "r1": {
+      "MemAvailable_GiB": 2.33,
+      "SwapFree_GiB": 11.5
+     },
+     "r2": {
+      "MemAvailable_GiB": 2.98,
+      "SwapFree_GiB": 11.08
+     },
+     "r3": {
+      "MemAvailable_GiB": 1.29,
+      "SwapFree_GiB": 11.71
+     }
+    },
+    "requests_done": 38,
+    "errors": 0
+   },
+   {
+    "t": 1431.0,
+    "metrics": {
+     "running": 2.0,
+     "waiting": 2.0,
+     "kv_usage": 0.032987747408105506,
+     "prefix_queries": 1188230.0,
+     "prefix_hits": 365568.0,
+     "spec_accepted": 75089.0,
+     "spec_drafts": 165710.0
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 2.2,
+      "SwapFree_GiB": 8.79
+     },
+     "r1": {
+      "MemAvailable_GiB": 2.35,
+      "SwapFree_GiB": 11.5
+     },
+     "r2": {
+      "MemAvailable_GiB": 2.98,
+      "SwapFree_GiB": 11.08
+     },
+     "r3": {
+      "MemAvailable_GiB": 1.29,
+      "SwapFree_GiB": 11.71
+     }
+    },
+    "requests_done": 40,
+    "errors": 0
+   },
+   {
+    "t": 1493.4,
+    "metrics": {
+     "running": 2.0,
+     "waiting": 2.0,
+     "kv_usage": 0.034637134778510825,
+     "prefix_queries": 1212324.0,
+     "prefix_hits": 365568.0,
+     "spec_accepted": 76355.0,
+     "spec_drafts": 168860.0
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 2.24,
+      "SwapFree_GiB": 8.79
+     },
+     "r1": {
+      "MemAvailable_GiB": 2.34,
+      "SwapFree_GiB": 11.5
+     },
+     "r2": {
+      "MemAvailable_GiB": 3.0,
+      "SwapFree_GiB": 11.08
+     },
+     "r3": {
+      "MemAvailable_GiB": 1.3,
+      "SwapFree_GiB": 11.71
+     }
+    },
+    "requests_done": 44,
+    "errors": 0
+   },
+   {
+    "t": 1555.6,
+    "metrics": {
+     "running": 2.0,
+     "waiting": 2.0,
+     "kv_usage": 0.03345900094250709,
+     "prefix_queries": 1236594.0,
+     "prefix_hits": 365568.0,
+     "spec_accepted": 77597.0,
+     "spec_drafts": 172101.0
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 2.2,
+      "SwapFree_GiB": 8.79
+     },
+     "r1": {
+      "MemAvailable_GiB": 2.35,
+      "SwapFree_GiB": 11.5
+     },
+     "r2": {
+      "MemAvailable_GiB": 2.96,
+      "SwapFree_GiB": 11.08
+     },
+     "r3": {
+      "MemAvailable_GiB": 1.27,
+      "SwapFree_GiB": 11.71
+     }
+    },
+    "requests_done": 48,
+    "errors": 0
+   },
+   {
+    "t": 1617.9,
+    "metrics": {
+     "running": 3.0,
+     "waiting": 2.0,
+     "kv_usage": 0.05725730442978327,
+     "prefix_queries": 1236754.0,
+     "prefix_hits": 365568.0,
+     "spec_accepted": 79093.0,
+     "spec_drafts": 176896.0
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 2.2,
+      "SwapFree_GiB": 8.79
+     },
+     "r1": {
+      "MemAvailable_GiB": 2.33,
+      "SwapFree_GiB": 11.5
+     },
+     "r2": {
+      "MemAvailable_GiB": 2.98,
+      "SwapFree_GiB": 11.08
+     },
+     "r3": {
+      "MemAvailable_GiB": 1.3,
+      "SwapFree_GiB": 11.71
+     }
+    },
+    "requests_done": 50,
+    "errors": 0
+   },
+   {
+    "t": 1680.1,
+    "metrics": {
+     "running": 1.0,
+     "waiting": 3.0,
+     "kv_usage": 0.03369462770970777,
+     "prefix_queries": 1260924.0,
+     "prefix_hits": 365568.0,
+     "spec_accepted": 80197.0,
+     "spec_drafts": 181573.0
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 2.22,
+      "SwapFree_GiB": 8.79
+     },
+     "r1": {
+      "MemAvailable_GiB": 2.34,
+      "SwapFree_GiB": 11.5
+     },
+     "r2": {
+      "MemAvailable_GiB": 2.97,
+      "SwapFree_GiB": 11.08
+     },
+     "r3": {
+      "MemAvailable_GiB": 1.3,
+      "SwapFree_GiB": 11.71
+     }
+    },
+    "requests_done": 55,
+    "errors": 0
+   },
+   {
+    "t": 1742.6,
+    "metrics": {
+     "running": 3.0,
+     "waiting": 0.0,
+     "kv_usage": 0.04123468426013199,
+     "prefix_queries": 1285267.0,
+     "prefix_hits": 365568.0,
+     "spec_accepted": 81249.0,
+     "spec_drafts": 185003.0
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 2.22,
+      "SwapFree_GiB": 8.79
+     },
+     "r1": {
+      "MemAvailable_GiB": 2.34,
+      "SwapFree_GiB": 11.5
+     },
+     "r2": {
+      "MemAvailable_GiB": 2.97,
+      "SwapFree_GiB": 11.08
+     },
+     "r3": {
+      "MemAvailable_GiB": 1.3,
+      "SwapFree_GiB": 11.71
+     }
+    },
+    "requests_done": 59,
+    "errors": 0
+   }
+  ],
+  "rows": [
+   {
+    "name": "soak-medium_gen-2-0",
+    "wall_s": 33.022,
+    "ttft_s": 0.234,
+    "decode_tps": 31.2,
+    "prefill_tps": 94.1,
+    "prompt_tokens": 22,
+    "cached_tokens": null,
+    "completion_tokens": 1024,
+    "finish_reason": "length",
+    "chunks": 410,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 5322,
+    "text_sha256": "a8f245209588f052",
+    "text_preview": "# RDMA vs. TCP: A Detailed Comparison\n\nRemote Direct Memory Access (RDMA) and Transmission Control Protocol (TCP) repres",
+    "kind": "medium_gen",
+    "worker": 2,
+    "t_end": 33.0
+   },
+   {
+    "name": "soak-short-0-0",
+    "wall_s": 34.962,
+    "ttft_s": 34.849,
+    "decode_tps": 8.84,
+    "prefill_tps": 0.5,
+    "prompt_tokens": 18,
+    "cached_tokens": null,
+    "completion_tokens": 2,
+    "finish_reason": "stop",
+    "chunks": 1,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 5,
+    "text_sha256": "5dd272b4f316b776",
+    "text_preview": "Paris",
+    "kind": "short",
+    "worker": 0,
+    "t_end": 35.0
+   },
+   {
+    "name": "soak-coding-1-0",
+    "wall_s": 74.723,
+    "ttft_s": 34.848,
+    "decode_tps": 38.5,
+    "prefill_tps": 3.6,
+    "prompt_tokens": 126,
+    "cached_tokens": null,
+    "completion_tokens": 1536,
+    "finish_reason": "length",
+    "chunks": 497,
+    "reasoning_chars": 5399,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 0,
+    "text_sha256": "e3b0c44298fc1c14",
+    "text_preview": "",
+    "kind": "coding",
+    "worker": 1,
+    "t_end": 74.7
+   },
+   {
+    "name": "soak-long_prompt-3-0",
+    "wall_s": 96.644,
+    "ttft_s": 96.522,
+    "decode_tps": 32.9,
+    "prefill_tps": 248.7,
+    "prompt_tokens": 24009,
+    "cached_tokens": null,
+    "completion_tokens": 5,
+    "finish_reason": "stop",
+    "chunks": 3,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 6,
+    "text_sha256": "bdb440403fd14b24",
+    "text_preview": "RX-037",
+    "kind": "long_prompt",
+    "worker": 3,
+    "t_end": 96.7
+   },
+   {
+    "name": "soak-short-3-1",
+    "wall_s": 17.508,
+    "ttft_s": 17.374,
+    "decode_tps": 7.48,
+    "prefill_tps": 0.7,
+    "prompt_tokens": 12,
+    "cached_tokens": null,
+    "completion_tokens": 2,
+    "finish_reason": "stop",
+    "chunks": 1,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 5,
+    "text_sha256": "c2e3ac47f4a32546",
+    "text_preview": "READY",
+    "kind": "short",
+    "worker": 3,
+    "t_end": 114.2
+   },
+   {
+    "name": "soak-medium_gen-1-1",
+    "wall_s": 86.256,
+    "ttft_s": 39.349,
+    "decode_tps": 21.81,
+    "prefill_tps": 0.6,
+    "prompt_tokens": 22,
+    "cached_tokens": null,
+    "completion_tokens": 1024,
+    "finish_reason": "length",
+    "chunks": 432,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 5237,
+    "text_sha256": "a6e9aa8ed36b8827",
+    "text_preview": "# RDMA vs. TCP: A Deep Dive\n\n## The Fundamental Difference in Philosophy\n\nAt its core, the difference between RDMA (Remo",
+    "kind": "medium_gen",
+    "worker": 1,
+    "t_end": 161.0
+   },
+   {
+    "name": "soak-coding-0-1",
+    "wall_s": 128.697,
+    "ttft_s": 79.111,
+    "decode_tps": 30.96,
+    "prefill_tps": 1.6,
+    "prompt_tokens": 126,
+    "cached_tokens": null,
+    "completion_tokens": 1536,
+    "finish_reason": "length",
+    "chunks": 463,
+    "reasoning_chars": 5459,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 0,
+    "text_sha256": "e3b0c44298fc1c14",
+    "text_preview": "",
+    "kind": "coding",
+    "worker": 0,
+    "t_end": 163.7
+   },
+   {
+    "name": "soak-short-3-2",
+    "wall_s": 51.28,
+    "ttft_s": 51.187,
+    "decode_tps": 21.54,
+    "prefill_tps": 0.4,
+    "prompt_tokens": 18,
+    "cached_tokens": null,
+    "completion_tokens": 3,
+    "finish_reason": "stop",
+    "chunks": 2,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 3,
+    "text_sha256": "a934c244755c66ae",
+    "text_preview": "391",
+    "kind": "short",
+    "worker": 3,
+    "t_end": 165.5
+   },
+   {
+    "name": "soak-long_prompt-2-1",
+    "wall_s": 132.445,
+    "ttft_s": 132.352,
+    "decode_tps": 32.23,
+    "prefill_tps": 181.8,
+    "prompt_tokens": 24059,
+    "cached_tokens": null,
+    "completion_tokens": 4,
+    "finish_reason": "stop",
+    "chunks": 2,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 6,
+    "text_sha256": "f53a91353982251b",
+    "text_preview": "RX-127",
+    "kind": "long_prompt",
+    "worker": 2,
+    "t_end": 165.5
+   },
+   {
+    "name": "soak-medium_gen-0-2",
+    "wall_s": 36.221,
+    "ttft_s": 3.638,
+    "decode_tps": 31.4,
+    "prefill_tps": 6.0,
+    "prompt_tokens": 22,
+    "cached_tokens": null,
+    "completion_tokens": 1024,
+    "finish_reason": "length",
+    "chunks": 421,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 5247,
+    "text_sha256": "b3e2625d265796b1",
+    "text_preview": "# RDMA vs. TCP: A Detailed Comparison\n\nRemote Direct Memory Access (RDMA) and Transmission Control Protocol (TCP) repres",
+    "kind": "medium_gen",
+    "worker": 0,
+    "t_end": 199.9
+   },
+   {
+    "name": "soak-short-2-2",
+    "wall_s": 36.141,
+    "ttft_s": 36.057,
+    "decode_tps": 11.89,
+    "prefill_tps": 0.3,
+    "prompt_tokens": 12,
+    "cached_tokens": null,
+    "completion_tokens": 2,
+    "finish_reason": "stop",
+    "chunks": 1,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 5,
+    "text_sha256": "c2e3ac47f4a32546",
+    "text_preview": "READY",
+    "kind": "short",
+    "worker": 2,
+    "t_end": 201.6
+   },
+   {
+    "name": "soak-coding-3-3",
+    "wall_s": 80.376,
+    "ttft_s": 37.943,
+    "decode_tps": 36.17,
+    "prefill_tps": 1.1,
+    "prompt_tokens": 40,
+    "cached_tokens": null,
+    "completion_tokens": 1536,
+    "finish_reason": "length",
+    "chunks": 529,
+    "reasoning_chars": 6232,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 0,
+    "text_sha256": "e3b0c44298fc1c14",
+    "text_preview": "",
+    "kind": "coding",
+    "worker": 3,
+    "t_end": 245.9
+   },
+   {
+    "name": "soak-short-2-3",
+    "wall_s": 59.385,
+    "ttft_s": 59.302,
+    "decode_tps": 24.1,
+    "prefill_tps": 0.3,
+    "prompt_tokens": 18,
+    "cached_tokens": null,
+    "completion_tokens": 3,
+    "finish_reason": "stop",
+    "chunks": 2,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 3,
+    "text_sha256": "a934c244755c66ae",
+    "text_preview": "391",
+    "kind": "short",
+    "worker": 2,
+    "t_end": 261.0
+   },
+   {
+    "name": "soak-long_prompt-1-2",
+    "wall_s": 101.899,
+    "ttft_s": 101.801,
+    "decode_tps": 30.72,
+    "prefill_tps": 235.9,
+    "prompt_tokens": 24016,
+    "cached_tokens": null,
+    "completion_tokens": 4,
+    "finish_reason": "stop",
+    "chunks": 2,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 6,
+    "text_sha256": "3a5fe0d01ec17700",
+    "text_preview": "RX-217",
+    "kind": "long_prompt",
+    "worker": 1,
+    "t_end": 262.9
+   },
+   {
+    "name": "soak-medium_gen-3-4",
+    "wall_s": 48.344,
+    "ttft_s": 16.955,
+    "decode_tps": 32.59,
+    "prefill_tps": 1.3,
+    "prompt_tokens": 22,
+    "cached_tokens": null,
+    "completion_tokens": 1024,
+    "finish_reason": "length",
+    "chunks": 406,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 5273,
+    "text_sha256": "352932335b64c954",
+    "text_preview": "# RDMA vs. TCP: A Deep Dive\n\nRemote Direct Memory Access (RDMA) and the Transmission Control Protocol (TCP) represent tw",
+    "kind": "medium_gen",
+    "worker": 3,
+    "t_end": 294.2
+   },
+   {
+    "name": "soak-coding-2-4",
+    "wall_s": 73.825,
+    "ttft_s": 34.907,
+    "decode_tps": 39.44,
+    "prefill_tps": 1.1,
+    "prompt_tokens": 40,
+    "cached_tokens": null,
+    "completion_tokens": 1536,
+    "finish_reason": "length",
+    "chunks": 485,
+    "reasoning_chars": 6498,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 0,
+    "text_sha256": "e3b0c44298fc1c14",
+    "text_preview": "",
+    "kind": "coding",
+    "worker": 2,
+    "t_end": 334.8
+   },
+   {
+    "name": "soak-short-1-3",
+    "wall_s": 73.67,
+    "ttft_s": 73.587,
+    "decode_tps": 12.03,
+    "prefill_tps": 0.2,
+    "prompt_tokens": 12,
+    "cached_tokens": null,
+    "completion_tokens": 2,
+    "finish_reason": "stop",
+    "chunks": 1,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 5,
+    "text_sha256": "c2e3ac47f4a32546",
+    "text_preview": "READY",
+    "kind": "short",
+    "worker": 1,
+    "t_end": 336.6
+   },
+   {
+    "name": "soak-medium_gen-2-5",
+    "wall_s": 50.514,
+    "ttft_s": 16.776,
+    "decode_tps": 30.32,
+    "prefill_tps": 1.3,
+    "prompt_tokens": 22,
+    "cached_tokens": null,
+    "completion_tokens": 1024,
+    "finish_reason": "length",
+    "chunks": 436,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 5158,
+    "text_sha256": "855c43e4cd0d1e1a",
+    "text_preview": "# RDMA vs. TCP: A Detailed Comparison\n\nRemote Direct Memory Access (RDMA) and Transmission Control Protocol (TCP) repres",
+    "kind": "medium_gen",
+    "worker": 2,
+    "t_end": 385.4
+   },
+   {
+    "name": "soak-short-1-4",
+    "wall_s": 50.682,
+    "ttft_s": 50.59,
+    "decode_tps": 21.83,
+    "prefill_tps": 0.4,
+    "prompt_tokens": 18,
+    "cached_tokens": null,
+    "completion_tokens": 3,
+    "finish_reason": "stop",
+    "chunks": 2,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 3,
+    "text_sha256": "a934c244755c66ae",
+    "text_preview": "391",
+    "kind": "short",
+    "worker": 1,
+    "t_end": 387.3
+   },
+   {
+    "name": "soak-long_prompt-0-3",
+    "wall_s": 187.353,
+    "ttft_s": 187.261,
+    "decode_tps": 43.61,
+    "prefill_tps": 128.8,
+    "prompt_tokens": 24118,
+    "cached_tokens": null,
+    "completion_tokens": 5,
+    "finish_reason": "stop",
+    "chunks": 2,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 6,
+    "text_sha256": "f8f958b9e46d759a",
+    "text_preview": "RX-307",
+    "kind": "long_prompt",
+    "worker": 0,
+    "t_end": 387.3
+   },
+   {
+    "name": "soak-long_prompt-3-5",
+    "wall_s": 113.444,
+    "ttft_s": 113.301,
+    "decode_tps": 27.87,
+    "prefill_tps": 213.6,
+    "prompt_tokens": 24196,
+    "cached_tokens": null,
+    "completion_tokens": 5,
+    "finish_reason": "stop",
+    "chunks": 2,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 6,
+    "text_sha256": "3277429af2e0dbec",
+    "text_preview": "RX-537",
+    "kind": "long_prompt",
+    "worker": 3,
+    "t_end": 407.7
+   },
+   {
+    "name": "soak-coding-1-5",
+    "wall_s": 79.212,
+    "ttft_s": 38.855,
+    "decode_tps": 38.04,
+    "prefill_tps": 1.0,
+    "prompt_tokens": 40,
+    "cached_tokens": null,
+    "completion_tokens": 1536,
+    "finish_reason": "length",
+    "chunks": 505,
+    "reasoning_chars": 6082,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 0,
+    "text_sha256": "e3b0c44298fc1c14",
+    "text_preview": "",
+    "kind": "coding",
+    "worker": 1,
+    "t_end": 466.5
+   },
+   {
+    "name": "soak-long_prompt-2-6",
+    "wall_s": 83.164,
+    "ttft_s": 83.022,
+    "decode_tps": 28.31,
+    "prefill_tps": 289.6,
+    "prompt_tokens": 24044,
+    "cached_tokens": null,
+    "completion_tokens": 5,
+    "finish_reason": "stop",
+    "chunks": 2,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 6,
+    "text_sha256": "c0a545e84c12dad0",
+    "text_preview": "RX-627",
+    "kind": "long_prompt",
+    "worker": 2,
+    "t_end": 468.5
+   },
+   {
+    "name": "soak-short-0-4",
+    "wall_s": 83.259,
+    "ttft_s": 83.149,
+    "decode_tps": 9.11,
+    "prefill_tps": 0.1,
+    "prompt_tokens": 12,
+    "cached_tokens": null,
+    "completion_tokens": 2,
+    "finish_reason": "stop",
+    "chunks": 1,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 5,
+    "text_sha256": "c2e3ac47f4a32546",
+    "text_preview": "READY",
+    "kind": "short",
+    "worker": 0,
+    "t_end": 470.5
+   },
+   {
+    "name": "soak-short-3-6",
+    "wall_s": 64.041,
+    "ttft_s": 62.743,
+    "decode_tps": 33.13,
+    "prefill_tps": 0.3,
+    "prompt_tokens": 16,
+    "cached_tokens": null,
+    "completion_tokens": 44,
+    "finish_reason": "stop",
+    "chunks": 17,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 284,
+    "text_sha256": "2ee13914bc6e2b97",
+    "text_preview": "Tensor parallelism is a technique for distributing large neural network computations across multiple devices by splittin",
+    "kind": "short",
+    "worker": 3,
+    "t_end": 471.7
+   },
+   {
+    "name": "soak-medium_gen-1-6",
+    "wall_s": 49.466,
+    "ttft_s": 15.758,
+    "decode_tps": 30.35,
+    "prefill_tps": 1.4,
+    "prompt_tokens": 22,
+    "cached_tokens": null,
+    "completion_tokens": 1024,
+    "finish_reason": "length",
+    "chunks": 438,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 5229,
+    "text_sha256": "7fa1352bf2b5c83a",
+    "text_preview": "# RDMA vs. TCP: A Detailed Comparison\n\nRemote Direct Memory Access (RDMA) and Transmission Control Protocol (TCP) repres",
+    "kind": "medium_gen",
+    "worker": 1,
+    "t_end": 515.9
+   },
+   {
+    "name": "soak-short-2-7",
+    "wall_s": 50.915,
+    "ttft_s": 49.2,
+    "decode_tps": 25.07,
+    "prefill_tps": 0.3,
+    "prompt_tokens": 16,
+    "cached_tokens": null,
+    "completion_tokens": 44,
+    "finish_reason": "stop",
+    "chunks": 17,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 284,
+    "text_sha256": "2ee13914bc6e2b97",
+    "text_preview": "Tensor parallelism is a technique for distributing large neural network computations across multiple devices by splittin",
+    "kind": "short",
+    "worker": 2,
+    "t_end": 519.4
+   },
+   {
+    "name": "soak-short-0-5",
+    "wall_s": 55.98,
+    "ttft_s": 55.897,
+    "decode_tps": 24.11,
+    "prefill_tps": 0.3,
+    "prompt_tokens": 18,
+    "cached_tokens": null,
+    "completion_tokens": 3,
+    "finish_reason": "stop",
+    "chunks": 2,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 3,
+    "text_sha256": "a934c244755c66ae",
+    "text_preview": "391",
+    "kind": "short",
+    "worker": 0,
+    "t_end": 526.5
+   },
+   {
+    "name": "soak-short-3-7",
+    "wall_s": 65.427,
+    "ttft_s": 65.343,
+    "decode_tps": 11.94,
+    "prefill_tps": 0.3,
+    "prompt_tokens": 18,
+    "cached_tokens": null,
+    "completion_tokens": 2,
+    "finish_reason": "stop",
+    "chunks": 1,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 5,
+    "text_sha256": "5dd272b4f316b776",
+    "text_preview": "Paris",
+    "kind": "short",
+    "worker": 3,
+    "t_end": 537.1
+   },
+   {
+    "name": "soak-short-2-8",
+    "wall_s": 528.914,
+    "ttft_s": 528.797,
+    "decode_tps": 8.55,
+    "prefill_tps": 0.0,
+    "prompt_tokens": 18,
+    "cached_tokens": null,
+    "completion_tokens": 2,
+    "finish_reason": "stop",
+    "chunks": 1,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 5,
+    "text_sha256": "5dd272b4f316b776",
+    "text_preview": "Paris",
+    "kind": "short",
+    "worker": 2,
+    "t_end": 1048.4
+   },
+   {
+    "name": "soak-coding-0-6",
+    "wall_s": 617.747,
+    "ttft_s": 572.491,
+    "decode_tps": 33.92,
+    "prefill_tps": 0.1,
+    "prompt_tokens": 40,
+    "cached_tokens": null,
+    "completion_tokens": 1536,
+    "finish_reason": "length",
+    "chunks": 518,
+    "reasoning_chars": 6228,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 0,
+    "text_sha256": "e3b0c44298fc1c14",
+    "text_preview": "",
+    "kind": "coding",
+    "worker": 0,
+    "t_end": 1144.3
+   },
+   {
+    "name": "soak-long_prompt-1-7",
+    "wall_s": 630.111,
+    "ttft_s": 630.041,
+    "decode_tps": 57.07,
+    "prefill_tps": 38.2,
+    "prompt_tokens": 24064,
+    "cached_tokens": null,
+    "completion_tokens": 5,
+    "finish_reason": "stop",
+    "chunks": 2,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 6,
+    "text_sha256": "b1295a2b31d89648",
+    "text_preview": "RX-717",
+    "kind": "long_prompt",
+    "worker": 1,
+    "t_end": 1146.1
+   },
+   {
+    "name": "soak-coding-3-8",
+    "wall_s": 639.56,
+    "ttft_s": 610.693,
+    "decode_tps": 53.17,
+    "prefill_tps": 0.2,
+    "prompt_tokens": 140,
+    "cached_tokens": null,
+    "completion_tokens": 1536,
+    "finish_reason": "length",
+    "chunks": 307,
+    "reasoning_chars": 4458,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 0,
+    "text_sha256": "e3b0c44298fc1c14",
+    "text_preview": "",
+    "kind": "coding",
+    "worker": 3,
+    "t_end": 1176.7
+   },
+   {
+    "name": "soak-short-1-8",
+    "wall_s": 128.863,
+    "ttft_s": 126.882,
+    "decode_tps": 21.2,
+    "prefill_tps": 0.1,
+    "prompt_tokens": 16,
+    "cached_tokens": null,
+    "completion_tokens": 43,
+    "finish_reason": "stop",
+    "chunks": 19,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 292,
+    "text_sha256": "62add90b2711127a",
+    "text_preview": "Tensor parallelism is a technique for distributing large neural network computations across multiple devices by splittin",
+    "kind": "short",
+    "worker": 1,
+    "t_end": 1274.9
+   },
+   {
+    "name": "soak-medium_gen-0-7",
+    "wall_s": 165.394,
+    "ttft_s": 128.717,
+    "decode_tps": 27.89,
+    "prefill_tps": 0.2,
+    "prompt_tokens": 22,
+    "cached_tokens": null,
+    "completion_tokens": 1024,
+    "finish_reason": "length",
+    "chunks": 417,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 5348,
+    "text_sha256": "75b8180d747c89b9",
+    "text_preview": "# RDMA vs. TCP: A Deep Dive\n\nRemote Direct Memory Access (RDMA) and the Transmission Control Protocol (TCP) represent tw",
+    "kind": "medium_gen",
+    "worker": 0,
+    "t_end": 1309.6
+   },
+   {
+    "name": "soak-short-1-9",
+    "wall_s": 35.419,
+    "ttft_s": 35.294,
+    "decode_tps": 8.0,
+    "prefill_tps": 0.5,
+    "prompt_tokens": 18,
+    "cached_tokens": null,
+    "completion_tokens": 2,
+    "finish_reason": "stop",
+    "chunks": 1,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 5,
+    "text_sha256": "5dd272b4f316b776",
+    "text_preview": "Paris",
+    "kind": "short",
+    "worker": 1,
+    "t_end": 1310.4
+   },
+   {
+    "name": "soak-coding-2-9",
+    "wall_s": 303.841,
+    "ttft_s": 261.879,
+    "decode_tps": 36.58,
+    "prefill_tps": 0.5,
+    "prompt_tokens": 140,
+    "cached_tokens": null,
+    "completion_tokens": 1536,
+    "finish_reason": "length",
+    "chunks": 312,
+    "reasoning_chars": 4501,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 0,
+    "text_sha256": "e3b0c44298fc1c14",
+    "text_preview": "",
+    "kind": "coding",
+    "worker": 2,
+    "t_end": 1352.2
+   },
+   {
+    "name": "soak-medium_gen-3-9",
+    "wall_s": 183.222,
+    "ttft_s": 133.542,
+    "decode_tps": 20.59,
+    "prefill_tps": 0.2,
+    "prompt_tokens": 22,
+    "cached_tokens": null,
+    "completion_tokens": 1024,
+    "finish_reason": "length",
+    "chunks": 412,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 5560,
+    "text_sha256": "42df405335918036",
+    "text_preview": "# RDMA vs. TCP: A Detailed Comparison\n\nRemote Direct Memory Access (RDMA) and the Transmission Control Protocol (TCP) re",
+    "kind": "medium_gen",
+    "worker": 3,
+    "t_end": 1359.9
+   },
+   {
+    "name": "soak-medium_gen-2-10",
+    "wall_s": 65.491,
+    "ttft_s": 34.317,
+    "decode_tps": 32.82,
+    "prefill_tps": 0.6,
+    "prompt_tokens": 22,
+    "cached_tokens": null,
+    "completion_tokens": 1024,
+    "finish_reason": "length",
+    "chunks": 403,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 5352,
+    "text_sha256": "8be0f808ffcb6e52",
+    "text_preview": "# RDMA vs. TCP: A Deep Dive\n\nRemote Direct Memory Access (RDMA) and the Transmission Control Protocol (TCP) represent tw",
+    "kind": "medium_gen",
+    "worker": 2,
+    "t_end": 1417.7
+   },
+   {
+    "name": "soak-long_prompt-0-8",
+    "wall_s": 111.311,
+    "ttft_s": 110.839,
+    "decode_tps": 8.47,
+    "prefill_tps": 217.3,
+    "prompt_tokens": 24090,
+    "cached_tokens": null,
+    "completion_tokens": 5,
+    "finish_reason": "stop",
+    "chunks": 2,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 6,
+    "text_sha256": "984021ddec6f8521",
+    "text_preview": "RX-807",
+    "kind": "long_prompt",
+    "worker": 0,
+    "t_end": 1421.0
+   },
+   {
+    "name": "soak-coding-1-10",
+    "wall_s": 139.666,
+    "ttft_s": 110.136,
+    "decode_tps": 51.98,
+    "prefill_tps": 1.3,
+    "prompt_tokens": 140,
+    "cached_tokens": null,
+    "completion_tokens": 1536,
+    "finish_reason": "length",
+    "chunks": 323,
+    "reasoning_chars": 4742,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 0,
+    "text_sha256": "e3b0c44298fc1c14",
+    "text_preview": "",
+    "kind": "coding",
+    "worker": 1,
+    "t_end": 1450.0
+   },
+   {
+    "name": "soak-short-0-9",
+    "wall_s": 53.378,
+    "ttft_s": 52.354,
+    "decode_tps": 40.02,
+    "prefill_tps": 0.3,
+    "prompt_tokens": 16,
+    "cached_tokens": null,
+    "completion_tokens": 42,
+    "finish_reason": "stop",
+    "chunks": 14,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 265,
+    "text_sha256": "c4fa2d15d22d4f20",
+    "text_preview": "Tensor parallelism is a technique for distributing large neural network computations across multiple devices by splittin",
+    "kind": "short",
+    "worker": 0,
+    "t_end": 1474.4
+   },
+   {
+    "name": "soak-long_prompt-3-10",
+    "wall_s": 116.341,
+    "ttft_s": 116.201,
+    "decode_tps": 28.57,
+    "prefill_tps": 207.4,
+    "prompt_tokens": 24104,
+    "cached_tokens": null,
+    "completion_tokens": 5,
+    "finish_reason": "stop",
+    "chunks": 3,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 7,
+    "text_sha256": "7e4e412744153c57",
+    "text_preview": "RX-1037",
+    "kind": "long_prompt",
+    "worker": 3,
+    "t_end": 1476.3
+   },
+   {
+    "name": "soak-short-0-10",
+    "wall_s": 3.824,
+    "ttft_s": 3.716,
+    "decode_tps": 9.28,
+    "prefill_tps": 4.8,
+    "prompt_tokens": 18,
+    "cached_tokens": null,
+    "completion_tokens": 2,
+    "finish_reason": "stop",
+    "chunks": 1,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 5,
+    "text_sha256": "5dd272b4f316b776",
+    "text_preview": "Paris",
+    "kind": "short",
+    "worker": 0,
+    "t_end": 1478.2
+   },
+   {
+    "name": "soak-medium_gen-1-11",
+    "wall_s": 63.093,
+    "ttft_s": 28.036,
+    "decode_tps": 29.18,
+    "prefill_tps": 0.8,
+    "prompt_tokens": 22,
+    "cached_tokens": null,
+    "completion_tokens": 1024,
+    "finish_reason": "length",
+    "chunks": 414,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 5336,
+    "text_sha256": "f5e99c6ad6fe7b93",
+    "text_preview": "# RDMA vs. TCP: A Deep Dive\n\nRemote Direct Memory Access (RDMA) and the Transmission Control Protocol (TCP) represent tw",
+    "kind": "medium_gen",
+    "worker": 1,
+    "t_end": 1513.1
+   },
+   {
+    "name": "soak-short-3-11",
+    "wall_s": 39.761,
+    "ttft_s": 39.679,
+    "decode_tps": 12.26,
+    "prefill_tps": 0.3,
+    "prompt_tokens": 12,
+    "cached_tokens": null,
+    "completion_tokens": 2,
+    "finish_reason": "stop",
+    "chunks": 1,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 5,
+    "text_sha256": "c2e3ac47f4a32546",
+    "text_preview": "READY",
+    "kind": "short",
+    "worker": 3,
+    "t_end": 1516.1
+   },
+   {
+    "name": "soak-short-3-12",
+    "wall_s": 15.081,
+    "ttft_s": 14.997,
+    "decode_tps": 23.78,
+    "prefill_tps": 1.2,
+    "prompt_tokens": 18,
+    "cached_tokens": null,
+    "completion_tokens": 3,
+    "finish_reason": "stop",
+    "chunks": 2,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 3,
+    "text_sha256": "a934c244755c66ae",
+    "text_preview": "391",
+    "kind": "short",
+    "worker": 3,
+    "t_end": 1531.1
+   },
+   {
+    "name": "soak-long_prompt-2-11",
+    "wall_s": 115.346,
+    "ttft_s": 115.143,
+    "decode_tps": 19.77,
+    "prefill_tps": 208.8,
+    "prompt_tokens": 24038,
+    "cached_tokens": null,
+    "completion_tokens": 5,
+    "finish_reason": "stop",
+    "chunks": 3,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 7,
+    "text_sha256": "1c73cf9b75b32871",
+    "text_preview": "RX-1127",
+    "kind": "long_prompt",
+    "worker": 2,
+    "t_end": 1533.1
+   },
+   {
+    "name": "soak-coding-0-11",
+    "wall_s": 83.27,
+    "ttft_s": 54.688,
+    "decode_tps": 53.7,
+    "prefill_tps": 2.6,
+    "prompt_tokens": 140,
+    "cached_tokens": null,
+    "completion_tokens": 1536,
+    "finish_reason": "length",
+    "chunks": 303,
+    "reasoning_chars": 4460,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 0,
+    "text_sha256": "e3b0c44298fc1c14",
+    "text_preview": "",
+    "kind": "coding",
+    "worker": 0,
+    "t_end": 1561.4
+   },
+   {
+    "name": "soak-short-2-12",
+    "wall_s": 46.295,
+    "ttft_s": 46.156,
+    "decode_tps": 7.2,
+    "prefill_tps": 0.3,
+    "prompt_tokens": 12,
+    "cached_tokens": null,
+    "completion_tokens": 2,
+    "finish_reason": "stop",
+    "chunks": 1,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 5,
+    "text_sha256": "c2e3ac47f4a32546",
+    "text_preview": "READY",
+    "kind": "short",
+    "worker": 2,
+    "t_end": 1579.4
+   },
+   {
+    "name": "soak-medium_gen-0-12",
+    "wall_s": 66.93,
+    "ttft_s": 17.776,
+    "decode_tps": 20.81,
+    "prefill_tps": 1.2,
+    "prompt_tokens": 22,
+    "cached_tokens": null,
+    "completion_tokens": 1024,
+    "finish_reason": "length",
+    "chunks": 412,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 5323,
+    "text_sha256": "fde607167d7c3765",
+    "text_preview": "# RDMA vs. TCP: A Deep Dive\n\nRemote Direct Memory Access (RDMA) and the Transmission Control Protocol (TCP) represent tw",
+    "kind": "medium_gen",
+    "worker": 0,
+    "t_end": 1628.4
+   },
+   {
+    "name": "soak-coding-3-13",
+    "wall_s": 101.858,
+    "ttft_s": 48.093,
+    "decode_tps": 28.55,
+    "prefill_tps": 2.6,
+    "prompt_tokens": 126,
+    "cached_tokens": null,
+    "completion_tokens": 1536,
+    "finish_reason": "length",
+    "chunks": 470,
+    "reasoning_chars": 5141,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 0,
+    "text_sha256": "e3b0c44298fc1c14",
+    "text_preview": "",
+    "kind": "coding",
+    "worker": 3,
+    "t_end": 1633.0
+   },
+   {
+    "name": "soak-short-2-13",
+    "wall_s": 55.784,
+    "ttft_s": 55.6,
+    "decode_tps": 10.9,
+    "prefill_tps": 0.3,
+    "prompt_tokens": 18,
+    "cached_tokens": null,
+    "completion_tokens": 3,
+    "finish_reason": "stop",
+    "chunks": 2,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 3,
+    "text_sha256": "a934c244755c66ae",
+    "text_preview": "391",
+    "kind": "short",
+    "worker": 2,
+    "t_end": 1635.1
+   },
+   {
+    "name": "soak-long_prompt-1-12",
+    "wall_s": 122.175,
+    "ttft_s": 121.809,
+    "decode_tps": 10.94,
+    "prefill_tps": 197.9,
+    "prompt_tokens": 24100,
+    "cached_tokens": null,
+    "completion_tokens": 5,
+    "finish_reason": "stop",
+    "chunks": 3,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 7,
+    "text_sha256": "caed96e6b8f476e2",
+    "text_preview": "RX-1217",
+    "kind": "long_prompt",
+    "worker": 1,
+    "t_end": 1635.3
+   },
+   {
+    "name": "soak-medium_gen-3-14",
+    "wall_s": 39.951,
+    "ttft_s": 5.567,
+    "decode_tps": 29.75,
+    "prefill_tps": 4.0,
+    "prompt_tokens": 22,
+    "cached_tokens": null,
+    "completion_tokens": 1024,
+    "finish_reason": "length",
+    "chunks": 411,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 5253,
+    "text_sha256": "da3800a53f9158e6",
+    "text_preview": "# RDMA vs. TCP: A Detailed Comparison\n\nRemote Direct Memory Access (RDMA) and the Transmission Control Protocol (TCP) re",
+    "kind": "medium_gen",
+    "worker": 3,
+    "t_end": 1672.9
+   },
+   {
+    "name": "soak-short-1-13",
+    "wall_s": 61.144,
+    "ttft_s": 61.028,
+    "decode_tps": 8.6,
+    "prefill_tps": 0.2,
+    "prompt_tokens": 12,
+    "cached_tokens": null,
+    "completion_tokens": 2,
+    "finish_reason": "stop",
+    "chunks": 1,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 5,
+    "text_sha256": "c2e3ac47f4a32546",
+    "text_preview": "READY",
+    "kind": "short",
+    "worker": 1,
+    "t_end": 1696.5
+   },
+   {
+    "name": "soak-coding-2-14",
+    "wall_s": 104.097,
+    "ttft_s": 61.21,
+    "decode_tps": 35.79,
+    "prefill_tps": 2.1,
+    "prompt_tokens": 126,
+    "cached_tokens": null,
+    "completion_tokens": 1536,
+    "finish_reason": "length",
+    "chunks": 488,
+    "reasoning_chars": 5190,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 0,
+    "text_sha256": "e3b0c44298fc1c14",
+    "text_preview": "",
+    "kind": "coding",
+    "worker": 2,
+    "t_end": 1739.2
+   },
+   {
+    "name": "soak-long_prompt-0-13",
+    "wall_s": 112.777,
+    "ttft_s": 112.624,
+    "decode_tps": 26.2,
+    "prefill_tps": 214.1,
+    "prompt_tokens": 24114,
+    "cached_tokens": null,
+    "completion_tokens": 5,
+    "finish_reason": "stop",
+    "chunks": 2,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 7,
+    "text_sha256": "6fc085edf58dc7df",
+    "text_preview": "RX-1307",
+    "kind": "long_prompt",
+    "worker": 0,
+    "t_end": 1741.2
+   },
+   {
+    "name": "soak-short-1-14",
+    "wall_s": 46.608,
+    "ttft_s": 46.496,
+    "decode_tps": 17.84,
+    "prefill_tps": 0.4,
+    "prompt_tokens": 18,
+    "cached_tokens": null,
+    "completion_tokens": 3,
+    "finish_reason": "stop",
+    "chunks": 2,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 3,
+    "text_sha256": "a934c244755c66ae",
+    "text_preview": "391",
+    "kind": "short",
+    "worker": 1,
+    "t_end": 1743.1
+   },
+   {
+    "name": "soak-medium_gen-2-15",
+    "wall_s": 40.684,
+    "ttft_s": 3.726,
+    "decode_tps": 27.68,
+    "prefill_tps": 5.9,
+    "prompt_tokens": 22,
+    "cached_tokens": null,
+    "completion_tokens": 1024,
+    "finish_reason": "length",
+    "chunks": 425,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 5360,
+    "text_sha256": "7ef4cec3e108edb1",
+    "text_preview": "# RDMA vs. TCP: A Detailed Comparison\n\nRemote Direct Memory Access (RDMA) and Transmission Control Protocol (TCP) repres",
+    "kind": "medium_gen",
+    "worker": 2,
+    "t_end": 1779.9
+   },
+   {
+    "name": "soak-short-0-14",
+    "wall_s": 40.49,
+    "ttft_s": 40.408,
+    "decode_tps": 12.16,
+    "prefill_tps": 0.3,
+    "prompt_tokens": 12,
+    "cached_tokens": null,
+    "completion_tokens": 2,
+    "finish_reason": "stop",
+    "chunks": 1,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 5,
+    "text_sha256": "c2e3ac47f4a32546",
+    "text_preview": "READY",
+    "kind": "short",
+    "worker": 0,
+    "t_end": 1781.7
+   },
+   {
+    "name": "soak-short-0-15",
+    "wall_s": 15.06,
+    "ttft_s": 14.94,
+    "decode_tps": 16.65,
+    "prefill_tps": 1.2,
+    "prompt_tokens": 18,
+    "cached_tokens": null,
+    "completion_tokens": 3,
+    "finish_reason": "stop",
+    "chunks": 2,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 3,
+    "text_sha256": "a934c244755c66ae",
+    "text_preview": "391",
+    "kind": "short",
+    "worker": 0,
+    "t_end": 1796.7
+   },
+   {
+    "name": "soak-coding-1-15",
+    "wall_s": 94.571,
+    "ttft_s": 53.529,
+    "decode_tps": 37.4,
+    "prefill_tps": 2.4,
+    "prompt_tokens": 126,
+    "cached_tokens": null,
+    "completion_tokens": 1536,
+    "finish_reason": "length",
+    "chunks": 464,
+    "reasoning_chars": 5285,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 0,
+    "text_sha256": "e3b0c44298fc1c14",
+    "text_preview": "",
+    "kind": "coding",
+    "worker": 1,
+    "t_end": 1837.7
+   },
+   {
+    "name": "soak-long_prompt-3-15",
+    "wall_s": 166.507,
+    "ttft_s": 166.362,
+    "decode_tps": 27.68,
+    "prefill_tps": 145.3,
+    "prompt_tokens": 24165,
+    "cached_tokens": null,
+    "completion_tokens": 5,
+    "finish_reason": "stop",
+    "chunks": 2,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 7,
+    "text_sha256": "d26af09f030edf08",
+    "text_preview": "RX-1537",
+    "kind": "long_prompt",
+    "worker": 3,
+    "t_end": 1839.5
+   },
+   {
+    "name": "soak-coding-0-16",
+    "wall_s": 106.358,
+    "ttft_s": 65.561,
+    "decode_tps": 37.63,
+    "prefill_tps": 1.9,
+    "prompt_tokens": 126,
+    "cached_tokens": null,
+    "completion_tokens": 1536,
+    "finish_reason": "length",
+    "chunks": 476,
+    "reasoning_chars": 5272,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 0,
+    "text_sha256": "e3b0c44298fc1c14",
+    "text_preview": "",
+    "kind": "coding",
+    "worker": 0,
+    "t_end": 1903.1
+   },
+   {
+    "name": "soak-long_prompt-2-16",
+    "wall_s": 123.786,
+    "ttft_s": 123.556,
+    "decode_tps": 17.38,
+    "prefill_tps": 195.0,
+    "prompt_tokens": 24092,
+    "cached_tokens": null,
+    "completion_tokens": 5,
+    "finish_reason": "stop",
+    "chunks": 3,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 7,
+    "text_sha256": "ca6e5922ba9fcf7b",
+    "text_preview": "RX-1627",
+    "kind": "long_prompt",
+    "worker": 2,
+    "t_end": 1903.7
+   }
+  ]
+ },
+ "sanity_end": {
+  "exact_json": true,
+  "normal_eos": true,
+  "tool_call": true,
+  "json_schema": true,
+  "json_schema_text": "{\"host\":\"spark-f1cc\",\"healthy\":true,\"ranks\":4}",
+  "all_pass": true
+ },
+ "metrics_after": {
+  "running": 0.0,
+  "waiting": 0.0,
+  "kv_usage": 0.0,
+  "prefix_queries": 1309880.0,
+  "prefix_hits": 365568.0,
+  "spec_accepted": 84028.0,
+  "spec_drafts": 194654.0
+ },
+ "memory_after": {
+  "r0": {
+   "MemAvailable_GiB": 2.22,
+   "SwapFree_GiB": 8.79
+  },
+  "r1": {
+   "MemAvailable_GiB": 2.34,
+   "SwapFree_GiB": 11.5
+  },
+  "r2": {
+   "MemAvailable_GiB": 2.97,
+   "SwapFree_GiB": 11.09
+  },
+  "r3": {
+   "MemAvailable_GiB": 1.29,
+   "SwapFree_GiB": 11.71
+  }
+ },
+ "finished": "2026-09-02T13:09:12Z"
+}

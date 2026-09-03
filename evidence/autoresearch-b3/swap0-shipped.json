@@ -1,0 +1,1376 @@
+{
+ "label": "swap0-shipped",
+ "url": "http://127.0.0.1:8890/v1",
+ "salt": "20260902T215713Z",
+ "started": "2026-09-02T21:57:13Z",
+ "models": [
+  "GLM-5.3-Flash-EXL3"
+ ],
+ "soak_min": 30.0,
+ "cold_tokens_target": 64000,
+ "metrics_before": {
+  "running": 0.0,
+  "waiting": 0.0,
+  "kv_usage": 0.0,
+  "prefix_queries": 0.0,
+  "prefix_hits": 0.0,
+  "spec_accepted": 0.0,
+  "spec_drafts": 0.0,
+  "requests_total": 0.0
+ },
+ "memory_before": {
+  "r0": {
+   "MemAvailable_GiB": 9.74,
+   "SwapFree_GiB": 15.25,
+   "clock_mhz": 2411,
+   "gpu_util": 0
+  },
+  "r1": {
+   "MemAvailable_GiB": 13.95,
+   "SwapFree_GiB": 15.34,
+   "clock_mhz": 2405,
+   "gpu_util": 0
+  },
+  "r2": {
+   "MemAvailable_GiB": 14.05,
+   "SwapFree_GiB": 15.5,
+   "clock_mhz": 2405,
+   "gpu_util": 0
+  },
+  "r3": {
+   "MemAvailable_GiB": 14.06,
+   "SwapFree_GiB": 15.51,
+   "clock_mhz": 2405,
+   "gpu_util": 0
+  }
+ },
+ "phases": [
+  "warmup",
+  "sanity",
+  "coding",
+  "longgen",
+  "cold",
+  "conc",
+  "cancel"
+ ],
+ "warmup": {
+  "requests": [
+   {
+    "name": "warm-think",
+    "wall_s": 10.95,
+    "ttft_s": 1.853,
+    "decode_tps": 28.03,
+    "prefill_tps": 29.7,
+    "prompt_tokens": 55,
+    "cached_tokens": null,
+    "completion_tokens": 256,
+    "finish_reason": "length",
+    "chunks": 89,
+    "reasoning_chars": 1054,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 0,
+    "text_sha256": "e3b0c44298fc1c14",
+    "text_preview": ""
+   },
+   {
+    "name": "warm-tools",
+    "wall_s": 4.844,
+    "ttft_s": 2.839,
+    "decode_tps": 31.42,
+    "prefill_tps": 196.9,
+    "prompt_tokens": 559,
+    "cached_tokens": null,
+    "completion_tokens": 64,
+    "finish_reason": "length",
+    "chunks": 18,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 257,
+    "text_sha256": "8ce3a2dc7e51a2ce",
+    "text_preview": "- search_notes \u2014 Search the knowledge base\n- read_file \u2014 Read a file\n- list_dir \u2014 List a directory\n- run_check \u2014 Run a h"
+   },
+   {
+    "name": "warm-gen",
+    "wall_s": 26.306,
+    "ttft_s": 0.322,
+    "decode_tps": 19.67,
+    "prefill_tps": 40.4,
+    "prompt_tokens": 13,
+    "cached_tokens": null,
+    "completion_tokens": 512,
+    "finish_reason": "length",
+    "chunks": 245,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 2739,
+    "text_sha256": "336fb8837ca03f51",
+    "text_preview": "# Switches: The Fundamental Mechanisms of Control\n\n## Introduction\n\nFew devices in human history have proven as quietly "
+   },
+   {
+    "name": "warm-12k",
+    "wall_s": 11.128,
+    "ttft_s": 11.028,
+    "decode_tps": 39.74,
+    "prefill_tps": 1090.8,
+    "prompt_tokens": 12029,
+    "cached_tokens": null,
+    "completion_tokens": 5,
+    "finish_reason": "stop",
+    "chunks": 2,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 6,
+    "text_sha256": "a1ea2828edca1246",
+    "text_preview": "WARM-1"
+   },
+   {
+    "name": "warm-12k-again",
+    "wall_s": 1.83,
+    "ttft_s": 1.534,
+    "decode_tps": 13.51,
+    "prefill_tps": 7840.4,
+    "prompt_tokens": 12026,
+    "cached_tokens": null,
+    "completion_tokens": 5,
+    "finish_reason": "stop",
+    "chunks": 3,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 6,
+    "text_sha256": "a1ea2828edca1246",
+    "text_preview": "WARM-1",
+    "prefix_hits_delta": 10752,
+    "prefix_queries_delta": 12058
+   }
+  ],
+  "shorts": {
+   "n": 55,
+   "errors": 0,
+   "completion_tokens": 1102,
+   "wall_s": {
+    "p50": 1.005,
+    "p95": 5.687,
+    "min": 0.41,
+    "max": 11.013
+   },
+   "ttft_s": {
+    "p50": 0.349,
+    "p95": 2.34,
+    "min": 0.273,
+    "max": 4.979
+   }
+  }
+ },
+ "phase_wall_s": {
+  "warmup": 56.2,
+  "sanity": 2.6,
+  "coding": 153.3,
+  "longgen": 142.7,
+  "cold": 64.9,
+  "conc": 50.5,
+  "cancel": 500.4
+ },
+ "memory_by_phase": {
+  "warmup": {
+   "r0": {
+    "MemAvailable_GiB": 9.62,
+    "SwapFree_GiB": 15.25,
+    "clock_mhz": 2476,
+    "gpu_util": 95
+   },
+   "r1": {
+    "MemAvailable_GiB": 13.04,
+    "SwapFree_GiB": 15.34,
+    "clock_mhz": 2405,
+    "gpu_util": 0
+   },
+   "r2": {
+    "MemAvailable_GiB": 13.7,
+    "SwapFree_GiB": 15.5,
+    "clock_mhz": 2398,
+    "gpu_util": 0
+   },
+   "r3": {
+    "MemAvailable_GiB": 13.75,
+    "SwapFree_GiB": 15.51,
+    "clock_mhz": 2411,
+    "gpu_util": 0
+   }
+  },
+  "sanity": {
+   "r0": {
+    "MemAvailable_GiB": 9.51,
+    "SwapFree_GiB": 15.25,
+    "clock_mhz": 2470,
+    "gpu_util": 0
+   },
+   "r1": {
+    "MemAvailable_GiB": 13.03,
+    "SwapFree_GiB": 15.34,
+    "clock_mhz": 2405,
+    "gpu_util": 0
+   },
+   "r2": {
+    "MemAvailable_GiB": 13.67,
+    "SwapFree_GiB": 15.5,
+    "clock_mhz": 2405,
+    "gpu_util": 0
+   },
+   "r3": {
+    "MemAvailable_GiB": 13.71,
+    "SwapFree_GiB": 15.51,
+    "clock_mhz": 2405,
+    "gpu_util": 0
+   }
+  },
+  "coding": {
+   "r0": {
+    "MemAvailable_GiB": 9.48,
+    "SwapFree_GiB": 15.26,
+    "clock_mhz": 2457,
+    "gpu_util": 95
+   },
+   "r1": {
+    "MemAvailable_GiB": 13.0,
+    "SwapFree_GiB": 15.34,
+    "clock_mhz": 2405,
+    "gpu_util": 70
+   },
+   "r2": {
+    "MemAvailable_GiB": 13.65,
+    "SwapFree_GiB": 15.51,
+    "clock_mhz": 2411,
+    "gpu_util": 0
+   },
+   "r3": {
+    "MemAvailable_GiB": 13.71,
+    "SwapFree_GiB": 15.52,
+    "clock_mhz": 2411,
+    "gpu_util": 0
+   }
+  },
+  "longgen": {
+   "r0": {
+    "MemAvailable_GiB": 9.46,
+    "SwapFree_GiB": 15.26,
+    "clock_mhz": 2476,
+    "gpu_util": 95
+   },
+   "r1": {
+    "MemAvailable_GiB": 12.98,
+    "SwapFree_GiB": 15.34,
+    "clock_mhz": 2405,
+    "gpu_util": 0
+   },
+   "r2": {
+    "MemAvailable_GiB": 13.64,
+    "SwapFree_GiB": 15.51,
+    "clock_mhz": 2398,
+    "gpu_util": 0
+   },
+   "r3": {
+    "MemAvailable_GiB": 13.71,
+    "SwapFree_GiB": 15.52,
+    "clock_mhz": 2411,
+    "gpu_util": 0
+   }
+  },
+  "cold": {
+   "r0": {
+    "MemAvailable_GiB": 9.39,
+    "SwapFree_GiB": 15.26,
+    "clock_mhz": 2450,
+    "gpu_util": 52
+   },
+   "r1": {
+    "MemAvailable_GiB": 12.93,
+    "SwapFree_GiB": 15.34,
+    "clock_mhz": 2405,
+    "gpu_util": 0
+   },
+   "r2": {
+    "MemAvailable_GiB": 13.65,
+    "SwapFree_GiB": 15.51,
+    "clock_mhz": 2398,
+    "gpu_util": 0
+   },
+   "r3": {
+    "MemAvailable_GiB": 13.39,
+    "SwapFree_GiB": 15.52,
+    "clock_mhz": 2411,
+    "gpu_util": 0
+   }
+  },
+  "conc": {
+   "r0": {
+    "MemAvailable_GiB": 9.39,
+    "SwapFree_GiB": 15.26,
+    "clock_mhz": 2457,
+    "gpu_util": 95
+   },
+   "r1": {
+    "MemAvailable_GiB": 12.94,
+    "SwapFree_GiB": 15.34,
+    "clock_mhz": 2411,
+    "gpu_util": 80
+   },
+   "r2": {
+    "MemAvailable_GiB": 13.63,
+    "SwapFree_GiB": 15.51,
+    "clock_mhz": 2411,
+    "gpu_util": 0
+   },
+   "r3": {
+    "MemAvailable_GiB": 13.18,
+    "SwapFree_GiB": 15.52,
+    "clock_mhz": 2411,
+    "gpu_util": 0
+   }
+  },
+  "cancel": {
+   "r0": {
+    "MemAvailable_GiB": 117.6,
+    "SwapFree_GiB": 15.26,
+    "clock_mhz": 208,
+    "gpu_util": 0
+   },
+   "r1": {
+    "MemAvailable_GiB": 12.93,
+    "SwapFree_GiB": 15.34,
+    "clock_mhz": 2548,
+    "gpu_util": 96
+   },
+   "r2": {
+    "MemAvailable_GiB": 13.61,
+    "SwapFree_GiB": 15.51,
+    "clock_mhz": 2554,
+    "gpu_util": 96
+   },
+   "r3": {
+    "MemAvailable_GiB": 13.6,
+    "SwapFree_GiB": 15.52,
+    "clock_mhz": 2535,
+    "gpu_util": 96
+   }
+  }
+ },
+ "sanity": {
+  "exact_json": true,
+  "normal_eos": true,
+  "tool_call": true,
+  "json_schema": true,
+  "json_schema_text": "{\"host\": \"spark-f1cc\", \"healthy\": true, \"ranks\": 4}",
+  "all_pass": true
+ },
+ "coding": {
+  "wall_s": 153.3,
+  "requests": {
+   "cron_digest": {
+    "name": "cron_digest",
+    "wall_s": 31.841,
+    "ttft_s": 22.051,
+    "decode_tps": 18.69,
+    "prefill_tps": 1117.9,
+    "prompt_tokens": 24651,
+    "cached_tokens": null,
+    "completion_tokens": 184,
+    "finish_reason": "stop",
+    "chunks": 86,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 1004,
+    "text_sha256": "10b4000cde140c0c",
+    "text_preview": "# Daily Operations Digest\n\n- **Journal volume:** The operations journal logged 178 sections over the last 24 hours, cove"
+   },
+   "go_bugfix": {
+    "name": "go_bugfix",
+    "wall_s": 129.002,
+    "ttft_s": 0.507,
+    "decode_tps": 23.9,
+    "prefill_tps": 305.6,
+    "prompt_tokens": 155,
+    "cached_tokens": null,
+    "completion_tokens": 3072,
+    "finish_reason": "length",
+    "chunks": 990,
+    "reasoning_chars": 8821,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 1268,
+    "text_sha256": "259f7bd08552929c",
+    "text_preview": "## Bugs\n\n1. **Unsorted input** \u2014 the loop assumes intervals arrive sorted by start; unsorted input produces garbage.\n2. "
+   },
+   "bash_review": {
+    "name": "bash_review",
+    "wall_s": 142.379,
+    "ttft_s": 3.849,
+    "decode_tps": 22.17,
+    "prefill_tps": 36.6,
+    "prompt_tokens": 141,
+    "cached_tokens": null,
+    "completion_tokens": 3072,
+    "finish_reason": "length",
+    "chunks": 1135,
+    "reasoning_chars": 10412,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 0,
+    "text_sha256": "e3b0c44298fc1c14",
+    "text_preview": ""
+   },
+   "py_lru_ttl": {
+    "name": "py_lru_ttl",
+    "wall_s": 151.09,
+    "ttft_s": 21.781,
+    "decode_tps": 23.75,
+    "prefill_tps": 2.5,
+    "prompt_tokens": 55,
+    "cached_tokens": null,
+    "completion_tokens": 3072,
+    "finish_reason": "length",
+    "chunks": 1246,
+    "reasoning_chars": 12500,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 0,
+    "text_sha256": "e3b0c44298fc1c14",
+    "text_preview": ""
+   }
+  },
+  "followups": {
+   "cron_digest": {
+    "name": "cron_digest-followup",
+    "wall_s": 2.38,
+    "ttft_s": 1.809,
+    "decode_tps": 26.26,
+    "prefill_tps": 13742.3,
+    "prompt_tokens": 24854,
+    "cached_tokens": null,
+    "completion_tokens": 16,
+    "finish_reason": "stop",
+    "chunks": 6,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 46,
+    "text_sha256": "18a1399e4a07309f",
+    "text_preview": "BK-77 finished at 03:12 and listed 4 archives.",
+    "prefix_hits_delta": 23296,
+    "prefix_queries_delta": 24854
+   },
+   "go_bugfix": {
+    "name": "go_bugfix-followup",
+    "wall_s": 3.917,
+    "ttft_s": 1.029,
+    "decode_tps": 20.43,
+    "prefill_tps": 566.5,
+    "prompt_tokens": 583,
+    "cached_tokens": null,
+    "completion_tokens": 60,
+    "finish_reason": "stop",
+    "chunks": 28,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 265,
+    "text_sha256": "5482103f7c16f52f",
+    "text_preview": "The riskiest part is the `sort.Slice` copy: it silently changes the function's contract from \"assumes sorted input\" to \"",
+    "prefix_hits_delta": 0,
+    "prefix_queries_delta": 583
+   },
+   "bash_review": {
+    "name": "bash_review-followup",
+    "wall_s": 2.086,
+    "ttft_s": 0.659,
+    "decode_tps": 27.33,
+    "prefill_tps": 244.3,
+    "prompt_tokens": 161,
+    "cached_tokens": null,
+    "completion_tokens": 40,
+    "finish_reason": "stop",
+    "chunks": 17,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 159,
+    "text_sha256": "891fd342666ee424",
+    "text_preview": "The riskiest part is the `find . -name \"*.tmp\" -exec rm {} \\;` deletion step, since a quoting or path mistake there coul",
+    "prefix_hits_delta": 0,
+    "prefix_queries_delta": 161
+   },
+   "py_lru_ttl": {
+    "name": "py_lru_ttl-followup",
+    "wall_s": 2.211,
+    "ttft_s": 0.283,
+    "decode_tps": 28.53,
+    "prefill_tps": 264.7,
+    "prompt_tokens": 75,
+    "cached_tokens": null,
+    "completion_tokens": 56,
+    "finish_reason": "stop",
+    "chunks": 31,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 258,
+    "text_sha256": "b64309615edd6d39",
+    "text_preview": "The riskiest part is the lock discipline around expiry and eviction \u2014 a subtle race there (e.g., checking TTL outside th",
+    "prefix_hits_delta": 0,
+    "prefix_queries_delta": 75
+   }
+  },
+  "summary": {
+   "aggregate_completion_tps": 61.31,
+   "followup_ttft_p50": 0.844,
+   "followup_prefix_hits": {
+    "cron_digest": 23296,
+    "go_bugfix": 0,
+    "bash_review": 0,
+    "py_lru_ttl": 0
+   }
+  }
+ },
+ "longgen": {
+  "primary": {
+   "name": "longgen",
+   "wall_s": 132.392,
+   "ttft_s": 0.231,
+   "decode_tps": 30.98,
+   "prefill_tps": 203.7,
+   "prompt_tokens": 47,
+   "cached_tokens": null,
+   "completion_tokens": 4096,
+   "finish_reason": "length",
+   "chunks": 2066,
+   "reasoning_chars": 0,
+   "tool_calls": 0,
+   "cancelled": false,
+   "error": null,
+   "text_chars": 20626,
+   "text_sha256": "b320b09946bff2d8",
+   "text_preview": "The pager went off at 4:47 in the morning, which Priya noted with the detached professionalism of someone who had been a"
+  },
+  "followup": {
+   "name": "longgen-followup",
+   "wall_s": 3.134,
+   "ttft_s": 2.648,
+   "decode_tps": 37.06,
+   "prefill_tps": 1568.9,
+   "prompt_tokens": 4155,
+   "cached_tokens": null,
+   "completion_tokens": 19,
+   "finish_reason": "stop",
+   "chunks": 6,
+   "reasoning_chars": 0,
+   "tool_calls": 0,
+   "cancelled": false,
+   "error": null,
+   "text_chars": 88,
+   "text_sha256": "a8dab5d27e817e4e",
+   "text_preview": "Priya, the orchestration and scheduling engineer who led the cluster's logical bring-up.",
+   "prefix_hits_delta": 1792,
+   "prefix_queries_delta": 4189
+  },
+  "shorts_during_primary": {
+   "n": 3,
+   "errors": 0,
+   "completion_tokens": 54,
+   "wall_s": {
+    "p50": 0.507,
+    "p95": 1.611,
+    "min": 0.371,
+    "max": 1.734
+   },
+   "ttft_s": {
+    "p50": 0.29,
+    "p95": 0.336,
+    "min": 0.273,
+    "max": 0.341
+   }
+  },
+  "shorts_during_followup": {
+   "n": 3,
+   "errors": 0,
+   "completion_tokens": 86,
+   "wall_s": {
+    "p50": 1.462,
+    "p95": 2.144,
+    "min": 0.269,
+    "max": 2.22
+   },
+   "ttft_s": {
+    "p50": 0.206,
+    "p95": 1.508,
+    "min": 0.193,
+    "max": 1.653
+   }
+  },
+  "shorts": [
+   {
+    "name": "longgen-short-primary-0",
+    "wall_s": 0.371,
+    "ttft_s": 0.29,
+    "decode_tps": 12.31,
+    "prefill_tps": 120.6,
+    "prompt_tokens": 35,
+    "cached_tokens": null,
+    "completion_tokens": 2,
+    "finish_reason": "stop",
+    "chunks": 1,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 5,
+    "text_sha256": "5dd272b4f316b776",
+    "text_preview": "Paris",
+    "fired_at_s": 5,
+    "phase": "primary"
+   },
+   {
+    "name": "longgen-short-primary-1",
+    "wall_s": 1.734,
+    "ttft_s": 0.273,
+    "decode_tps": 29.43,
+    "prefill_tps": 120.8,
+    "prompt_tokens": 33,
+    "cached_tokens": null,
+    "completion_tokens": 44,
+    "finish_reason": "stop",
+    "chunks": 19,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 241,
+    "text_sha256": "32706b652dcd3c5d",
+    "text_preview": "TCP uses sequence numbers so the receiver can reorder segments that arrive out of order, detect and request retransmissi",
+    "fired_at_s": 20,
+    "phase": "primary"
+   },
+   {
+    "name": "longgen-short-primary-2",
+    "wall_s": 0.507,
+    "ttft_s": 0.341,
+    "decode_tps": 42.07,
+    "prefill_tps": 99.8,
+    "prompt_tokens": 34,
+    "cached_tokens": null,
+    "completion_tokens": 8,
+    "finish_reason": "stop",
+    "chunks": 3,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 7,
+    "text_sha256": "34ff51c7b6320bbd",
+    "text_preview": "2, 3, 5",
+    "fired_at_s": 40,
+    "phase": "primary"
+   },
+   {
+    "name": "longgen-short-followup-3",
+    "wall_s": 2.22,
+    "ttft_s": 1.653,
+    "decode_tps": 42.33,
+    "prefill_tps": 20.6,
+    "prompt_tokens": 34,
+    "cached_tokens": null,
+    "completion_tokens": 25,
+    "finish_reason": "stop",
+    "chunks": 8,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 133,
+    "text_sha256": "aad954c575101f82",
+    "text_preview": "A mutex is a synchronization primitive that allows only one thread to access a shared resource at a time, preventing rac",
+    "fired_at_s": 1,
+    "phase": "followup"
+   },
+   {
+    "name": "longgen-short-followup-4",
+    "wall_s": 1.462,
+    "ttft_s": 0.193,
+    "decode_tps": 44.91,
+    "prefill_tps": 155.2,
+    "prompt_tokens": 30,
+    "cached_tokens": null,
+    "completion_tokens": 58,
+    "finish_reason": "stop",
+    "chunks": 20,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 218,
+    "text_sha256": "b7808be9225ae678",
+    "text_preview": "READY\n\n**Note:** I can't verify the reference code (20260902T215713Z-longgenfollowup4) against any external system \u2014 it ",
+    "fired_at_s": 5,
+    "phase": "followup"
+   },
+   {
+    "name": "longgen-short-followup-5",
+    "wall_s": 0.269,
+    "ttft_s": 0.206,
+    "decode_tps": 32.08,
+    "prefill_tps": 174.4,
+    "prompt_tokens": 36,
+    "cached_tokens": null,
+    "completion_tokens": 3,
+    "finish_reason": "stop",
+    "chunks": 2,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 3,
+    "text_sha256": "a934c244755c66ae",
+    "text_preview": "391",
+    "fired_at_s": 10,
+    "phase": "followup"
+   }
+  ]
+ },
+ "cold": {
+  "primary": {
+   "name": "cold",
+   "wall_s": 54.562,
+   "ttft_s": 54.404,
+   "decode_tps": 44.44,
+   "prefill_tps": 1182.2,
+   "prompt_tokens": 64319,
+   "cached_tokens": null,
+   "completion_tokens": 8,
+   "finish_reason": "stop",
+   "chunks": 4,
+   "reasoning_chars": 0,
+   "tool_calls": 0,
+   "cancelled": false,
+   "error": null,
+   "text_chars": 11,
+   "text_sha256": "b73f269f2f7cc247",
+   "text_preview": "ORCHID-713Z"
+  },
+  "followup": {
+   "name": "cold-followup",
+   "wall_s": 1.929,
+   "ttft_s": 1.756,
+   "decode_tps": 5.77,
+   "prefill_tps": 36646.7,
+   "prompt_tokens": 64349,
+   "cached_tokens": null,
+   "completion_tokens": 2,
+   "finish_reason": "stop",
+   "chunks": 1,
+   "reasoning_chars": 0,
+   "tool_calls": 0,
+   "cancelled": false,
+   "error": null,
+   "text_chars": 7,
+   "text_sha256": "b23a6a8439c0dde5",
+   "text_preview": "unknown",
+   "prefix_hits_delta": 62720,
+   "prefix_queries_delta": 64383
+  },
+  "shorts_during_primary": {
+   "n": 3,
+   "errors": 0,
+   "completion_tokens": 39,
+   "wall_s": {
+    "p50": 8.432,
+    "p95": 24.925,
+    "min": 6.576,
+    "max": 26.758
+   },
+   "ttft_s": {
+    "p50": 4.92,
+    "p95": 5.056,
+    "min": 4.758,
+    "max": 5.071
+   }
+  },
+  "shorts_during_followup": {
+   "n": 3,
+   "errors": 0,
+   "completion_tokens": 56,
+   "wall_s": {
+    "p50": 0.642,
+    "p95": 1.784,
+    "min": 0.275,
+    "max": 1.911
+   },
+   "ttft_s": {
+    "p50": 0.211,
+    "p95": 0.864,
+    "min": 0.19,
+    "max": 0.937
+   }
+  },
+  "shorts": [
+   {
+    "name": "cold-short-primary-0",
+    "wall_s": 6.576,
+    "ttft_s": 4.92,
+    "decode_tps": 0.6,
+    "prefill_tps": 7.1,
+    "prompt_tokens": 35,
+    "cached_tokens": null,
+    "completion_tokens": 2,
+    "finish_reason": "stop",
+    "chunks": 1,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 5,
+    "text_sha256": "5dd272b4f316b776",
+    "text_preview": "Paris",
+    "fired_at_s": 5,
+    "phase": "primary"
+   },
+   {
+    "name": "cold-short-primary-1",
+    "wall_s": 26.758,
+    "ttft_s": 4.758,
+    "decode_tps": 1.27,
+    "prefill_tps": 6.9,
+    "prompt_tokens": 33,
+    "cached_tokens": null,
+    "completion_tokens": 29,
+    "finish_reason": "stop",
+    "chunks": 14,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 159,
+    "text_sha256": "ddb954590605ffca",
+    "text_preview": "TCP uses sequence numbers to track each byte sent so the receiver can reorder out-of-order segments, detect duplicates, ",
+    "fired_at_s": 20,
+    "phase": "primary"
+   },
+   {
+    "name": "cold-short-primary-2",
+    "wall_s": 8.432,
+    "ttft_s": 5.071,
+    "decode_tps": 2.08,
+    "prefill_tps": 6.7,
+    "prompt_tokens": 34,
+    "cached_tokens": null,
+    "completion_tokens": 8,
+    "finish_reason": "stop",
+    "chunks": 3,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 7,
+    "text_sha256": "34ff51c7b6320bbd",
+    "text_preview": "2, 3, 5",
+    "fired_at_s": 40,
+    "phase": "primary"
+   },
+   {
+    "name": "cold-short-followup-3",
+    "wall_s": 1.911,
+    "ttft_s": 0.937,
+    "decode_tps": 32.85,
+    "prefill_tps": 36.3,
+    "prompt_tokens": 34,
+    "cached_tokens": null,
+    "completion_tokens": 33,
+    "finish_reason": "stop",
+    "chunks": 15,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 190,
+    "text_sha256": "1d49bc8954d1efea",
+    "text_preview": "A mutex is a synchronization primitive that allows only one thread to acquire it at a time, ensuring mutual exclusion so",
+    "fired_at_s": 1,
+    "phase": "followup"
+   },
+   {
+    "name": "cold-short-followup-4",
+    "wall_s": 0.642,
+    "ttft_s": 0.19,
+    "decode_tps": 42.02,
+    "prefill_tps": 157.8,
+    "prompt_tokens": 30,
+    "cached_tokens": null,
+    "completion_tokens": 20,
+    "finish_reason": "stop",
+    "chunks": 7,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 43,
+    "text_sha256": "94a603660ea7d44d",
+    "text_preview": "READY\n\n(ref 20260902T215713Z-coldfollowup4)",
+    "fired_at_s": 5,
+    "phase": "followup"
+   },
+   {
+    "name": "cold-short-followup-5",
+    "wall_s": 0.275,
+    "ttft_s": 0.211,
+    "decode_tps": 31.33,
+    "prefill_tps": 170.9,
+    "prompt_tokens": 36,
+    "cached_tokens": null,
+    "completion_tokens": 3,
+    "finish_reason": "stop",
+    "chunks": 2,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 3,
+    "text_sha256": "a934c244755c66ae",
+    "text_preview": "391",
+    "fired_at_s": 10,
+    "phase": "followup"
+   }
+  ],
+  "needle": "ORCHID-713Z",
+  "needle_found": true
+ },
+ "conc": {
+  "4": {
+   "n": 4,
+   "errors": 0,
+   "completion_tokens": 2048,
+   "wall_s": {
+    "p50": 19.781,
+    "p95": 20.812,
+    "min": 19.261,
+    "max": 20.94
+   },
+   "ttft_s": {
+    "p50": 0.871,
+    "p95": 1.057,
+    "min": 0.246,
+    "max": 1.057
+   },
+   "decode_tps": {
+    "p50": 26.455,
+    "p95": 27.845,
+    "min": 25.7,
+    "max": 28.07
+   },
+   "wall_s_total": 20.9,
+   "aggregate_completion_tps": 97.8,
+   "rows": [
+    {
+     "name": "conc4-0",
+     "wall_s": 20.087,
+     "ttft_s": 0.686,
+     "decode_tps": 26.34,
+     "prefill_tps": 80.2,
+     "prompt_tokens": 55,
+     "cached_tokens": null,
+     "completion_tokens": 512,
+     "finish_reason": "length",
+     "chunks": 172,
+     "reasoning_chars": 0,
+     "tool_calls": 0,
+     "cancelled": false,
+     "error": null,
+     "text_chars": 2060,
+     "text_sha256": "95eda1d036560701",
+     "text_preview": "# LRU Cache with Per-Entry TTL\n\nA self-contained module plus tests. The cache is thread-safe via a single lock, uses an "
+    },
+    {
+     "name": "conc4-1",
+     "wall_s": 20.94,
+     "ttft_s": 1.057,
+     "decode_tps": 25.7,
+     "prefill_tps": 133.4,
+     "prompt_tokens": 141,
+     "cached_tokens": null,
+     "completion_tokens": 512,
+     "finish_reason": "length",
+     "chunks": 184,
+     "reasoning_chars": 0,
+     "tool_calls": 0,
+     "cancelled": false,
+     "error": null,
+     "text_chars": 1736,
+     "text_sha256": "d9da8ae58ab9cb88",
+     "text_preview": "# Corrected Script\n\n```bash\n#!/bin/bash\nset -euo pipefail\nshopt -s nullglob\n\nfor f in *.log; do\n    n=$(grep -c ERROR \"$"
+    },
+    {
+     "name": "conc4-2",
+     "wall_s": 19.261,
+     "ttft_s": 1.057,
+     "decode_tps": 28.07,
+     "prefill_tps": 146.7,
+     "prompt_tokens": 155,
+     "cached_tokens": null,
+     "completion_tokens": 512,
+     "finish_reason": "length",
+     "chunks": 162,
+     "reasoning_chars": 0,
+     "tool_calls": 0,
+     "cancelled": false,
+     "error": null,
+     "text_chars": 1642,
+     "text_sha256": "ab9fd5e2d6508bcd",
+     "text_preview": "## Bugs\n\n1. **Panics on empty input** \u2014 `iv[0]` without a length check.\n2. **Wrong results on unsorted input** \u2014 merging"
+    },
+    {
+     "name": "conc4-3",
+     "wall_s": 19.475,
+     "ttft_s": 0.246,
+     "decode_tps": 26.57,
+     "prefill_tps": 223.9,
+     "prompt_tokens": 55,
+     "cached_tokens": null,
+     "completion_tokens": 512,
+     "finish_reason": "length",
+     "chunks": 167,
+     "reasoning_chars": 0,
+     "tool_calls": 0,
+     "cancelled": false,
+     "error": null,
+     "text_chars": 2277,
+     "text_sha256": "7549dc133481b17f",
+     "text_preview": "# LRU Cache with Per-Entry TTL\n\nA self-contained module plus tests. The cache uses an ordered dict for O(1) LRU operatio"
+    }
+   ]
+  },
+  "8": {
+   "n": 8,
+   "errors": 0,
+   "completion_tokens": 4096,
+   "wall_s": {
+    "p50": 28.65,
+    "p95": 29.569,
+    "min": 24.906,
+    "max": 29.592
+   },
+   "ttft_s": {
+    "p50": 1.07,
+    "p95": 1.072,
+    "min": 0.554,
+    "max": 1.072
+   },
+   "decode_tps": {
+    "p50": 18.235,
+    "p95": 21.342,
+    "min": 17.92,
+    "max": 21.44
+   },
+   "wall_s_total": 29.6,
+   "aggregate_completion_tps": 138.4,
+   "rows": [
+    {
+     "name": "conc8-0",
+     "wall_s": 28.456,
+     "ttft_s": 0.557,
+     "decode_tps": 18.32,
+     "prefill_tps": 98.7,
+     "prompt_tokens": 55,
+     "cached_tokens": null,
+     "completion_tokens": 512,
+     "finish_reason": "length",
+     "chunks": 178,
+     "reasoning_chars": 0,
+     "tool_calls": 0,
+     "cancelled": false,
+     "error": null,
+     "text_chars": 2124,
+     "text_sha256": "1ba18facd65e9b22",
+     "text_preview": "# LRU Cache with Per-Entry TTL\n\nA self-contained module implementing a thread-safe LRU cache where each entry can have i"
+    },
+    {
+     "name": "conc8-1",
+     "wall_s": 29.527,
+     "ttft_s": 1.072,
+     "decode_tps": 17.96,
+     "prefill_tps": 131.5,
+     "prompt_tokens": 141,
+     "cached_tokens": null,
+     "completion_tokens": 512,
+     "finish_reason": "length",
+     "chunks": 188,
+     "reasoning_chars": 0,
+     "tool_calls": 0,
+     "cancelled": false,
+     "error": null,
+     "text_chars": 1705,
+     "text_sha256": "ab6d58bc4fcaa0aa",
+     "text_preview": "# Review\n\n## Bugs and portability problems\n\n1. **`$(ls *.log)` word-splitting** \u2014 breaks on filenames with spaces; also "
+    },
+    {
+     "name": "conc8-2",
+     "wall_s": 25.223,
+     "ttft_s": 1.071,
+     "decode_tps": 21.16,
+     "prefill_tps": 144.7,
+     "prompt_tokens": 155,
+     "cached_tokens": null,
+     "completion_tokens": 512,
+     "finish_reason": "length",
+     "chunks": 154,
+     "reasoning_chars": 0,
+     "tool_calls": 0,
+     "cancelled": false,
+     "error": null,
+     "text_chars": 1660,
+     "text_sha256": "867bbdeaa18ef8e1",
+     "text_preview": "# Fixing the Interval Merge Function\n\n## Bugs Identified\n\n1. **Panic on empty input**: `iv[0]` panics if `iv` is empty.\n"
+    },
+    {
+     "name": "conc8-3",
+     "wall_s": 29.035,
+     "ttft_s": 0.555,
+     "decode_tps": 17.94,
+     "prefill_tps": 99.0,
+     "prompt_tokens": 55,
+     "cached_tokens": null,
+     "completion_tokens": 512,
+     "finish_reason": "length",
+     "chunks": 183,
+     "reasoning_chars": 0,
+     "tool_calls": 0,
+     "cancelled": false,
+     "error": null,
+     "text_chars": 2140,
+     "text_sha256": "b506993c9b2b62ad",
+     "text_preview": "# LRU Cache with Per-Entry TTL\n\n**Ticket:** 20260902T215713Z-conc8-3\n\nBelow is a self-contained module (`ttl_lru_cache.p"
+    },
+    {
+     "name": "conc8-4",
+     "wall_s": 29.592,
+     "ttft_s": 1.071,
+     "decode_tps": 17.92,
+     "prefill_tps": 131.7,
+     "prompt_tokens": 141,
+     "cached_tokens": null,
+     "completion_tokens": 512,
+     "finish_reason": "length",
+     "chunks": 189,
+     "reasoning_chars": 0,
+     "tool_calls": 0,
+     "cancelled": false,
+     "error": null,
+     "text_chars": 1725,
+     "text_sha256": "702980440fe0dfa2",
+     "text_preview": "# Review\n\n## Bugs and portability problems\n\n1. **`set -uo pipefail` without `-e`** \u2014 not a bug per se, but note that wit"
+    },
+    {
+     "name": "conc8-5",
+     "wall_s": 24.906,
+     "ttft_s": 1.07,
+     "decode_tps": 21.44,
+     "prefill_tps": 144.9,
+     "prompt_tokens": 155,
+     "cached_tokens": null,
+     "completion_tokens": 512,
+     "finish_reason": "length",
+     "chunks": 152,
+     "reasoning_chars": 0,
+     "tool_calls": 0,
+     "cancelled": false,
+     "error": null,
+     "text_chars": 1632,
+     "text_sha256": "3161e56fa55ebfcf",
+     "text_preview": "# Fixing the Interval Merge Function\n\n## Bugs Identified\n\n1. **No sorting** \u2014 the merge logic only works on sorted input"
+    },
+    {
+     "name": "conc8-6",
+     "wall_s": 28.708,
+     "ttft_s": 0.554,
+     "decode_tps": 18.15,
+     "prefill_tps": 99.2,
+     "prompt_tokens": 55,
+     "cached_tokens": null,
+     "completion_tokens": 512,
+     "finish_reason": "length",
+     "chunks": 180,
+     "reasoning_chars": 0,
+     "tool_calls": 0,
+     "cancelled": false,
+     "error": null,
+     "text_chars": 2136,
+     "text_sha256": "1d9cfc527daf90cb",
+     "text_preview": "# LRU Cache with Per-Entry TTL\n\n**Ticket:** 20260902T215713Z-conc8-6\n**Deliverable:** Self-contained Python module + pyt"
+    },
+    {
+     "name": "conc8-7",
+     "wall_s": 28.592,
+     "ttft_s": 1.069,
+     "decode_tps": 18.57,
+     "prefill_tps": 131.8,
+     "prompt_tokens": 141,
+     "cached_tokens": null,
+     "completion_tokens": 512,
+     "finish_reason": "length",
+     "chunks": 178,
+     "reasoning_chars": 0,
+     "tool_calls": 0,
+     "cancelled": false,
+     "error": null,
+     "text_chars": 1739,
+     "text_sha256": "5b2e7aaac5ad1dbe",
+     "text_preview": "# Corrected Script\n\n```bash\n#!/bin/bash\nset -euo pipefail\nshopt -s nullglob\n\nfor f in *.log; do\n  n=$(grep -c ERROR -- \""
+    }
+   ]
+  }
+ },
+ "cancel": {
+  "mid_decode": {
+   "aborted": {
+    "name": "cancel-decode",
+    "wall_s": 6.365,
+    "ttft_s": 0.152,
+    "decode_tps": null,
+    "prefill_tps": null,
+    "prompt_tokens": 0,
+    "cached_tokens": null,
+    "completion_tokens": 0,
+    "finish_reason": null,
+    "chunks": 100,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": true,
+    "error": null,
+    "text_chars": 1288,
+    "text_sha256": "04b5c116193175c4",
+    "text_preview": "# Network Fabrics: A Comprehensive Examination of Modern Data Center Interconnection Architectures\n\n## Introduction\n\nIn "
+   },
+   "drain_s": 0.51,
+   "metrics_after": {
+    "running": 0.0,
+    "waiting": 0.0,
+    "kv_usage": 0.0,
+    "prefix_queries": 212173.0,
+    "prefix_hits": 98560.0,
+    "spec_accepted": 13595.0,
+    "spec_drafts": 26054.0,
+    "requests_total": 100.0
+   },
+   "next_short": {
+    "name": "after-cancel-decode",
+    "wall_s": 0.256,
+    "ttft_s": 0.195,
+    "decode_tps": 16.48,
+    "prefill_tps": 169.1,
+    "prompt_tokens": 33,
+    "cached_tokens": null,
+    "completion_tokens": 2,
+    "finish_reason": "stop",
+    "chunks": 1,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 5,
+    "text_sha256": "5dd272b4f316b776",
+    "text_preview": "Paris"
+   }
+  },
+  "mid_prefill": {
+   "aborted": {
+    "name": "cancel-prefill",
+    "wall_s": 372.969,
+    "ttft_s": null,
+    "decode_tps": null,
+    "prefill_tps": null,
+    "prompt_tokens": 0,
+    "cached_tokens": null,
+    "completion_tokens": 0,
+    "finish_reason": null,
+    "chunks": 0,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": true,
+    "error": null,
+    "text_chars": 0,
+    "text_sha256": "e3b0c44298fc1c14",
+    "text_preview": ""
+   },
+   "drain_s": null,
+   "metrics_after": {
+    "error": "<urlopen error [Errno 111] Connection refused>"
+   },
+   "next_short": {
+    "name": "after-cancel-prefill",
+    "wall_s": 0.0,
+    "ttft_s": null,
+    "decode_tps": null,
+    "prefill_tps": null,
+    "prompt_tokens": 0,
+    "cached_tokens": null,
+    "completion_tokens": 0,
+    "finish_reason": null,
+    "chunks": 0,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": "URLError: <urlopen error [Errno 111] Connection refused>",
+    "text_chars": 0,
+    "text_sha256": "e3b0c44298fc1c14",
+    "text_preview": ""
+   }
+  },
+  "pass": false
+ },
+ "metrics_after": {
+  "error": "<urlopen error [Errno 111] Connection refused>"
+ },
+ "memory_after": {
+  "r0": {
+   "MemAvailable_GiB": 117.6,
+   "SwapFree_GiB": 15.26,
+   "clock_mhz": 208,
+   "gpu_util": 0
+  },
+  "r1": {
+   "MemAvailable_GiB": 12.89,
+   "SwapFree_GiB": 15.34,
+   "clock_mhz": 2548,
+   "gpu_util": 96
+  },
+  "r2": {
+   "MemAvailable_GiB": 13.6,
+   "SwapFree_GiB": 15.51,
+   "clock_mhz": 2554,
+   "gpu_util": 96
+  },
+  "r3": {
+   "MemAvailable_GiB": 13.59,
+   "SwapFree_GiB": 15.52,
+   "clock_mhz": 2535,
+   "gpu_util": 96
+  }
+ },
+ "finished": "2026-09-02T22:13:41Z",
+ "own_requests": 104,
+ "foreign_requests": null
+}

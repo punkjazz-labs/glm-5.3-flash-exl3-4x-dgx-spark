@@ -1,0 +1,82 @@
+10:59:54 start TP2 http://127.0.0.1:8890/v1 salt 20260902T105953Z phases ['warmup', 'sanity', 'coding', 'longgen', 'cold', 'cancel', 'soak', 'sanity_end']
+10:59:54 phase warmup begin
+11:01:04 warmup warm-think 9.248 ttft 0.759 err None
+11:01:04 warmup warm-tools 6.573 ttft 5.162 err None
+11:01:04 warmup warm-gen 28.985 ttft 1.404 err None
+11:01:04 warmup warm-12k 18.01 ttft 17.869 err None
+11:01:04 warmup warm-12k-again 4.47 ttft 4.143 err None
+11:01:04 phase warmup end 70.0 s
+11:01:04 phase sanity begin
+11:01:07 sanity {'exact_json': True, 'normal_eos': True, 'tool_call': True, 'json_schema': True, 'json_schema_text': '{"host":"spark-f1cc","healthy":true,"ranks":4}', 'all_pass': True}
+11:01:07 phase sanity end 2.9 s
+11:01:07 phase coding begin
+11:04:01 coding bash_review done {'wall_s': 173.656, 'ttft_s': 2.272, 'decode_tps': 17.92, 'prompt_tokens': 126, 'completion_tokens': 3072, 'finish_reason': 'length', 'error': None}
+11:04:18 coding py_lru_ttl done {'wall_s': 190.999, 'ttft_s': 2.272, 'decode_tps': 16.27, 'prompt_tokens': 40, 'completion_tokens': 3072, 'finish_reason': 'length', 'error': None}
+11:05:48 coding go_bugfix done {'wall_s': 280.297, 'ttft_s': 193.405, 'decode_tps': 35.34, 'prompt_tokens': 140, 'completion_tokens': 3072, 'finish_reason': 'length', 'error': None}
+11:06:14 coding py_lru_ttl followup {'wall_s': 115.549, 'ttft_s': 112.697, 'prompt_tokens': 60, 'prefix_hits_delta': 0, 'completion_tokens': 56, 'error': None}
+11:06:19 coding bash_review followup {'wall_s': 137.731, 'ttft_s': 134.041, 'prompt_tokens': 146, 'prefix_hits_delta': 0, 'completion_tokens': 51, 'error': None}
+11:06:20 coding go_bugfix followup {'wall_s': 32.906, 'ttft_s': 27.4, 'prompt_tokens': 160, 'prefix_hits_delta': 0, 'completion_tokens': 75, 'error': None}
+11:06:28 coding cron_digest done {'wall_s': 321.18, 'ttft_s': 307.704, 'decode_tps': 14.47, 'prompt_tokens': 24737, 'completion_tokens': 196, 'finish_reason': 'stop', 'error': None}
+11:06:33 coding cron_digest followup {'wall_s': 4.607, 'ttft_s': 4.238, 'prompt_tokens': 24952, 'prefix_hits_delta': 21504, 'completion_tokens': 16, 'error': None}
+11:06:33 phase coding end 325.8 s
+11:06:33 phase longgen begin
+11:15:48 longgen primary {'wall_s': 554.79, 'ttft_s': 0.348, 'decode_tps': 22.16, 'prefill_tps': 97.8, 'prompt_tokens': 34, 'completion_tokens': 12288, 'finish_reason': 'length', 'error': None} preview: The first thing Mara noticed when she pushed through the gla
+11:15:49 longgen short primary 0 {'wall_s': 550.488, 'ttft_s': 550.244, 'completion_tokens': 2, 'error': None}
+11:15:49 longgen short primary 2 {'wall_s': 515.488, 'ttft_s': 515.243, 'completion_tokens': 8, 'error': None}
+11:15:50 longgen short primary 1 {'wall_s': 537.262, 'ttft_s': 535.244, 'completion_tokens': 35, 'error': None}
+11:15:59 longgen short followup 3 {'wall_s': 7.746, 'ttft_s': 6.148, 'completion_tokens': 41, 'error': None}
+11:16:02 longgen short followup 4 {'wall_s': 6.356, 'ttft_s': 6.228, 'completion_tokens': 2, 'error': None}
+11:16:03 longgen short followup 5 {'wall_s': 2.552, 'ttft_s': 2.426, 'completion_tokens': 3, 'error': None}
+11:16:04 longgen followup {'wall_s': 13.708, 'ttft_s': 13.071, 'prompt_tokens': 12332, 'prefix_hits_delta': 3584, 'completion_tokens': 16, 'error': None} preview: Mara, the team lead who discovers the hidden failures in the
+11:16:04 phase longgen end 571.0 s
+11:16:04 phase cold begin
+11:16:15 cold short primary 0 {'wall_s': 6.318, 'ttft_s': 6.194, 'completion_tokens': 2, 'error': None}
+11:16:32 cold short primary 1 {'wall_s': 7.852, 'ttft_s': 6.255, 'completion_tokens': 39, 'error': None}
+11:16:49 cold short primary 2 {'wall_s': 5.114, 'ttft_s': 4.988, 'completion_tokens': 8, 'error': None}
+11:21:18 cold primary {'wall_s': 313.446, 'ttft_s': 313.267, 'decode_tps': 39.22, 'prefill_tps': 901.1, 'prompt_tokens': 282277, 'completion_tokens': 8, 'finish_reason': 'stop', 'error': None} preview: ORCHID-953Z
+11:21:22 cold followup {'wall_s': 4.364, 'ttft_s': 4.36, 'prompt_tokens': 282307, 'prefix_hits_delta': 279552, 'completion_tokens': 2, 'error': None} preview: unknown
+11:21:22 cold short followup 3 {'wall_s': 3.905, 'ttft_s': 3.369, 'completion_tokens': 25, 'error': None}
+11:21:23 cold short followup 4 {'wall_s': 0.33, 'ttft_s': 0.206, 'completion_tokens': 2, 'error': None}
+11:21:28 cold short followup 5 {'wall_s': 0.348, 'ttft_s': 0.221, 'completion_tokens': 3, 'error': None}
+11:21:28 cold needle ORCHID-953Z found
+11:21:28 phase cold end 323.9 s
+11:21:28 phase cancel begin
+11:21:41 cancel mid-decode drain_s 0.51 next short ttft 0.224 err None
+11:23:31 cancel mid-prefill drain_s 0.51 next short ttft 0.197 err None
+11:23:31 phase cancel end 123.6 s
+11:23:31 phase soak begin
+11:23:32 soak sample 0.0 {'running': 0.0, 'waiting': 0.0, 'kv_usage': 0.0, 'prefix_queries': 1336896.0, 'prefix_hits': 379904.0, 'spec_accepted': 33927.0, 'spec_drafts': 117293.0} {'r0': {'MemAvailable_GiB': 4.45, 'SwapFree_GiB': 11.79}, 'r1': {'MemAvailable_GiB': 6.96, 'SwapFree_GiB': 12.44}}
+11:24:34 soak sample 61.0 {'running': 3.0, 'waiting': 2.0, 'kv_usage': 0.30000000000000004, 'prefix_queries': 1361191.0, 'prefix_hits': 379904.0, 'spec_accepted': 35225.0, 'spec_drafts': 121976.0} {'r0': {'MemAvailable_GiB': 4.45, 'SwapFree_GiB': 11.79}, 'r1': {'MemAvailable_GiB': 6.94, 'SwapFree_GiB': 12.44}}
+11:25:35 soak sample 122.1 {'running': 3.0, 'waiting': 1.0, 'kv_usage': 0.38363636363636366, 'prefix_queries': 1385418.0, 'prefix_hits': 379904.0, 'spec_accepted': 35909.0, 'spec_drafts': 124259.0} {'r0': {'MemAvailable_GiB': 4.46, 'SwapFree_GiB': 11.79}, 'r1': {'MemAvailable_GiB': 6.93, 'SwapFree_GiB': 12.44}}
+11:26:37 soak sample 183.8 {'running': 2.0, 'waiting': 2.0, 'kv_usage': 0.22909090909090912, 'prefix_queries': 1385440.0, 'prefix_hits': 379904.0, 'spec_accepted': 36811.0, 'spec_drafts': 127584.0} {'r0': {'MemAvailable_GiB': 4.47, 'SwapFree_GiB': 11.79}, 'r1': {'MemAvailable_GiB': 6.94, 'SwapFree_GiB': 12.44}}
+11:27:38 soak sample 245.2 {'running': 2.0, 'waiting': 2.0, 'kv_usage': 0.26363636363636367, 'prefix_queries': 1385474.0, 'prefix_hits': 379904.0, 'spec_accepted': 37565.0, 'spec_drafts': 130972.0} {'r0': {'MemAvailable_GiB': 4.47, 'SwapFree_GiB': 11.79}, 'r1': {'MemAvailable_GiB': 6.92, 'SwapFree_GiB': 12.44}}
+11:28:39 soak sample 306.5 {'running': 1.0, 'waiting': 3.0, 'kv_usage': 0.2545454545454545, 'prefix_queries': 1409648.0, 'prefix_hits': 379904.0, 'spec_accepted': 37902.0, 'spec_drafts': 132659.0} {'r0': {'MemAvailable_GiB': 4.4, 'SwapFree_GiB': 11.79}, 'r1': {'MemAvailable_GiB': 6.91, 'SwapFree_GiB': 12.44}}
+11:29:40 soak sample 367.6 {'running': 3.0, 'waiting': 1.0, 'kv_usage': 0.4127272727272727, 'prefix_queries': 1433710.0, 'prefix_hits': 379904.0, 'spec_accepted': 38645.0, 'spec_drafts': 135193.0} {'r0': {'MemAvailable_GiB': 4.42, 'SwapFree_GiB': 11.79}, 'r1': {'MemAvailable_GiB': 6.9, 'SwapFree_GiB': 12.44}}
+11:30:42 soak sample 428.9 {'running': 2.0, 'waiting': 2.0, 'kv_usage': 0.27454545454545454, 'prefix_queries': 1433744.0, 'prefix_hits': 379904.0, 'spec_accepted': 39437.0, 'spec_drafts': 138406.0} {'r0': {'MemAvailable_GiB': 4.43, 'SwapFree_GiB': 11.79}, 'r1': {'MemAvailable_GiB': 6.92, 'SwapFree_GiB': 12.44}}
+11:31:43 soak sample 490.2 {'running': 3.0, 'waiting': 1.0, 'kv_usage': 0.40181818181818185, 'prefix_queries': 1457932.0, 'prefix_hits': 379904.0, 'spec_accepted': 40062.0, 'spec_drafts': 140618.0} {'r0': {'MemAvailable_GiB': 4.47, 'SwapFree_GiB': 11.79}, 'r1': {'MemAvailable_GiB': 6.9, 'SwapFree_GiB': 12.44}}
+11:32:45 soak sample 552.0 {'running': 2.0, 'waiting': 2.0, 'kv_usage': 0.2654545454545455, 'prefix_queries': 1457972.0, 'prefix_hits': 379904.0, 'spec_accepted': 40913.0, 'spec_drafts': 143824.0} {'r0': {'MemAvailable_GiB': 4.47, 'SwapFree_GiB': 11.79}, 'r1': {'MemAvailable_GiB': 6.91, 'SwapFree_GiB': 12.44}}
+11:33:46 soak sample 613.5 {'running': 2.0, 'waiting': 2.0, 'kv_usage': 0.2672727272727272, 'prefix_queries': 1458012.0, 'prefix_hits': 379904.0, 'spec_accepted': 41764.0, 'spec_drafts': 147163.0} {'r0': {'MemAvailable_GiB': 4.46, 'SwapFree_GiB': 11.79}, 'r1': {'MemAvailable_GiB': 6.9, 'SwapFree_GiB': 12.44}}
+11:34:47 soak sample 674.7 {'running': 3.0, 'waiting': 1.0, 'kv_usage': 0.3872727272727273, 'prefix_queries': 1482159.0, 'prefix_hits': 379904.0, 'spec_accepted': 42431.0, 'spec_drafts': 149494.0} {'r0': {'MemAvailable_GiB': 4.41, 'SwapFree_GiB': 11.79}, 'r1': {'MemAvailable_GiB': 6.9, 'SwapFree_GiB': 12.44}}
+11:35:49 soak sample 735.9 {'running': 1.0, 'waiting': 3.0, 'kv_usage': 0.2527272727272727, 'prefix_queries': 1482177.0, 'prefix_hits': 379904.0, 'spec_accepted': 42901.0, 'spec_drafts': 151685.0} {'r0': {'MemAvailable_GiB': 4.42, 'SwapFree_GiB': 11.79}, 'r1': {'MemAvailable_GiB': 6.89, 'SwapFree_GiB': 12.44}}
+11:36:50 soak sample 797.1 {'running': 3.0, 'waiting': 1.0, 'kv_usage': 0.42000000000000004, 'prefix_queries': 1506322.0, 'prefix_hits': 379904.0, 'spec_accepted': 43828.0, 'spec_drafts': 154856.0} {'r0': {'MemAvailable_GiB': 4.34, 'SwapFree_GiB': 11.79}, 'r1': {'MemAvailable_GiB': 6.84, 'SwapFree_GiB': 12.44}}
+11:37:51 soak sample 858.8 {'running': 2.0, 'waiting': 2.0, 'kv_usage': 0.2781818181818182, 'prefix_queries': 1506360.0, 'prefix_hits': 379904.0, 'spec_accepted': 44585.0, 'spec_drafts': 158069.0} {'r0': {'MemAvailable_GiB': 4.38, 'SwapFree_GiB': 11.79}, 'r1': {'MemAvailable_GiB': 6.86, 'SwapFree_GiB': 12.44}}
+11:38:53 soak sample 920.0 {'running': 2.0, 'waiting': 2.0, 'kv_usage': 0.14181818181818184, 'prefix_queries': 1530652.0, 'prefix_hits': 379904.0, 'spec_accepted': 44907.0, 'spec_drafts': 158783.0} {'r0': {'MemAvailable_GiB': 4.45, 'SwapFree_GiB': 11.79}, 'r1': {'MemAvailable_GiB': 6.9, 'SwapFree_GiB': 12.44}}
+11:39:54 soak sample 981.2 {'running': 1.0, 'waiting': 3.0, 'kv_usage': 0.0945454545454546, 'prefix_queries': 1530686.0, 'prefix_hits': 379904.0, 'spec_accepted': 46638.0, 'spec_drafts': 162171.0} {'r0': {'MemAvailable_GiB': 4.49, 'SwapFree_GiB': 11.79}, 'r1': {'MemAvailable_GiB': 6.88, 'SwapFree_GiB': 12.44}}
+11:40:55 soak sample 1042.1 {'running': 2.0, 'waiting': 2.0, 'kv_usage': 0.1581818181818182, 'prefix_queries': 1530866.0, 'prefix_hits': 379904.0, 'spec_accepted': 47743.0, 'spec_drafts': 165594.0} {'r0': {'MemAvailable_GiB': 4.41, 'SwapFree_GiB': 11.79}, 'r1': {'MemAvailable_GiB': 6.9, 'SwapFree_GiB': 12.44}}
+11:41:56 soak sample 1103.6 {'running': 2.0, 'waiting': 2.0, 'kv_usage': 0.15454545454545454, 'prefix_queries': 1531028.0, 'prefix_hits': 379904.0, 'spec_accepted': 49509.0, 'spec_drafts': 170270.0} {'r0': {'MemAvailable_GiB': 4.44, 'SwapFree_GiB': 11.79}, 'r1': {'MemAvailable_GiB': 6.92, 'SwapFree_GiB': 12.44}}
+11:42:58 soak sample 1164.8 {'running': 3.0, 'waiting': 1.0, 'kv_usage': 0.3109090909090909, 'prefix_queries': 1555056.0, 'prefix_hits': 379904.0, 'spec_accepted': 51215.0, 'spec_drafts': 174750.0} {'r0': {'MemAvailable_GiB': 4.42, 'SwapFree_GiB': 11.79}, 'r1': {'MemAvailable_GiB': 6.89, 'SwapFree_GiB': 12.44}}
+11:43:59 soak sample 1226.1 {'running': 3.0, 'waiting': 3.0, 'kv_usage': 0.38363636363636366, 'prefix_queries': 1579219.0, 'prefix_hits': 379904.0, 'spec_accepted': 51664.0, 'spec_drafts': 176892.0} {'r0': {'MemAvailable_GiB': 4.44, 'SwapFree_GiB': 11.79}, 'r1': {'MemAvailable_GiB': 6.9, 'SwapFree_GiB': 12.44}}
+11:45:00 soak sample 1287.3 {'running': 1.0, 'waiting': 3.0, 'kv_usage': 0.18727272727272726, 'prefix_queries': 1603307.0, 'prefix_hits': 379904.0, 'spec_accepted': 52044.0, 'spec_drafts': 178790.0} {'r0': {'MemAvailable_GiB': 4.44, 'SwapFree_GiB': 11.79}, 'r1': {'MemAvailable_GiB': 6.9, 'SwapFree_GiB': 12.44}}
+11:46:01 soak sample 1348.6 {'running': 2.0, 'waiting': 5.0, 'kv_usage': 0.28909090909090907, 'prefix_queries': 1643130.0, 'prefix_hits': 379904.0, 'spec_accepted': 52292.0, 'spec_drafts': 179673.0} {'r0': {'MemAvailable_GiB': 4.4, 'SwapFree_GiB': 11.8}, 'r1': {'MemAvailable_GiB': 6.91, 'SwapFree_GiB': 12.44}}
+11:47:02 soak sample 1409.8 {'running': 2.0, 'waiting': 6.0, 'kv_usage': 0.2472727272727273, 'prefix_queries': 1672877.0, 'prefix_hits': 379904.0, 'spec_accepted': 52580.0, 'spec_drafts': 180655.0} {'r0': {'MemAvailable_GiB': 4.37, 'SwapFree_GiB': 11.8}, 'r1': {'MemAvailable_GiB': 6.9, 'SwapFree_GiB': 12.44}}
+11:48:04 soak sample 1471.0 {'running': 2.0, 'waiting': 5.0, 'kv_usage': 0.3054545454545454, 'prefix_queries': 1700806.0, 'prefix_hits': 379904.0, 'spec_accepted': 52985.0, 'spec_drafts': 182237.0} {'r0': {'MemAvailable_GiB': 4.38, 'SwapFree_GiB': 11.8}, 'r1': {'MemAvailable_GiB': 6.9, 'SwapFree_GiB': 12.44}}
+11:49:05 soak sample 1532.3 {'running': 4.0, 'waiting': 3.0, 'kv_usage': 0.4945454545454545, 'prefix_queries': 1715697.0, 'prefix_hits': 379904.0, 'spec_accepted': 54395.0, 'spec_drafts': 185992.0} {'r0': {'MemAvailable_GiB': 4.41, 'SwapFree_GiB': 11.8}, 'r1': {'MemAvailable_GiB': 6.92, 'SwapFree_GiB': 12.44}}
+11:50:06 soak sample 1593.7 {'running': 1.0, 'waiting': 7.0, 'kv_usage': 0.18727272727272726, 'prefix_queries': 1715715.0, 'prefix_hits': 379904.0, 'spec_accepted': 55526.0, 'spec_drafts': 189835.0} {'r0': {'MemAvailable_GiB': 4.39, 'SwapFree_GiB': 11.8}, 'r1': {'MemAvailable_GiB': 6.91, 'SwapFree_GiB': 12.45}}
+11:51:08 soak sample 1654.9 {'running': 3.0, 'waiting': 6.0, 'kv_usage': 0.4181818181818182, 'prefix_queries': 1732595.0, 'prefix_hits': 379904.0, 'spec_accepted': 56390.0, 'spec_drafts': 192537.0} {'r0': {'MemAvailable_GiB': 4.42, 'SwapFree_GiB': 11.8}, 'r1': {'MemAvailable_GiB': 6.91, 'SwapFree_GiB': 12.45}}
+11:52:09 soak sample 1716.2 {'running': 3.0, 'waiting': 7.0, 'kv_usage': 0.3872727272727273, 'prefix_queries': 1746152.0, 'prefix_hits': 379904.0, 'spec_accepted': 57026.0, 'spec_drafts': 194840.0} {'r0': {'MemAvailable_GiB': 4.4, 'SwapFree_GiB': 11.8}, 'r1': {'MemAvailable_GiB': 6.91, 'SwapFree_GiB': 12.45}}
+11:53:10 soak sample 1777.2 {'running': 2.0, 'waiting': 7.0, 'kv_usage': 0.26, 'prefix_queries': 1746174.0, 'prefix_hits': 379904.0, 'spec_accepted': 57746.0, 'spec_drafts': 198026.0} {'r0': {'MemAvailable_GiB': 4.36, 'SwapFree_GiB': 11.8}, 'r1': {'MemAvailable_GiB': 6.89, 'SwapFree_GiB': 12.45}}
+11:58:07 phase soak end 2075.9 s
+11:58:07 phase sanity_end begin
+11:59:32 sanity_end {'exact_json': True, 'normal_eos': True, 'tool_call': True, 'json_schema': True, 'json_schema_text': '{"host":"spark-f1cc","healthy":true,"ranks":4}', 'all_pass': True}
+11:59:32 phase sanity_end end 85.0 s
+11:59:33 done /home/spark/AI/workload-TP2-20260902T105953Z.json

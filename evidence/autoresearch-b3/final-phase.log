@@ -1,0 +1,5 @@
+2026-09-03T01:04:40Z final-phase start
+2026-09-03T01:35:10Z queue finished; health=200; live image=glm53-exl3-c190db1:candidate
+2026-09-03T01:45:57Z loop test done: ~/AI/loop-test-fat-20260903T013510Z.json (28 lines)
+2026-09-03T02:33:18Z validation done rc=0: ~/AI/workload-TP4-fat-20260903T013510Z.json health=200
+2026-09-03T02:33:18Z watchdog resumed; FINAL-PHASE-DONE
