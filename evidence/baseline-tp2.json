@@ -352,7 +352,7 @@
       }
     ]
   },
-  "endpoint": "http://192.168.10.134:8890/v1",
+  "endpoint": "http://<lan-ip>:8890/v1",
   "memory_after": {
     "head": {
       "MemAvailable": 7613329408,

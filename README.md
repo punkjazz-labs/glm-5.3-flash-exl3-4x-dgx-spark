@@ -47,7 +47,7 @@ Receipts: `evidence/workload-tp4.json` (untuned), `evidence/workload-tp4-final.j
 | Item | Value |
 |---|---|
 | Model | `Mia-AiLab/GLM-5.3-Flash-EXL3-TR3-4bpw` @ `25a44fdbf16862a46b7cc9921142c6c81350af2f` (163.6 GiB) |
-| Draft model | `incoai/GLM-5.3-Flash-DFlash2` @ `dc77ff1c99eeb2df044ee3d4f0094eb033fee410`, draft TP 4 |
+| Draft model | **off** (`SPEC_METHOD=none`) since the 2026-09-03 soak: with DFlash2 on, a 96k chunked prefill next to draft-verified decode streams hangs all four ranks (3/3 soaks, 31-78 min); the same soak with the draft off passed 150 min. Pinned for re-enabling: `incoai/GLM-5.3-Flash-DFlash2` @ `dc77ff1c99eeb2df044ee3d4f0094eb033fee410`, 3 tokens, draft TP 4 |
 | Engine | vLLM `0.1.dev20051` + exllamav3 for sm_121a, as built by the MiaAI-Lab recipe Dockerfile |
 | Upstream recipe commit | `493cb88` for the untuned/tuned receipts; `c190db1` (PR77 fat-expert prefill kernel, PR63 template fix) for the batch-3 receipts |
 | Overlay + chat template | `overlay/` and `files/` of the same upstream commit, byte-identical on every rank (`ROOT`) |
@@ -101,7 +101,7 @@ full log with every receipt is in `evidence/autoresearch/` and `evidence/autores
 |---|---|---|---|
 | `GPU_MEM_UTIL` | 0.87 (0.85 is the most GB10 accepts) | **0.75** | 0.85 leaves 0.85-2 GiB host memory per rank and preceded two engine deaths (NVRM `NV_ERR_NO_MEMORY`); 0.75 keeps ~9 GiB free with no throughput cost, KV pool still >3M tokens; 0.70 adds 4 GiB and nothing else |
 | `MAX_NUM_SEQS` | 4 | **8** | 8 streams: 84 → 135 tok/s aggregate, worst first token 27 s → 1.0 s. 16 streams add nothing (131 tok/s) |
-| `DFLASH_TOKENS` | 7 | **3** | acceptance 30 % → 53 %, decode 27 → 31-33 tok/s on prose; 2 and 5 are worse; no speculation = 22.6 tok/s |
+| `DFLASH_TOKENS` | 7 | **3** (draft now off) | acceptance 30 % → 53 %, decode 27 → 31-33 tok/s on prose; 2 and 5 are worse; no speculation = 22.6 tok/s, which is what production runs since the hang below |
 | `MAX_NUM_BATCHED_TOKENS` | 7168 (TP2) | **2048** | 1024 / 4096 / 8192 tested: cold prefill unchanged, 8192 puts the coding first token at 20 s under load |
 | `MIXED_PREFILL_CHUNK` | skip | **off** | skip never prefills while anything decodes: a short question waited 330 s behind a long answer. off: 0.5-0.7 s, decode of the running request keeps ~90 % of its speed |
 | `EXL3_FAT_KERNEL` | 1 (upstream, since c190db1) | **1** (image built from c190db1 or later) | uncached 64k prefill 1156-1182 → 1356-1361 tok/s (+16-18 %); coding first token 11-22 s → 2.9 s because the 24k prefill fired with the coding requests finishes sooner; decode, short latency, 8-stream throughput unchanged; replicated |
@@ -123,6 +123,19 @@ so read it together with the prefill column: the kernel moves both, the other ro
 What did not matter or did not work: chunk size for prefill speed (fabric-bound), `MAX_NUM_SEQS` beyond 8 on EXL3
 (decode saturates), and any single-run difference under 3 %: the replicate of the best setting scored 1.054 against a
 first run of 1.079.
+
+
+## The hang that a long soak found (2026-09-03)
+
+Ten-minute benches and a 30-minute soak passed; a 150-minute soak at the 8-sequence cap with 96k prompts in the mix hung
+the engine three times out of three (78, 31, 35 min). Each time a 96k prompt had just been admitted: its chunked prefill
+shares steps with 6-7 speculative-decode streams, all four TP ranks stop at the same forward pass, the GPUs spin at 96 %
+utilisation and ~21 W, and five minutes later vLLM dies on `RPC call to sample_tokens timed out`. Nothing in dmesg, no
+NVRM or Xid line. Turning the fat-expert kernel off changed nothing; turning the DFlash2 draft off (`SPEC_METHOD=none`)
+made the identical soak pass 150 minutes with 472 requests and 0 errors. The recipe therefore ships with the draft off:
+single-stream decode 22-23 tok/s instead of 32-37, everything else unchanged. If you keep the draft on, keep prompts under
+~64k or keep a watchdog: ours relaunches the quartet in about 10 minutes. `soak_report.py` summarises a soak receipt;
+`SOAK_KINDS`, `SOAK_WORKERS` and `SOAK_MIN` reproduce the mix (`workload-run.sh <label> warmup,sanity,soak,sanity_end`).
 
 ## Reliability notes
 

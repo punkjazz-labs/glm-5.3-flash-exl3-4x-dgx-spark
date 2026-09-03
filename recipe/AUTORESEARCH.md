@@ -140,3 +140,97 @@ What batch 3 established:
 - **0.70 utilisation buys 4 GiB more free memory and nothing else** (0.895, all inside noise except that column). 0.75 stays.
 - **Foreign traffic now recurs about hourly** (12 and 13 gateway requests during two runs); the `clean` gate caught
   both, and the queue file can be appended while the loop runs (same inode) to re-run a contaminated experiment.
+
+### 2026-09-03, 150-min varied-length soak on the adopted configuration (`workload-run.sh TP4-soak150`)
+
+Goal: a long uninterrupted window on the shipped c190db1 / fat-kernel / swappiness-60 quartet with a wider request mix
+than the 30-min validation soak: `SOAK_KINDS=short,coding,medium_gen,long_prompt,short,long_gen,long_prompt_96k,short`,
+`SOAK_WORKERS=8` (the production seq cap), `SOAK_MIN=150`. The two new kinds are a 4k fixed-length generation with
+thinking off and a 96k needle prompt, so the fat-expert prefill runs under concurrency next to interactive traffic.
+
+Run 1 (07:53Z-09:17Z, receipt lost, log in `evidence/soak-crash-20260903T0912Z/`):
+
+- 78 minutes clean: 8 running / 0-2 waiting, KV 8-13 %, clocks 2431-2548 MHz busy, MemAvailable flat (r0 7.5 GiB,
+  r1-r3 13.1 GiB), swap flat, no NVRM lines, ~815 requests, 0 errors.
+- 09:12:34Z the rank-0 TP0 worker stopped returning from a step that mixed the 96k prompt's chunked prefill (24256 of
+  ~96k computed, 1984 tokens scheduled) with five spec-decode requests (4 tokens each). Generation throughput fell
+  9.9 -> 2.5 -> 0 tok/s over 20 s, the engine logged "No available shared memory broadcast block found in 60 seconds"
+  four times, and at 09:17:33Z raised `TimeoutError: RPC call to sample_tokens timed out` and died. All four GPUs sat at
+  96 % utilisation with 2.5 GHz clocks for the whole five minutes (a spin, not work). Ranks 1-3 logged nothing until
+  rank 0's TCPStore vanished; no NVRM, Xid, OOM or thermal message on any node. About a hundred earlier 96k requests
+  of the same run had completed, so the trigger is not "a 96k prompt" but a specific batch composition or a race.
+- The watchdog noticed at 09:18:07Z and ran stop -> preflight, and **preflight failed on the clock gate**: with the
+  containers removed every GB10 idles at 208 MHz / 0 % utilisation, and the session-4 gate had no utilisation condition.
+  It fell back to TP2 as designed and paused. Fixed the same hour: preflight and the watchdog judge only a busy GPU
+  (`CLOCK_MIN_UTIL`, 20 %), which is also the only state in which a reboot-capped clock is detectable.
+
+Run 2 (`TP4-soak150b`, 09:51Z-10:22Z, identical mix, after the cutover back to TP4): same hang after 31 min, again ~80 s
+after a 96k prompt was admitted (`Avg prompt throughput: 9688 tokens/s` is the 96k prompt being scheduled), this time
+with the 96k request at 89280 computed tokens and six decode requests in the batch. The fixed watchdog recovered TP4
+on its own: death 10:27:24Z, recovering 10:28:25Z, preflight PASS on idle GPUs, HEALTHY after 509 s. Evidence in
+`evidence/soak-crash-20260903T1022Z/`.
+
+Run 3 (`TP4-soak150-fat0`, 10:53Z-11:28Z): the same quartet relaunched with `EXL3_FAT_KERNEL=0` (watchdog paused), same
+mix. Hung after 35 min, 23 s after a 96k prompt was admitted. **The fat-expert kernel is not the cause.** Evidence in
+`evidence/soak-crash-20260903T1128Z/`. Production was relaunched on `prod.env` (kernel on) afterwards.
+
+What the three hangs have in common, and what they rule out:
+
+| | run 1 | run 2 | run 3 |
+|---|---|---|---|
+| fat-expert kernel | on | on | **off** |
+| minutes to hang | 78 | 31 | 35 |
+| 96k prompt admitted -> stall | 13 s | 81 s | 23 s |
+| 96k request computed tokens at death | 24256 | 89280 | n/a (engine stopped before the dump was captured) |
+| other requests in the batch | 5 decode, 4 spec tokens each | 6 decode | 6-7 decode |
+| GPUs during the stall | 4 x 96 % util, 21-23 W, clocks 2.5 GHz | same | same |
+| last forward logged | all four ranks at the same call count | same | same |
+| dmesg / NVRM / Xid | none | none | none |
+
+- Every hang follows a 96k prompt within 90 s, while the 24k prompts of the same mix never hung in this or any earlier
+  soak, and the 280k cold prefill of the validation suite (run alone, no decode traffic) never hung either. The trigger
+  is a long chunked prefill sharing steps with 6-7 speculative-decode streams.
+- The stop is symmetric: all four TP ranks log their last forward at the same call count, so it is a collective that
+  never completes (or a step that never reaches its collective), not one rank dying first. Nothing is logged by any rank
+  until the engine's own 300 s RPC timeout fires.
+- Roughly 100 (run 1), 25 (run 2) and 30 (run 3) earlier 96k requests of the same runs completed, so it is a race with a
+  per-request probability of a few percent, not a deterministic failure at a chunk boundary.
+- Not yet isolated: the speculative decoder (DFlash2, 3 draft tokens) and the spinwait change of the c190db1 image
+  (PR96). The next A/B is `SPEC_METHOD` off with the same mix, then the 493cb88 image; a targeted probe (96k prompts
+  fired into 7 decode streams for 20 min) would make each A/B cheaper than a 150-min soak.
+- Operationally the watchdog now turns this into a ~10-minute outage with automatic recovery; the gateway's own retry
+  covers the rest. Until the cause is fixed, the recipe carries the caveat: prompts above ~64k at full concurrency can
+  stall the engine.
+
+Run 4 (`TP4-soak150-spec0`, 11:50Z-14:26Z, `evidence/soak-spec0-20260903/`): the same quartet relaunched with
+`SPEC_METHOD=none` (fat kernel on, everything else `prod.env`), same mix, same 8 workers. **150 minutes clean**: 472
+own requests (plus 33 gateway requests that arrived during the run), 0 errors, 115/115 needles found in the 24k and 96k
+prompts, closing sanity block pass, MemAvailable flat on every rank (r0 11.4 -> 11.3 GiB, r1-r3 15.3 -> 15.1 GiB), swap
+flat, busy clocks never below 2431 MHz, no NVRM line. `soak_report.py` on the receipt:
+
+| kind | n | wall p50 / p95 s | TTFT p50 / p95 s | decode p50 tok/s | prefill p50 tok/s |
+|---|---|---|---|---|---|
+| short (64 tok) | 176 | 3.96 / 100.8 | 0.53 / 77.8 | 11.9 | - |
+| coding (1536 tok, thinking) | 60 | 198 / 429 | 2.8 / 23.9 | 8.0 | - |
+| medium_gen (1024 tok) | 61 | 130 / 422 | 0.32 / 35.1 | 7.9 | - |
+| long_prompt (24k needle) | 58 | 18.5 / 130 | 18.1 / 125.6 | 12.8 | 1331 |
+| long_gen (4096 tok) | 60 | 607 / 759 | 0.36 / 4.4 | 6.8 | - |
+| long_prompt_96k (96k needle) | 57 | 84.2 / 213 | 83.2 / 207 | - | 1163 |
+
+The tails are the mix, not a defect: with two 96k prefills in flight the 2048-token step budget is mostly prefill, decode
+streams drop to 7-12 tok/s each and short requests queue behind the prefills (waiting reached 6). That is what the
+production cap of 8 sequences looks like when several of them are 96k prompts; it is the price of chunked prefill at
+this chunk size, and the reason `MIXED_PREFILL_CHUNK` stays `off` (the alternatives were measured in batch 1).
+
+**Verdict: the DFlash2 speculative decoder is the trigger.** Fat kernel on/off made no difference (runs 1-3), the draft
+off survived 150 minutes with the same prompts, workers and image. The failing step is a long chunked prefill scheduled
+together with 6-7 draft-verified decode requests. What is *not* established: whether a shorter draft (`DFLASH_TOKENS=1`)
+or a larger step budget changes the odds, and whether the 493cb88 image behaves the same (it was never soaked with 96k
+prompts). Filed as a caveat, not a fix.
+
+**Production decision (adopted in `prod.env`, live and watchdog-supervised since 14:30Z): `SPEC_METHOD=none`.** From the
+batch-2 control (`mem080-nospec`, same image family): single-stream decode 22.6 instead of 28-37 tok/s, coding-mix
+aggregate 45 instead of 60 tok/s, 8-stream aggregate 66 instead of 84 tok/s, first-token and prefill unchanged, ~1 GiB
+more free memory per rank. The draft is pinned but inactive; re-enable with `SPEC_METHOD=dflash` after an upstream
+fix and the same 150-minute soak.
+

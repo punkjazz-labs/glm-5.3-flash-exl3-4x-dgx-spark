@@ -11,9 +11,9 @@ Phases (GLM_PHASES, comma separated; default all):
   cold       one cold 256-300k-token prompt (needle) + three short requests fired into it; warm follow-up on the same context
   conc       N simultaneous fixed-length generations for each N in CONC_LEVELS (aggregate and per-stream decode, queueing)
   cancel     client aborts a stream mid-decode and mid-prefill; checks the engine drains and stays responsive
-  soak       four workers cycling a mixed queue for SOAK_MIN minutes, memory and engine metrics sampled every 60 s
+  soak       SOAK_WORKERS (4) workers cycling SOAK_KINDS for SOAK_MIN minutes, memory/clock and engine metrics sampled every 60 s
   sanity_end the sanity block again after the soak
-Env: GLM_URL (http://127.0.0.1:8890/v1), GLM_LABEL, GLM_OUT, SOAK_MIN (30), COLD_TOKENS (280000), LONGGEN_TOKENS (12288), CONC_LEVELS (4,8),
+Env: GLM_URL (http://127.0.0.1:8890/v1), GLM_LABEL, GLM_OUT, SOAK_MIN (30), SOAK_KINDS, SOAK_WORKERS (4), SOAK_LONGGEN_TOKENS (4096), COLD_TOKENS (280000), LONGGEN_TOKENS (12288), CONC_LEVELS (4,8),
      GLM_MEM_HOSTS ("label=user@host ...", probed over SSH with GLM_SSH_OPTS; MemAvailable, SwapFree and the GPU sm clock),
      GLM_SALT (defaults to the start time). Every prompt, short or long, carries a per-request salt so no measurement
      is served from the prefix cache unless the phase says so (Tech2Wild 2026-09-02: repeat a prompt and you measure the cache).
@@ -440,7 +440,11 @@ def phase_cancel():
     return out
 
 
-SOAK_KINDS = ['short', 'coding', 'medium_gen', 'long_prompt', 'short']
+# Soak rotation. Default mix = the batch-1..3 mix (keep it for --compare); SOAK_KINDS=... overrides, e.g. the varied-length mix
+# 'short,coding,medium_gen,long_prompt,short,long_gen,long_prompt_96k,short' used for the 150-min soak. SOAK_WORKERS (4) sets concurrency.
+SOAK_KINDS = [k for k in (os.environ.get('SOAK_KINDS') or 'short,coding,medium_gen,long_prompt,short').split(',') if k]
+SOAK_WORKERS = int(os.environ.get('SOAK_WORKERS', '4'))
+SOAK_LONGGEN_TOKENS = int(os.environ.get('SOAK_LONGGEN_TOKENS', '4096'))
 
 
 def soak_job(kind, i, k):
@@ -452,8 +456,11 @@ def soak_job(kind, i, k):
         return stream(f'soak-{kind}-{i}-{k}', [{'role': 'user', 'content': p}], 1536, think=True, timeout=900)
     if kind == 'medium_gen':
         return stream(f'soak-{kind}-{i}-{k}', [{'role': 'user', 'content': 'Explain, at length and without lists, how RDMA differs from TCP.'}], 1024, ignore_eos=True, timeout=900)
-    body = sized_prompt(24000, seed, f'the reference number is RX-{k}{i}7')
-    return stream(f'soak-{kind}-{i}-{k}', [{'role': 'user', 'content': body + '\n\nWhat is the reference number? Reply with only it.'}], 32, timeout=900)
+    if kind == 'long_gen':  # sustained decode alongside the interactive traffic (thinking off, fixed length)
+        return stream(f'soak-{kind}-{i}-{k}', [{'role': 'user', 'content': f'Write a very long continuous technical story about a cluster bring-up (working title {seed}). No headings, no lists.'}], SOAK_LONGGEN_TOKENS, ignore_eos=True, timeout=1500)
+    size = 96000 if kind == 'long_prompt_96k' else 24000  # 96k exercises the fat-expert prefill kernel under concurrency
+    body = sized_prompt(size, seed, f'the reference number is RX-{k}{i}7')
+    return stream(f'soak-{kind}-{i}-{k}', [{'role': 'user', 'content': body + '\n\nWhat is the reference number? Reply with only it.'}], 32, timeout=1500)
 
 
 def phase_soak():
@@ -474,7 +481,7 @@ def phase_soak():
             log('soak sample', samples[-1]['t'], samples[-1]['metrics'], samples[-1]['mem'])
             stop.wait(60)
 
-    ths = [threading.Thread(target=worker, args=(i,), daemon=True) for i in range(4)] + [threading.Thread(target=sampler, daemon=True)]
+    ths = [threading.Thread(target=worker, args=(i,), daemon=True) for i in range(SOAK_WORKERS)] + [threading.Thread(target=sampler, daemon=True)]
     for t in ths:
         t.start()
     stop.wait(SOAK_MIN * 60); stop.set()
@@ -489,7 +496,8 @@ def phase_soak():
             'error_samples': [r['error'] for r in rows if r['error']][:10],
             'aggregate_completion_tps': round(sum(r['completion_tokens'] for r in rows if not r['error']) / dur, 2),
             'aggregate_prompt_tps': round(sum(r['prompt_tokens'] for r in rows if not r['error']) / dur, 1),
-            'by_kind': by_kind, 'drift': drift, 'long_prompt_needle_ok': sum(1 for r in rows if r['kind'] == 'long_prompt' and 'RX-' in r['text_preview']),
+            'by_kind': by_kind, 'drift': drift, 'long_prompt_needle_ok': sum(1 for r in rows if r['kind'].startswith('long_prompt') and 'RX-' in r['text_preview']),
+            'long_prompt_total': sum(1 for r in rows if r['kind'].startswith('long_prompt') and not r['error']), 'kinds': SOAK_KINDS, 'workers': SOAK_WORKERS,
             'samples': samples, 'rows': rows}
 
 

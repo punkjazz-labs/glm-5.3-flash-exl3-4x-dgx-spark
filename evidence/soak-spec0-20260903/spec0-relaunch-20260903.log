@@ -1,0 +1,9 @@
+2026-09-03T11:41:25Z MAINT set; stopping prod.env quartet for the spec-off A/B
+2026-09-03T11:41:52Z stopped tag=prod
+2026-09-03T11:42:26Z preflight PASS
+2026-09-03T11:42:39Z launched 4 ranks (tag=prod, logs in /home/spark/AI/tp4-prod-logs)
+2026-09-03T11:50:39Z HEALTHY after 479s
+rank 0: EXL3_FAT_KERNEL=1 SPEC_METHOD=none rank 1: EXL3_FAT_KERNEL=1 SPEC_METHOD=none rank 2: EXL3_FAT_KERNEL=1 SPEC_METHOD=none rank 3: EXL3_FAT_KERNEL=1 SPEC_METHOD=none spec_decode metric lines: 0
+health=200
+pid 4106848 log /home/spark/AI/workload-TP4-soak150-spec0-20260903T115041Z.log receipt /home/spark/AI/workload-TP4-soak150-spec0-20260903T115041Z.json
+2026-09-03T14:26:45Z soak process ended

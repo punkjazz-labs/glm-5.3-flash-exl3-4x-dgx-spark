@@ -38,9 +38,13 @@ log "=== TP4 cutover start (cfg=$CFG dry_run=${DRY_RUN:-0}) ==="
 [ "$(health)" = 200 ] || { log "TP2 health != 200"; exit 2; }
 [ "$(completion)" = PINEAPPLE ] || { log "TP2 completion check failed"; exit 2; }
 ./tp4-cluster.sh "$CFG" preflight | tee -a "$LOG" || { log "preflight failed"; exit 2; }
+# Runtime-root manifest: ~/AI/<basename of ROOT>.sha256 (the `find . -type f | sort | xargs sha256sum` listing of the
+# adopted root, e.g. glm53-c190db1-root.sha256); the original glm53-tp4-root.sha256 name is the fallback for the first root.
+ROOT_MANIFEST=$HOME/AI/$(basename "$ROOT").sha256; [ -f "$ROOT_MANIFEST" ] || ROOT_MANIFEST=$HOME/AI/glm53-tp4-root.sha256
+[ -f "$ROOT_MANIFEST" ] || { log "runtime root manifest missing: $ROOT_MANIFEST"; exit 2; }
 for r in 0 1 2 3; do
   h=$(ssh -n $SSH_OPTS "${RANK_USER:-spark}@${RANK_IPS[$r]}" "cd $ROOT && find . -type f | sort | xargs sha256sum | sha256sum | cut -d' ' -f1")
-  [ "$h" = "$(sha256sum ~/AI/glm53-tp4-root.sha256 | cut -d' ' -f1)" ] || { log "rank $r runtime root hash mismatch ($h)"; exit 2; }
+  [ "$h" = "$(sha256sum "$ROOT_MANIFEST" | cut -d' ' -f1)" ] || { log "rank $r runtime root hash mismatch ($h vs $ROOT_MANIFEST)"; exit 2; }
 done
 log "preconditions OK: TP2 healthy, preflight PASS, runtime roots identical on 4 ranks"
 [ "${DRY_RUN:-0}" = 1 ] && { log "DRY_RUN: stopping here"; exit 0; }

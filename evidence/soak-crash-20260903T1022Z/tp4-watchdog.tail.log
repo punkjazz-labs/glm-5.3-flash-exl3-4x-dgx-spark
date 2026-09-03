@@ -1,0 +1,30 @@
+2026-09-03T10:28:25Z rank0 container state 'exited' and health!=200: recovering
+rank 3: removed
+rank 2: removed
+rank 1: removed
+rank 0: removed
+2026-09-03T10:28:46Z stopped tag=prod
+rank 0 10.200.0.11 first-addr=169.254.199.81
+rank 1 10.200.0.12 first-addr=169.254.25.1
+rank 2 10.200.0.13 first-addr=169.254.200.13
+rank 3 10.200.0.14 first-addr=169.254.200.14
+rank 0 clocks: sm=208 MHz max=3003 MHz util=0%
+rank 1 clocks: sm=208 MHz max=3003 MHz util=0%
+rank 2 clocks: sm=208 MHz max=3003 MHz util=0%
+rank 3 clocks: sm=208 MHz max=3003 MHz util=0%
+2026-09-03T10:29:14Z preflight PASS
+2026-09-03T10:29:18Z rank 0 (10.200.0.11): rc=0 rank=0 host=spark-f1cc fabric=10.200.0.11 gid=5 link=200000Mb/s swappiness=60 swap-used-MiB=816 mem-available-GiB=118.1 mem-free-GiB=118.7 started glm53-tp4-prod-r0 
+2026-09-03T10:29:22Z rank 1 (10.200.0.12): rc=0 rank=1 host=spark-a393 fabric=10.200.0.12 gid=6 link=200000Mb/s swappiness=60 swap-used-MiB=688 mem-available-GiB=118.2 mem-free-GiB=118.8 started glm53-tp4-prod-r1 
+2026-09-03T10:29:25Z rank 2 (10.200.0.13): rc=0 rank=2 host=spark-2d65 fabric=10.200.0.13 gid=6 link=100000Mb/s swappiness=60 swap-used-MiB=512 mem-available-GiB=118.3 mem-free-GiB=118.9 started glm53-tp4-prod-r2 
+2026-09-03T10:29:28Z rank 3 (10.200.0.14): rc=0 rank=3 host=spark-2b4f fabric=10.200.0.14 gid=3 link=100000Mb/s swappiness=60 swap-used-MiB=506 mem-available-GiB=118.4 mem-free-GiB=119.0 started glm53-tp4-prod-r3 
+2026-09-03T10:29:28Z launched 4 ranks (tag=prod, logs in /home/spark/AI/tp4-prod-logs)
+2026-09-03T10:29:29Z waiting... health=000 r0: 
+2026-09-03T10:30:00Z waiting... health=000 r0: __init__.py: reasoning fix already present (#53046)
+2026-09-03T10:30:33Z waiting... health=000 r0: (EngineCore pid=1224) INFO 09-03 10:30:29 [multiproc_executor.py:149] DP group leader: node_rank=0, node_rank_within_dp=0, master_addr=10.200.0.11, mq_connect_i
+2026-09-03T10:31:04Z waiting... health=000 r0: (Worker_TP0 pid=1421) Loading safetensors checkpoint shards:   5% Completed | 6/120 [00:11<03:38,  1.92s/it]
+2026-09-03T10:31:36Z waiting... health=000 r0: (Worker_TP0 pid=1421) Loading safetensors checkpoint shards:  19% Completed | 23/120 [00:44<02:49,  1.74s/it]
+2026-09-03T10:32:07Z waiting... health=000 r0: (Worker_TP0 pid=1421) Loading safetensors checkpoint shards:  32% Completed | 39/120 [01:15<02:33,  1.90s/it]
+2026-09-03T10:32:40Z waiting... health=000 r0: (Worker_TP0 pid=1421) Loading safetensors checkpoint shards:  47% Completed | 56/120 [01:48<01:55,  1.80s/it]
+2026-09-03T10:33:12Z waiting... health=000 r0: (Worker_TP0 pid=1421) Loading safetensors checkpoint shards:  59% Completed | 71/120 [02:19<01:37,  1.99s/it]
+2026-09-03T10:33:44Z waiting... health=000 r0: (Worker_TP0 pid=1421) Loading safetensors checkpoint shards:  73% Completed | 88/120 [02:52<01:04,  2.00s/it]
+2026-09-03T10:34:16Z waiting... health=000 r0: (Worker_TP0 pid=1421) Loading safetensors checkpoint shards:  89% Completed | 107/120 [03:23<00:14,  1.13s/it]

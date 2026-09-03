@@ -4,7 +4,7 @@
 # runs) triggers one recovery: stop -> preflight -> launch -> wait. If that fails, tp4-rollback.sh restores TP2 so the
 # gateway is not left dark. Recoveries are rate-limited (MAX_RECOVERIES per hour). Touch $MAINT (default
 # ~/AI/tp4-maintenance) to pause the watchdog while relaunching by hand or running autoresearch. Every CLOCK_EVERY
-# intervals it reads the GPU sm clock of every rank and logs CLOCK-LOW when one is under CLOCK_MIN_MHZ (1000).
+# intervals it reads the GPU sm clock of every rank and logs CLOCK-LOW when a BUSY one (util >= CLOCK_MIN_UTIL, 20 %) is under CLOCK_MIN_MHZ (1000).
 # Usage: nohup tp4-watchdog.sh prod.env > ~/AI/tp4-watchdog.out 2>&1 &
 set -uo pipefail
 cd "$(dirname "$0")"; CFG=${1:-prod.env}
@@ -19,6 +19,7 @@ log "watchdog start cfg=$CFG interval=${INTERVAL}s grace=${STARTUP_GRACE}s"
 clocks(){ # log every rank whose GPU sm clock is below CLOCK_MIN_MHZ (a GB10 can come out of a reboot pinned at 600-700 MHz)
   local r c sm ut low=
   for r in 0 1 2 3; do c=$(ssh -n $SSH_OPTS "${RANK_USER:-spark}@${RANK_IPS[$r]}" "nvidia-smi --query-gpu=clocks.sm,utilization.gpu --format=csv,noheader,nounits" 2>/dev/null | head -1 | tr -d ' '); IFS=, read -r sm ut <<<"$c"
+    [ "${ut:-0}" -lt "${CLOCK_MIN_UTIL:-20}" ] 2>/dev/null && continue  # idle GB10 = 208 MHz, normal; only judge a busy GPU
     [ "${sm:-0}" -ge "${CLOCK_MIN_MHZ:-1000}" ] 2>/dev/null || low="$low r$r=${sm:-unknown}MHz/util${ut:-?}%"; done
   [ -z "$low" ] || log "CLOCK-LOW:$low (below ${CLOCK_MIN_MHZ:-1000} MHz; reboot-capped clocks? no automatic action)"
 }

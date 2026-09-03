@@ -1,0 +1,57 @@
+2026-09-03T09:33:09Z MAINT=1 health=200 starting cutover
+2026-09-03T09:33:09Z === TP4 cutover start (cfg=prod.env dry_run=0) ===
+rank 0 10.200.0.11 first-addr=169.254.199.81
+rank 1 10.200.0.12 first-addr=169.254.25.1
+rank 2 10.200.0.13 first-addr=169.254.200.13
+rank 3 10.200.0.14 first-addr=169.254.200.14
+rank 0 clocks: sm=2411 MHz max=3003 MHz util=0%
+rank 1 clocks: sm=2411 MHz max=3003 MHz util=0%
+rank 2 clocks: sm=208 MHz max=3003 MHz util=0%
+rank 3 clocks: sm=208 MHz max=3003 MHz util=0%
+2026-09-03T09:33:23Z preflight PASS
+2026-09-03T09:33:25Z preconditions OK: TP2 healthy, preflight PASS, runtime roots identical on 4 ranks
+2026-09-03T09:33:25Z stopping TP2 head+worker
+2026-09-03T09:34:00Z TP2 stopped; MemAvailable rank0=117GiB
+2026-09-03T09:34:04Z rank 0 (10.200.0.11): rc=0 rank=0 host=spark-f1cc fabric=10.200.0.11 gid=5 link=200000Mb/s swappiness=60 swap-used-MiB=829 mem-available-GiB=118.1 mem-free-GiB=118.7 started glm53-tp4-prod-r0 
+2026-09-03T09:34:07Z rank 1 (10.200.0.12): rc=0 rank=1 host=spark-a393 fabric=10.200.0.12 gid=6 link=200000Mb/s swappiness=60 swap-used-MiB=694 mem-available-GiB=118.2 mem-free-GiB=118.8 started glm53-tp4-prod-r1 
+2026-09-03T09:34:10Z rank 2 (10.200.0.13): rc=0 rank=2 host=spark-2d65 fabric=10.200.0.13 gid=6 link=100000Mb/s swappiness=60 swap-used-MiB=510 mem-available-GiB=118.3 mem-free-GiB=118.9 started glm53-tp4-prod-r2 
+2026-09-03T09:34:13Z rank 3 (10.200.0.14): rc=0 rank=3 host=spark-2b4f fabric=10.200.0.14 gid=3 link=100000Mb/s swappiness=60 swap-used-MiB=502 mem-available-GiB=118.3 mem-free-GiB=118.9 started glm53-tp4-prod-r3 
+2026-09-03T09:34:13Z launched 4 ranks (tag=prod, logs in /home/spark/AI/tp4-prod-logs)
+2026-09-03T09:34:14Z waiting... health=000 r0: 
+2026-09-03T09:34:46Z waiting... health=000 r0: __init__.py: reasoning fix already present (#53046)
+2026-09-03T09:35:18Z waiting... health=000 r0: glm53: video placeholders aligned to encoder grid_t (Glm5Next→glm46v)
+2026-09-03T09:35:50Z waiting... health=000 r0: (Worker pid=1425) INFO 09-03 09:35:30 [cuda_communicator.py:266] Using ['PYNCCL'] all-reduce backends (in dispatch order) for group 'tp:0' out of potential back
+2026-09-03T09:36:22Z waiting... health=000 r0: (Worker pid=1425) INFO 09-03 09:35:30 [cuda_communicator.py:266] Using ['PYNCCL'] all-reduce backends (in dispatch order) for group 'tp:0' out of potential back
+2026-09-03T09:36:53Z waiting... health=000 r0: (Worker pid=1425) INFO 09-03 09:35:30 [cuda_communicator.py:266] Using ['PYNCCL'] all-reduce backends (in dispatch order) for group 'tp:0' out of potential back
+2026-09-03T09:37:25Z waiting... health=000 r0: (Worker pid=1425) INFO 09-03 09:35:30 [cuda_communicator.py:266] Using ['PYNCCL'] all-reduce backends (in dispatch order) for group 'tp:0' out of potential back
+2026-09-03T09:37:57Z waiting... health=000 r0: (Worker pid=1425) INFO 09-03 09:35:30 [cuda_communicator.py:266] Using ['PYNCCL'] all-reduce backends (in dispatch order) for group 'tp:0' out of potential back
+2026-09-03T09:38:29Z waiting... health=000 r0: (Worker pid=1425) INFO 09-03 09:35:30 [cuda_communicator.py:266] Using ['PYNCCL'] all-reduce backends (in dispatch order) for group 'tp:0' out of potential back
+2026-09-03T09:39:00Z waiting... health=000 r0: (Worker pid=1425) INFO 09-03 09:35:30 [cuda_communicator.py:266] Using ['PYNCCL'] all-reduce backends (in dispatch order) for group 'tp:0' out of potential back
+2026-09-03T09:39:32Z waiting... health=000 r0: (Worker pid=1425) INFO 09-03 09:35:30 [cuda_communicator.py:266] Using ['PYNCCL'] all-reduce backends (in dispatch order) for group 'tp:0' out of potential back
+2026-09-03T09:40:04Z waiting... health=000 r0: (Worker pid=1425) INFO 09-03 09:35:30 [cuda_communicator.py:266] Using ['PYNCCL'] all-reduce backends (in dispatch order) for group 'tp:0' out of potential back
+2026-09-03T09:40:36Z waiting... health=000 r0: (Worker_TP0 pid=1425) INFO 09-03 09:40:36 [model_runner.py:353] Loading model from scratch...
+2026-09-03T09:41:07Z waiting... health=000 r0: (Worker_TP0 pid=1425) Loading safetensors checkpoint shards:  12% Completed | 14/120 [00:28<03:27,  1.96s/it]
+2026-09-03T09:41:40Z waiting... health=000 r0: (Worker_TP0 pid=1425) Loading safetensors checkpoint shards:  26% Completed | 31/120 [01:01<03:02,  2.05s/it]
+2026-09-03T09:42:11Z waiting... health=000 r0: (Worker_TP0 pid=1425) Loading safetensors checkpoint shards:  39% Completed | 47/120 [01:33<02:24,  1.98s/it]
+2026-09-03T09:42:49Z waiting... health=000 r0: (Worker_TP0 pid=1425) Loading safetensors checkpoint shards:  54% Completed | 65/120 [02:09<01:55,  2.11s/it]
+2026-09-03T09:43:20Z waiting... health=000 r0: (Worker_TP0 pid=1425) Loading safetensors checkpoint shards:  68% Completed | 81/120 [02:41<01:16,  1.96s/it]
+2026-09-03T09:43:53Z waiting... health=000 r0: (Worker_TP0 pid=1425) Loading safetensors checkpoint shards:  82% Completed | 98/120 [03:14<00:41,  1.91s/it]
+2026-09-03T09:44:24Z waiting... health=000 r0: (Worker_TP0 pid=1425) Loading safetensors checkpoint shards:  98% Completed | 118/120 [03:46<00:03,  1.77s/it]
+2026-09-03T09:44:57Z waiting... health=000 r0: (Worker_TP0 pid=1425)   warn("tl.make_block_ptr is deprecated. Use TensorDescriptor or tl.make_tensor_descriptor instead.")
+2026-09-03T09:45:29Z waiting... health=000 r0: (Worker_TP0 pid=1425)   warn("tl.make_block_ptr is deprecated. Use TensorDescriptor or tl.make_tensor_descriptor instead.")
+2026-09-03T09:46:02Z waiting... health=000 r0: (Worker_TP0 pid=1425) INFO 09-03 09:46:01 [kernel_warmup.py:170] Skipping FlashInfer autotune because it is disabled.
+2026-09-03T09:46:33Z waiting... health=000 r0: (Worker_TP0 pid=1425) Capturing CUDA graphs (FULL):   0%|          | 0/5 [00:00<?, ?it/s]Capturing CUDA graphs (FULL):  20%|██        | 1/5 [00:00<00:00, 
+2026-09-03T09:47:06Z waiting... health=000 r0: (APIServer pid=1) INFO 09-03 09:47:04 [hf.py:551] Detected the chat template content format to be 'openai'. You can set `--chat-template-content-format` to over
+2026-09-03T09:47:36Z HEALTHY after 803s
+2026-09-03T09:47:37Z TP4 healthy and answering
+{"contract": {"all_pass": true, "long_prefill_pass": true, "normal_eos_pass": true}, "receipt": "/home/spark/AI/tp4-benchmark-20260903T093309Z.json", "result": "PASS", "suite_sha256": "305f0830b2db9566f73937c11cab11085147315cb75d72cdd23a195013b53e55", "summary": {"median_concurrency4_aggregate_tps": 71.897106, "median_decode_tps": 35.673125, "median_long_prefill_tps": 25854.335316, "p50_ttft_s": 0.229783, "p95_e2e_latency_s": 0.3022592}}
+metric                                   baseline    candidate   ratio  verdict
+median_decode_tps                         21.1783      35.6731   1.684  ok
+median_long_prefill_tps                 7792.2663   25854.3353   3.318  ok
+median_concurrency4_aggregate_tps         27.4276      71.8971   2.621  ok
+p50_ttft_s                                 0.3138       0.2298   0.732  ok
+p95_e2e_latency_s                          0.4405       0.3023   0.686  ok
+contract all_pass: True
+RESULT: PASS
+2026-09-03T09:49:31Z PROMOTED: TP4 is live on :8890; TP2 containers retained (stopped). Rollback: ./tp4-rollback.sh prod.env
+2026-09-03T09:49:32Z cutover rc=0

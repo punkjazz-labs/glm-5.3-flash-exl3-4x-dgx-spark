@@ -1,0 +1,12 @@
+2026-09-03T10:38:41Z MAINT set
+rank 0: removed
+2026-09-03T10:39:07Z stopped tag=prod
+rank 2 clocks: sm=208 MHz max=3003 MHz util=0%
+rank 3 clocks: sm=208 MHz max=3003 MHz util=0%
+2026-09-03T10:39:40Z preflight PASS
+2026-09-03T10:39:54Z rank 3 (10.200.0.14): rc=0 rank=3 host=spark-2b4f fabric=10.200.0.14 gid=3 link=100000Mb/s swappiness=60 swap-used-MiB=511 mem-available-GiB=118.4 mem-free-GiB=119.0 started glm53-tp4-prod-r3 
+2026-09-03T10:39:54Z launched 4 ranks (tag=prod, logs in /home/spark/AI/tp4-prod-logs)
+2026-09-03T10:52:40Z waiting... health=000 r0: (EngineCore pid=1226) INFO 09-03 10:52:40 [compilation.py:329] Enabled custom fusions: norm_quant, act_quant
+2026-09-03T10:53:10Z HEALTHY after 796s
+rank 0: MAX_NUM_SEQS=8 EXL3_FAT_KERNEL=0 rank 1: EXL3_FAT_KERNEL=0 MAX_NUM_SEQS=8 rank 2: MAX_NUM_SEQS=8 EXL3_FAT_KERNEL=0 rank 3: MAX_NUM_SEQS=8 EXL3_FAT_KERNEL=0 health=200
+pid 4002570 log /home/spark/AI/workload-TP4-soak150-fat0-20260903T105312Z.log receipt /home/spark/AI/workload-TP4-soak150-fat0-20260903T105312Z.json

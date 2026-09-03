@@ -31,10 +31,14 @@ case "$CMD" in
         S $a "ping -c1 -W1 -I ${NETDEV:-enp1s0f1np1} $ip >/dev/null 2>&1" || { echo "UNREACHABLE: rank $a -> rank $b ($ip)"; fail=1; }
       done; done; done
     for r in 0 1 2 3; do S $r "${RANK_DK[$r]} image inspect ${RANK_IMG[$r]} >/dev/null 2>&1" || { echo "rank $r: image missing"; fail=1; }; done
-    # GPU clocks: after a reboot a GB10 can come up pinned at 600-700 MHz (Tech2Wild, 2026-09-02); healthy idle is ~2400 MHz.
+    # GPU clocks: after a reboot a GB10 can come up pinned at 600-700 MHz (Tech2Wild, 2026-09-02). Only a BUSY GPU (util >=
+    # CLOCK_MIN_UTIL, default 20 %) can be judged: with no engine running a GB10 idles at 208 MHz, which is normal (the
+    # 2026-09-03 watchdog recovery failed on exactly that; the idle reading is informational only).
     for r in 0 1 2 3; do c=$(S $r "nvidia-smi --query-gpu=clocks.sm,clocks.max.sm,utilization.gpu --format=csv,noheader,nounits" 2>/dev/null | head -1 | tr -d " "); IFS=, read -r sm mx ut <<<"$c"
       echo "rank $r clocks: sm=${sm:-?} MHz max=${mx:-?} MHz util=${ut:-?}%"
-      [ "${sm:-0}" -ge "${CLOCK_MIN_MHZ:-1000}" ] 2>/dev/null || { echo "rank $r: GPU clock ${sm:-unknown} MHz below ${CLOCK_MIN_MHZ:-1000} (capped clocks; reboot the node and re-check)"; fail=1; }; done
+      if [ "${ut:-0}" -ge "${CLOCK_MIN_UTIL:-20}" ] 2>/dev/null; then
+        [ "${sm:-0}" -ge "${CLOCK_MIN_MHZ:-1000}" ] 2>/dev/null || { echo "rank $r: GPU clock ${sm:-unknown} MHz below ${CLOCK_MIN_MHZ:-1000} under load (capped clocks; reboot the node and re-check)"; fail=1; }
+      fi; done
     [ $fail = 0 ] && log "preflight PASS" || { log "preflight FAIL"; exit 1; }
     ;;
   launch)

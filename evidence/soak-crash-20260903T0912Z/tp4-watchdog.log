@@ -1,0 +1,29 @@
+2026-09-02T21:07:55Z watchdog start cfg=prod.env interval=60s grace=1200s
+2026-09-03T02:36:32Z watchdog start cfg=prod.env interval=60s grace=1200s
+2026-09-03T09:18:07Z rank0 container state 'exited' and health!=200: recovering
+rank 3: removed
+rank 2: removed
+rank 1: removed
+rank 0: removed
+2026-09-03T09:18:26Z stopped tag=prod
+rank 0 10.200.0.11 first-addr=169.254.199.81
+rank 1 10.200.0.12 first-addr=169.254.25.1
+rank 2 10.200.0.13 first-addr=169.254.200.13
+rank 3 10.200.0.14 first-addr=169.254.200.14
+rank 0 clocks: sm=208 MHz max=3003 MHz util=0%
+rank 0: GPU clock 208 MHz below 1000 (capped clocks; reboot the node and re-check)
+rank 1 clocks: sm=208 MHz max=3003 MHz util=0%
+rank 1: GPU clock 208 MHz below 1000 (capped clocks; reboot the node and re-check)
+rank 2 clocks: sm=208 MHz max=3003 MHz util=0%
+rank 2: GPU clock 208 MHz below 1000 (capped clocks; reboot the node and re-check)
+rank 3 clocks: sm=208 MHz max=3003 MHz util=0%
+rank 3: GPU clock 208 MHz below 1000 (capped clocks; reboot the node and re-check)
+2026-09-03T09:18:55Z preflight FAIL
+2026-09-03T09:18:55Z TP4 recovery failed; restoring TP2
+rank 3: removed
+rank 2: removed
+rank 1: removed
+rank 0: removed
+2026-09-03T09:18:56Z stopped tag=prod
+2026-09-03T09:18:57Z TP2 worker started
+2026-09-03T09:19:00Z TP2 head started
