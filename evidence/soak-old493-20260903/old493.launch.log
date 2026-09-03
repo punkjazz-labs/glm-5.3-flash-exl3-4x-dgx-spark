@@ -1,0 +1,32 @@
+rank 0 10.200.0.11 first-addr=169.254.199.81
+rank 1 10.200.0.12 first-addr=169.254.25.1
+rank 2 10.200.0.13 first-addr=169.254.200.13
+rank 3 10.200.0.14 first-addr=169.254.200.14
+rank 0 clocks: sm=208 MHz max=3003 MHz util=0%
+rank 1 clocks: sm=208 MHz max=3003 MHz util=0%
+rank 2 clocks: sm=208 MHz max=3003 MHz util=0%
+rank 3 clocks: sm=208 MHz max=3003 MHz util=0%
+2026-09-03T15:35:20Z preflight PASS
+2026-09-03T15:35:25Z rank 0 (10.200.0.11): rc=0 rank=0 host=spark-f1cc fabric=10.200.0.11 gid=5 link=200000Mb/s swappiness=60 swap-used-MiB=826 mem-available-GiB=118.1 mem-free-GiB=118.7 started glm53-tp4-prod-r0 
+2026-09-03T15:35:28Z rank 1 (10.200.0.12): rc=0 rank=1 host=spark-a393 fabric=10.200.0.12 gid=6 link=200000Mb/s swappiness=60 swap-used-MiB=672 mem-available-GiB=118.2 mem-free-GiB=118.8 started glm53-tp4-prod-r1 
+2026-09-03T15:35:31Z rank 2 (10.200.0.13): rc=0 rank=2 host=spark-2d65 fabric=10.200.0.13 gid=6 link=100000Mb/s swappiness=60 swap-used-MiB=513 mem-available-GiB=118.3 mem-free-GiB=119.0 started glm53-tp4-prod-r2 
+2026-09-03T15:35:34Z rank 3 (10.200.0.14): rc=0 rank=3 host=spark-2b4f fabric=10.200.0.14 gid=3 link=100000Mb/s swappiness=60 swap-used-MiB=502 mem-available-GiB=118.4 mem-free-GiB=119.0 started glm53-tp4-prod-r3 
+2026-09-03T15:35:34Z launched 4 ranks (tag=prod, logs in /home/spark/AI/tp4-prod-logs)
+2026-09-03T15:35:36Z waiting... health=000 r0: 
+2026-09-03T15:36:07Z waiting... health=000 r0: __init__.py: reasoning fix patched (#53046)
+2026-09-03T15:36:40Z waiting... health=000 r0: glm53: video placeholders aligned to encoder grid_t (Glm5Next→glm46v)
+2026-09-03T15:37:11Z waiting... health=000 r0: (Worker_TP0 pid=1422) Loading safetensors checkpoint shards:   6% Completed | 7/120 [00:14<04:06,  2.18s/it]
+2026-09-03T15:37:43Z waiting... health=000 r0: (Worker_TP0 pid=1422) Loading safetensors checkpoint shards:  20% Completed | 24/120 [00:46<02:56,  1.84s/it]
+2026-09-03T15:38:15Z waiting... health=000 r0: (Worker_TP0 pid=1422) Loading safetensors checkpoint shards:  33% Completed | 40/120 [01:18<02:39,  2.00s/it]
+2026-09-03T15:38:48Z waiting... health=000 r0: (Worker_TP0 pid=1422) Loading safetensors checkpoint shards:  47% Completed | 56/120 [01:49<01:56,  1.82s/it]
+2026-09-03T15:39:19Z waiting... health=000 r0: (Worker_TP0 pid=1422) Loading safetensors checkpoint shards:  60% Completed | 72/120 [02:22<01:35,  1.99s/it]
+2026-09-03T15:39:52Z waiting... health=000 r0: (Worker_TP0 pid=1422) Loading safetensors checkpoint shards:  73% Completed | 88/120 [02:53<01:03,  1.99s/it]
+2026-09-03T15:40:23Z waiting... health=000 r0: (Worker_TP0 pid=1422) Loading safetensors checkpoint shards:  89% Completed | 107/120 [03:24<00:14,  1.12s/it]
+2026-09-03T15:40:55Z waiting... health=000 r0: (Worker_TP0 pid=1422) 
+2026-09-03T15:41:27Z waiting... health=000 r0: (Worker_TP0 pid=1422)   warn("tl.make_block_ptr is deprecated. Use TensorDescriptor or tl.make_tensor_descriptor instead.")
+2026-09-03T15:41:59Z waiting... health=000 r0: (Worker_TP0 pid=1422)   warn("tl.make_block_ptr is deprecated. Use TensorDescriptor or tl.make_tensor_descriptor instead.")
+2026-09-03T15:42:31Z waiting... health=000 r0: (Worker_TP0 pid=1422) INFO 09-03 15:42:29 [kernel_warmup.py:170] Skipping FlashInfer autotune because it is disabled.
+2026-09-03T15:43:03Z waiting... health=000 r0: (Worker_TP0 pid=1422) INFO 09-03 15:42:34 [speculator.py:137] Capturing model for DFlash2 speculator...
+2026-09-03T15:43:35Z waiting... health=000 r0: (APIServer pid=1) INFO 09-03 15:43:34 [hf.py:551] Detected the chat template content format to be 'openai'. You can set `--chat-template-content-format` to over
+2026-09-03T15:44:05Z HEALTHY after 511s
+pid 270790 log /home/spark/AI/workload-TP4-soak150-old493-20260903T154405Z.log receipt /home/spark/AI/workload-TP4-soak150-old493-20260903T154405Z.json

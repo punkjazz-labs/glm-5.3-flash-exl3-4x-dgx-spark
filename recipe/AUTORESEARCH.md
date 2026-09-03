@@ -253,3 +253,38 @@ prefill 0.3 / 1.8 / 1.8 s (fresh prompts; fat+draft 2.9 s), coding 4-way per-str
 202 s instead of 146 s), 12k generation decode 22.7 tok/s (36.8), warm 12k follow-up 9.6 s with **no prefix-cache hits**
 (3.1 s with hits yesterday: to be understood), 24k cron prefill 18.8 s TTFT (19.7).
 
+Run 5 (`TP4-soak150-old493`, 15:44Z-18:19Z, `evidence/soak-old493-20260903/`): the **493cb88 image and root** (yesterday's
+"old image": no E2 fat kernel, no PR86 indexer workspace, no PR96 spinwait) with the **draft on, 3 tokens**, otherwise
+`prod.env` (0.75 / 8 / 2048 / mixed off / swappiness 60), same mix, same 8 workers. **150 minutes clean**: 468 own
+requests (+15 gateway), 0 errors, 115/115 needles, sanity pass before and after, MemAvailable flat (r0 8.9 GiB,
+r1-r3 13.3-14.3 GiB), busy clocks >= 2431 MHz, draft acceptance 0.43 over the run, 57 completed 96k prompts. The same
+mix hung c190db1 with the draft on three times within 78 minutes and once with it off (a lone 282k prefill).
+
+| kind | n | wall p50 / p95 s | TTFT p50 / p95 s | decode p50 tok/s | prefill p50 tok/s |
+|---|---|---|---|---|---|
+| short | 176 | 2.07 / 85.4 | 0.61 / 79.0 | 12.0 | - |
+| coding | 60 | 175 / 363 | 0.92 / 82.2 | 9.8 | - |
+| medium_gen | 57 | 150 / 404 | 0.58 / 7.3 | 6.8 | - |
+| long_prompt (24k) | 58 | 22.5 / 87.7 | 22.1 / 85.0 | 13.0 | 1090 |
+| long_gen (4096) | 60 | 676 / 851 | 0.57 / 75.6 | 6.2 | - |
+| long_prompt_96k | 57 | 87.3 / 180 | 85.7 / 179 | 14.8 | 1128 |
+
+Per-stream decode under this mix is prefill-bound (6-15 tok/s on either image, with or without the draft), so the
+mix does not show the draft's single-stream gain; the validation suite does. What run 5 establishes is the location of
+the stall: **it is a regression between 493cb88 and c190db1** (upstream PRs 77, 63, 86, 96 and whatever else landed in
+that window), not an inherent property of the model, the draft, the fabric or the four-node TP job. The fat-expert
+kernel (PR77) was cleared by run 3, so PR86 (indexer workspace opt-in) and PR96 (spinwait) are the candidates, plus the
+vLLM build itself if it changed between the two images.
+
+Run 6 (`TP4-soak150-tok1`, 18:29Z-20:26Z, c190db1 with the draft on and `DFLASH_TOKENS=1`, fat kernel on,
+`evidence/soak-crash-20260903T1951Z/`): froze at 19:51Z, 82 minutes in (zero token growth, 21 W at 96 % utilisation,
+`No available shared memory broadcast block` every minute from 19:52Z, client timeouts from 20:05Z). A shorter draft
+does not change the outcome. **New in this run: the engine never died.** In the five earlier stalls the core raised
+`RPC call to sample_tokens timed out` after 300 s and `/health` went dark; this time the core sat in the shared-memory
+wait with no timeout for 35+ minutes while `/health` kept returning 200, so neither the chain nor the watchdog would
+have noticed. The workload was killed by hand at 20:26Z (the chain's results file therefore says "survived" for tok1;
+it did not). The watchdog now carries a liveness check for exactly this: requests running, token counters flat for
+four intervals, and a probe completion failing twice in a row -> recovery. **Decision: `prod.env` returns to the 493cb88 image and root with the draft on
+(3 tokens), no fat kernel**, the configuration of run 5; the overnight chain's final restore step launches it and resumes
+the watchdog. c190db1 stays staged on every rank.
+

@@ -1,0 +1,32 @@
+rank 0 10.200.0.11 first-addr=169.254.199.81
+rank 1 10.200.0.12 first-addr=169.254.25.1
+rank 2 10.200.0.13 first-addr=169.254.200.13
+rank 3 10.200.0.14 first-addr=169.254.200.14
+rank 0 clocks: sm=208 MHz max=3003 MHz util=0%
+rank 1 clocks: sm=208 MHz max=3003 MHz util=0%
+rank 2 clocks: sm=208 MHz max=3003 MHz util=0%
+rank 3 clocks: sm=208 MHz max=3003 MHz util=0%
+2026-09-03T18:20:17Z preflight PASS
+2026-09-03T18:20:21Z rank 0 (10.200.0.11): rc=0 rank=0 host=spark-f1cc fabric=10.200.0.11 gid=5 link=200000Mb/s swappiness=60 swap-used-MiB=831 mem-available-GiB=118.1 mem-free-GiB=118.6 started glm53-tp4-prod-r0 
+2026-09-03T18:20:24Z rank 1 (10.200.0.12): rc=0 rank=1 host=spark-a393 fabric=10.200.0.12 gid=6 link=200000Mb/s swappiness=60 swap-used-MiB=669 mem-available-GiB=118.1 mem-free-GiB=118.7 started glm53-tp4-prod-r1 
+2026-09-03T18:20:27Z rank 2 (10.200.0.13): rc=0 rank=2 host=spark-2d65 fabric=10.200.0.13 gid=6 link=100000Mb/s swappiness=60 swap-used-MiB=512 mem-available-GiB=118.3 mem-free-GiB=118.9 started glm53-tp4-prod-r2 
+2026-09-03T18:20:30Z rank 3 (10.200.0.14): rc=0 rank=3 host=spark-2b4f fabric=10.200.0.14 gid=3 link=100000Mb/s swappiness=60 swap-used-MiB=505 mem-available-GiB=118.3 mem-free-GiB=119.0 started glm53-tp4-prod-r3 
+2026-09-03T18:20:30Z launched 4 ranks (tag=prod, logs in /home/spark/AI/tp4-prod-logs)
+2026-09-03T18:20:32Z waiting... health=000 r0: 
+2026-09-03T18:21:03Z waiting... health=000 r0: __init__.py: reasoning fix already present (#53046)
+2026-09-03T18:21:36Z waiting... health=000 r0: (EngineCore pid=1226) INFO 09-03 18:21:32 [multiproc_executor.py:149] DP group leader: node_rank=0, node_rank_within_dp=0, master_addr=10.200.0.11, mq_connect_i
+2026-09-03T18:22:07Z waiting... health=000 r0: (Worker_TP0 pid=1423) Loading safetensors checkpoint shards:   5% Completed | 6/120 [00:11<03:42,  1.95s/it]
+2026-09-03T18:22:39Z waiting... health=000 r0: (Worker_TP0 pid=1423) Loading safetensors checkpoint shards:  19% Completed | 23/120 [00:43<02:48,  1.73s/it]
+2026-09-03T18:23:11Z waiting... health=000 r0: (Worker_TP0 pid=1423) Loading safetensors checkpoint shards:  32% Completed | 39/120 [01:15<02:37,  1.95s/it]
+2026-09-03T18:23:43Z waiting... health=000 r0: (Worker_TP0 pid=1423) Loading safetensors checkpoint shards:  47% Completed | 56/120 [01:48<01:53,  1.77s/it]
+2026-09-03T18:24:15Z waiting... health=000 r0: (Worker_TP0 pid=1423) Loading safetensors checkpoint shards:  60% Completed | 72/120 [02:20<01:33,  1.95s/it]
+2026-09-03T18:24:48Z waiting... health=000 r0: (Worker_TP0 pid=1423) Loading safetensors checkpoint shards:  73% Completed | 88/120 [02:52<01:03,  2.00s/it]
+2026-09-03T18:25:19Z waiting... health=000 r0: (Worker_TP0 pid=1423) Loading safetensors checkpoint shards:  89% Completed | 107/120 [03:24<00:14,  1.14s/it]
+2026-09-03T18:25:51Z waiting... health=000 r0: (Worker_TP0 pid=1423) 
+2026-09-03T18:26:22Z waiting... health=000 r0: (Worker_TP0 pid=1423)   warn("tl.make_block_ptr is deprecated. Use TensorDescriptor or tl.make_tensor_descriptor instead.")
+2026-09-03T18:26:55Z waiting... health=000 r0: (EngineCore pid=1226) INFO 09-03 18:26:54 [shm_broadcast.py:801] No available shared memory broadcast block found in 60 seconds. This typically happens when som
+2026-09-03T18:27:27Z waiting... health=000 r0: (Worker_TP0 pid=1423) Capturing CUDA graphs (FULL):   0%|          | 0/4 [00:00<?, ?it/s]Capturing CUDA graphs (FULL):  25%|██▌       | 1/4 [00:00<00:00
+2026-09-03T18:27:59Z waiting... health=000 r0: (EngineCore pid=1226) INFO 09-03 18:27:58 [core.py:363] init engine (profile, create kv cache, warmup model) took 124.50 s
+2026-09-03T18:28:31Z waiting... health=000 r0: (APIServer pid=1) INFO 09-03 18:28:28 [base.py:235] Multi-modal warmup completed in 8.600s
+2026-09-03T18:29:01Z HEALTHY after 511s
+pid 483089 log /home/spark/AI/workload-TP4-soak150-tok1-20260903T182901Z.log receipt /home/spark/AI/workload-TP4-soak150-tok1-20260903T182901Z.json

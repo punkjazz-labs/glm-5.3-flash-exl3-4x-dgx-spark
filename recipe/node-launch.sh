@@ -2,6 +2,7 @@
 # GLM-5.3-Flash EXL3 TP4 — node-local rank launcher (runs on each rank, no SSH inside).
 # Required env: NODE_RANK HEAD_IP FABRIC_IP RDV PORT IMG ROOT HF VC TAG DK SPEC_METHOD DRAFT_TP
 # Optional env: MAX_MODEL_LEN GPU_MEM_UTIL MAX_NUM_SEQS MAX_NUM_BATCHED_TOKENS KV_CACHE_DTYPE DFLASH_TOKENS NCCL_DEBUG EXTRA_ARGS
+#               TP_SIZE NNODES (default 4/4; 2/2 runs the same launcher on a two-node pair)
 # EXL3_FAT_KERNEL (0/1): E2 fat-expert prefill kernel of upstream PR77 (images built from c190db1 or later; ignored by 493cb88)
 # SWAPPINESS (0-100): set vm.swappiness on this rank before launch (runtime only; persist it yourself in /etc/sysctl.d)
 # MIXED_PREFILL_CHUNK (skip default = never mix a new prefill with running decodes; N = cap mixed chunk; off = stock chunked prefill)
@@ -44,7 +45,7 @@ set -euo pipefail
 args=(
   --served-model-name GLM-5.3-Flash-EXL3
   --host 0.0.0.0 --port "$PORT"
-  --tensor-parallel-size 4 --nnodes 4 --node-rank "$NODE_RANK"
+  --tensor-parallel-size "${TP_SIZE:-4}" --nnodes "${NNODES:-4}" --node-rank "$NODE_RANK"
   --master-addr "$HEAD_IP" --master-port "$RDV"
   --distributed-executor-backend mp
   --tool-call-parser glm47 --enable-auto-tool-choice
@@ -89,6 +90,7 @@ $DK run -d --name "$NAME" \
   "${mounts[@]}" \
   -e NODE_RANK="$NODE_RANK" -e HEAD_IP="$HEAD_IP" -e RDV="$RDV" -e PORT="$PORT" \
   -e MODEL_DIR="$MODEL_DIR" -e DFLASH_MODEL_DIR="$DFLASH_DIR" -e SPEC_METHOD="$SPEC_METHOD" -e DRAFT_TP="$DRAFT_TP" \
+  -e TP_SIZE="${TP_SIZE:-4}" -e NNODES="${NNODES:-4}" \
   -e DFLASH_TOKENS="${DFLASH_TOKENS:-7}" -e MAX_MODEL_LEN="${MAX_MODEL_LEN:-1000000}" -e GPU_MEM_UTIL="${GPU_MEM_UTIL:-0.87}" \
   -e MAX_NUM_SEQS="${MAX_NUM_SEQS:-4}" -e MAX_NUM_BATCHED_TOKENS="${MAX_NUM_BATCHED_TOKENS:-2048}" -e KV_CACHE_DTYPE="${KV_CACHE_DTYPE:-fp8}" \
   -e EXTRA_ARGS="${EXTRA_ARGS:-}" -e EXL3_FAT_KERNEL="${EXL3_FAT_KERNEL:-0}" -e HOST_SWAPPINESS="$(cat /proc/sys/vm/swappiness)" \

@@ -1,0 +1,2361 @@
+{
+ "label": "TP4-spec0-full",
+ "url": "http://127.0.0.1:8890/v1",
+ "salt": "20260903T143939Z",
+ "started": "2026-09-03T14:39:39Z",
+ "models": [
+  "GLM-5.3-Flash-EXL3"
+ ],
+ "soak_min": 30.0,
+ "cold_tokens_target": 280000,
+ "metrics_before": {
+  "running": 0.0,
+  "waiting": 0.0,
+  "kv_usage": 0.0,
+  "prefix_queries": 7212703.0,
+  "prefix_hits": 41216.0,
+  "spec_accepted": null,
+  "spec_drafts": null,
+  "requests_total": 585.0
+ },
+ "memory_before": {
+  "r0": {
+   "MemAvailable_GiB": 11.25,
+   "SwapFree_GiB": 11.9,
+   "clock_mhz": 2411,
+   "gpu_util": 0
+  },
+  "r1": {
+   "MemAvailable_GiB": 15.18,
+   "SwapFree_GiB": 12.55,
+   "clock_mhz": 2411,
+   "gpu_util": 0
+  },
+  "r2": {
+   "MemAvailable_GiB": 14.95,
+   "SwapFree_GiB": 13.18,
+   "clock_mhz": 2405,
+   "gpu_util": 0
+  },
+  "r3": {
+   "MemAvailable_GiB": 15.06,
+   "SwapFree_GiB": 13.06,
+   "clock_mhz": 2405,
+   "gpu_util": 0
+  }
+ },
+ "phases": [
+  "warmup",
+  "sanity",
+  "coding",
+  "longgen",
+  "cold",
+  "cancel",
+  "soak",
+  "sanity_end"
+ ],
+ "warmup": {
+  "requests": [
+   {
+    "name": "warm-think",
+    "wall_s": 16.152,
+    "ttft_s": 0.465,
+    "decode_tps": 16.26,
+    "prefill_tps": 118.3,
+    "prompt_tokens": 55,
+    "cached_tokens": null,
+    "completion_tokens": 256,
+    "finish_reason": "length",
+    "chunks": 252,
+    "reasoning_chars": 1023,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 0,
+    "text_sha256": "e3b0c44298fc1c14",
+    "text_preview": ""
+   },
+   {
+    "name": "warm-tools",
+    "wall_s": 4.704,
+    "ttft_s": 0.529,
+    "decode_tps": 15.09,
+    "prefill_tps": 1069.3,
+    "prompt_tokens": 566,
+    "cached_tokens": null,
+    "completion_tokens": 64,
+    "finish_reason": "length",
+    "chunks": 64,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 257,
+    "text_sha256": "8ce3a2dc7e51a2ce",
+    "text_preview": "- search_notes \u2014 Search the knowledge base\n- read_file \u2014 Read a file\n- list_dir \u2014 List a directory\n- run_check \u2014 Run a h"
+   },
+   {
+    "name": "warm-gen",
+    "wall_s": 31.672,
+    "ttft_s": 0.217,
+    "decode_tps": 16.25,
+    "prefill_tps": 92.2,
+    "prompt_tokens": 20,
+    "cached_tokens": null,
+    "completion_tokens": 512,
+    "finish_reason": "length",
+    "chunks": 512,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 2657,
+    "text_sha256": "9895568b862a0bff",
+    "text_preview": "# Switches: The Quiet Machinery of Choice\n\n## Introduction\n\nEvery time you flip a light switch, tap a keyboard key, or p"
+   },
+   {
+    "name": "warm-12k",
+    "wall_s": 9.204,
+    "ttft_s": 8.875,
+    "decode_tps": 12.16,
+    "prefill_tps": 1354.1,
+    "prompt_tokens": 12018,
+    "cached_tokens": null,
+    "completion_tokens": 5,
+    "finish_reason": "stop",
+    "chunks": 4,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 6,
+    "text_sha256": "a1ea2828edca1246",
+    "text_preview": "WARM-1"
+   },
+   {
+    "name": "warm-12k-again",
+    "wall_s": 1.363,
+    "ttft_s": 1.037,
+    "decode_tps": 12.27,
+    "prefill_tps": 11586.8,
+    "prompt_tokens": 12015,
+    "cached_tokens": null,
+    "completion_tokens": 5,
+    "finish_reason": "stop",
+    "chunks": 4,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 6,
+    "text_sha256": "a1ea2828edca1246",
+    "text_preview": "WARM-1",
+    "prefix_hits_delta": 10752,
+    "prefix_queries_delta": 12060
+   }
+  ],
+  "shorts": {
+   "n": 68,
+   "errors": 0,
+   "completion_tokens": 1251,
+   "wall_s": {
+    "p50": 0.669,
+    "p95": 3.977,
+    "min": 0.217,
+    "max": 12.513
+   },
+   "ttft_s": {
+    "p50": 0.247,
+    "p95": 0.474,
+    "min": 0.17,
+    "max": 0.854
+   }
+  }
+ },
+ "phase_wall_s": {
+  "warmup": 64.1,
+  "sanity": 3.1,
+  "coding": 207.8,
+  "longgen": 553.0,
+  "cold": 470.7,
+  "cancel": 30.0,
+  "soak": 1800.0,
+  "sanity_end": 3.3
+ },
+ "memory_by_phase": {
+  "warmup": {
+   "r0": {
+    "MemAvailable_GiB": 11.26,
+    "SwapFree_GiB": 11.9,
+    "clock_mhz": 2457,
+    "gpu_util": 96
+   },
+   "r1": {
+    "MemAvailable_GiB": 15.2,
+    "SwapFree_GiB": 12.55,
+    "clock_mhz": 2405,
+    "gpu_util": 0
+   },
+   "r2": {
+    "MemAvailable_GiB": 14.96,
+    "SwapFree_GiB": 13.18,
+    "clock_mhz": 2398,
+    "gpu_util": 0
+   },
+   "r3": {
+    "MemAvailable_GiB": 14.94,
+    "SwapFree_GiB": 13.06,
+    "clock_mhz": 2405,
+    "gpu_util": 0
+   }
+  },
+  "sanity": {
+   "r0": {
+    "MemAvailable_GiB": 11.25,
+    "SwapFree_GiB": 11.9,
+    "clock_mhz": 2483,
+    "gpu_util": 96
+   },
+   "r1": {
+    "MemAvailable_GiB": 15.21,
+    "SwapFree_GiB": 12.55,
+    "clock_mhz": 2496,
+    "gpu_util": 0
+   },
+   "r2": {
+    "MemAvailable_GiB": 14.97,
+    "SwapFree_GiB": 13.18,
+    "clock_mhz": 2398,
+    "gpu_util": 40
+   },
+   "r3": {
+    "MemAvailable_GiB": 14.97,
+    "SwapFree_GiB": 13.06,
+    "clock_mhz": 2405,
+    "gpu_util": 0
+   }
+  },
+  "coding": {
+   "r0": {
+    "MemAvailable_GiB": 11.22,
+    "SwapFree_GiB": 11.92,
+    "clock_mhz": 2431,
+    "gpu_util": 29
+   },
+   "r1": {
+    "MemAvailable_GiB": 15.2,
+    "SwapFree_GiB": 12.56,
+    "clock_mhz": 2405,
+    "gpu_util": 95
+   },
+   "r2": {
+    "MemAvailable_GiB": 14.93,
+    "SwapFree_GiB": 13.18,
+    "clock_mhz": 2398,
+    "gpu_util": 0
+   },
+   "r3": {
+    "MemAvailable_GiB": 15.02,
+    "SwapFree_GiB": 13.06,
+    "clock_mhz": 2411,
+    "gpu_util": 0
+   }
+  },
+  "longgen": {
+   "r0": {
+    "MemAvailable_GiB": 11.25,
+    "SwapFree_GiB": 11.92,
+    "clock_mhz": 2424,
+    "gpu_util": 0
+   },
+   "r1": {
+    "MemAvailable_GiB": 15.23,
+    "SwapFree_GiB": 12.56,
+    "clock_mhz": 2405,
+    "gpu_util": 96
+   },
+   "r2": {
+    "MemAvailable_GiB": 14.94,
+    "SwapFree_GiB": 13.18,
+    "clock_mhz": 2411,
+    "gpu_util": 0
+   },
+   "r3": {
+    "MemAvailable_GiB": 15.08,
+    "SwapFree_GiB": 13.06,
+    "clock_mhz": 2411,
+    "gpu_util": 0
+   }
+  },
+  "cold": {
+   "r0": {
+    "MemAvailable_GiB": 117.86,
+    "SwapFree_GiB": 15.21,
+    "clock_mhz": 2405,
+    "gpu_util": 0
+   },
+   "r1": {
+    "MemAvailable_GiB": 15.18,
+    "SwapFree_GiB": 12.56,
+    "clock_mhz": 2548,
+    "gpu_util": 96
+   },
+   "r2": {
+    "MemAvailable_GiB": 14.92,
+    "SwapFree_GiB": 13.18,
+    "clock_mhz": 2535,
+    "gpu_util": 96
+   },
+   "r3": {
+    "MemAvailable_GiB": 15.03,
+    "SwapFree_GiB": 13.07,
+    "clock_mhz": 2535,
+    "gpu_util": 96
+   }
+  },
+  "cancel": {
+   "r0": {
+    "MemAvailable_GiB": 117.87,
+    "SwapFree_GiB": 15.21,
+    "clock_mhz": 208,
+    "gpu_util": 0
+   },
+   "r1": {
+    "MemAvailable_GiB": 15.19,
+    "SwapFree_GiB": 12.56,
+    "clock_mhz": 2548,
+    "gpu_util": 96
+   },
+   "r2": {
+    "MemAvailable_GiB": 14.91,
+    "SwapFree_GiB": 13.18,
+    "clock_mhz": 2535,
+    "gpu_util": 96
+   },
+   "r3": {
+    "MemAvailable_GiB": 15.04,
+    "SwapFree_GiB": 13.07,
+    "clock_mhz": 2535,
+    "gpu_util": 96
+   }
+  },
+  "soak": {
+   "r0": {
+    "MemAvailable_GiB": 11.73,
+    "SwapFree_GiB": 11.97,
+    "clock_mhz": 2411,
+    "gpu_util": 0
+   },
+   "r1": {
+    "MemAvailable_GiB": 15.48,
+    "SwapFree_GiB": 13.14,
+    "clock_mhz": 2411,
+    "gpu_util": 0
+   },
+   "r2": {
+    "MemAvailable_GiB": 15.79,
+    "SwapFree_GiB": 12.5,
+    "clock_mhz": 2411,
+    "gpu_util": 0
+   },
+   "r3": {
+    "MemAvailable_GiB": 15.82,
+    "SwapFree_GiB": 13.13,
+    "clock_mhz": 2405,
+    "gpu_util": 0
+   }
+  },
+  "sanity_end": {
+   "r0": {
+    "MemAvailable_GiB": 11.73,
+    "SwapFree_GiB": 11.97,
+    "clock_mhz": 2522,
+    "gpu_util": 95
+   },
+   "r1": {
+    "MemAvailable_GiB": 15.48,
+    "SwapFree_GiB": 13.14,
+    "clock_mhz": 2463,
+    "gpu_util": 0
+   },
+   "r2": {
+    "MemAvailable_GiB": 15.77,
+    "SwapFree_GiB": 12.5,
+    "clock_mhz": 2405,
+    "gpu_util": 0
+   },
+   "r3": {
+    "MemAvailable_GiB": 15.81,
+    "SwapFree_GiB": 13.13,
+    "clock_mhz": 2405,
+    "gpu_util": 0
+   }
+  }
+ },
+ "sanity": {
+  "exact_json": true,
+  "normal_eos": true,
+  "tool_call": true,
+  "json_schema": true,
+  "json_schema_text": "{\"host\": \"spark-f1cc\", \"healthy\": true, \"ranks\": 4}",
+  "all_pass": true
+ },
+ "coding": {
+  "wall_s": 207.8,
+  "requests": {
+   "cron_digest": {
+    "name": "cron_digest",
+    "wall_s": 19.222,
+    "ttft_s": 18.753,
+    "decode_tps": 23.46,
+    "prefill_tps": 1313.2,
+    "prompt_tokens": 24627,
+    "cached_tokens": null,
+    "completion_tokens": 12,
+    "finish_reason": "tool_calls",
+    "chunks": 5,
+    "reasoning_chars": 0,
+    "tool_calls": 5,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 0,
+    "text_sha256": "e3b0c44298fc1c14",
+    "text_preview": ""
+   },
+   "bash_review": {
+    "name": "bash_review",
+    "wall_s": 202.37,
+    "ttft_s": 0.317,
+    "decode_tps": 15.2,
+    "prefill_tps": 444.4,
+    "prompt_tokens": 141,
+    "cached_tokens": null,
+    "completion_tokens": 3072,
+    "finish_reason": "length",
+    "chunks": 2996,
+    "reasoning_chars": 10876,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 0,
+    "text_sha256": "e3b0c44298fc1c14",
+    "text_preview": ""
+   },
+   "py_lru_ttl": {
+    "name": "py_lru_ttl",
+    "wall_s": 202.466,
+    "ttft_s": 1.797,
+    "decode_tps": 15.3,
+    "prefill_tps": 30.6,
+    "prompt_tokens": 55,
+    "cached_tokens": null,
+    "completion_tokens": 3072,
+    "finish_reason": "length",
+    "chunks": 2957,
+    "reasoning_chars": 12300,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 0,
+    "text_sha256": "e3b0c44298fc1c14",
+    "text_preview": ""
+   },
+   "go_bugfix": {
+    "name": "go_bugfix",
+    "wall_s": 202.465,
+    "ttft_s": 1.796,
+    "decode_tps": 15.3,
+    "prefill_tps": 86.3,
+    "prompt_tokens": 155,
+    "cached_tokens": null,
+    "completion_tokens": 3072,
+    "finish_reason": "length",
+    "chunks": 2797,
+    "reasoning_chars": 7759,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 2027,
+    "text_sha256": "5a1f50aaa4414346",
+    "text_preview": "## Bugs in the original\n\n1. **No sorting** \u2014 the merge logic only works if input is sorted by start; unsorted input prod"
+   }
+  },
+  "followups": {
+   "cron_digest": {
+    "name": "cron_digest-followup",
+    "wall_s": 2.09,
+    "ttft_s": 1.195,
+    "decode_tps": 16.77,
+    "prefill_tps": 20629.5,
+    "prompt_tokens": 24650,
+    "cached_tokens": null,
+    "completion_tokens": 16,
+    "finish_reason": "stop",
+    "chunks": 15,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 47,
+    "text_sha256": "b5a4d40f41c94758",
+    "text_preview": "BK-77 finished at 03:12 with 4 archives listed.",
+    "prefix_hits_delta": 23296,
+    "prefix_queries_delta": 24650
+   },
+   "py_lru_ttl": {
+    "name": "py_lru_ttl-followup",
+    "wall_s": 3.322,
+    "ttft_s": 1.047,
+    "decode_tps": 17.14,
+    "prefill_tps": 78.3,
+    "prompt_tokens": 82,
+    "cached_tokens": null,
+    "completion_tokens": 40,
+    "finish_reason": "stop",
+    "chunks": 39,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 175,
+    "text_sha256": "d9e9acc47e1c28fc",
+    "text_preview": "The riskiest part is the eviction logic: if the move-to-end and popitem ordering is subtly wrong, the cache silently evi",
+    "prefix_hits_delta": 0,
+    "prefix_queries_delta": 922
+   },
+   "bash_review": {
+    "name": "bash_review-followup",
+    "wall_s": 4.646,
+    "ttft_s": 0.393,
+    "decode_tps": 15.75,
+    "prefill_tps": 427.6,
+    "prompt_tokens": 168,
+    "cached_tokens": null,
+    "completion_tokens": 68,
+    "finish_reason": "stop",
+    "chunks": 67,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 278,
+    "text_sha256": "c4b49e6e9f53539d",
+    "text_preview": "The single riskiest part is the `find . -name \"*.tmp\" -exec rm {} \\;` line, because if the glob `*.log` matched nothing ",
+    "prefix_hits_delta": 0,
+    "prefix_queries_delta": 1090
+   },
+   "go_bugfix": {
+    "name": "go_bugfix-followup",
+    "wall_s": 5.296,
+    "ttft_s": 1.049,
+    "decode_tps": 19.31,
+    "prefill_tps": 800.4,
+    "prompt_tokens": 840,
+    "cached_tokens": null,
+    "completion_tokens": 83,
+    "finish_reason": "stop",
+    "chunks": 80,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 304,
+    "text_sha256": "c14ccecd33c92f21",
+    "text_preview": "The riskiest part is the **merge condition `next[0] <= cur[1]`**, which merges intervals that merely touch at an endpoin",
+    "prefix_hits_delta": 0,
+    "prefix_queries_delta": 922
+   }
+  },
+  "summary": {
+   "aggregate_completion_tps": 44.41,
+   "followup_ttft_p50": 1.048,
+   "followup_prefix_hits": {
+    "cron_digest": 23296,
+    "py_lru_ttl": 0,
+    "bash_review": 0,
+    "go_bugfix": 0
+   }
+  }
+ },
+ "longgen": {
+  "primary": {
+   "name": "longgen",
+   "wall_s": 541.541,
+   "ttft_s": 0.189,
+   "decode_tps": 22.7,
+   "prefill_tps": 285.4,
+   "prompt_tokens": 54,
+   "cached_tokens": null,
+   "completion_tokens": 12288,
+   "finish_reason": "length",
+   "chunks": 12277,
+   "reasoning_chars": 0,
+   "tool_calls": 0,
+   "cancelled": false,
+   "error": null,
+   "text_chars": 50763,
+   "text_sha256": "0cb0ad5941908c9c",
+   "text_preview": "The pager went off at 03:47 on a Tuesday, which was how everything at Meridian Compute started, and the message body was"
+  },
+  "followup": {
+   "name": "longgen-followup",
+   "wall_s": 11.486,
+   "ttft_s": 9.572,
+   "decode_tps": 19.86,
+   "prefill_tps": 1290.7,
+   "prompt_tokens": 12355,
+   "cached_tokens": null,
+   "completion_tokens": 39,
+   "finish_reason": "stop",
+   "chunks": 38,
+   "reasoning_chars": 0,
+   "tool_calls": 0,
+   "cancelled": false,
+   "error": null,
+   "text_chars": 188,
+   "text_sha256": "9a297e1392c7b965",
+   "text_preview": "The main character was Dana Okafor, the veteran infrastructure engineer at Meridian Compute who answered the 03:47 pager",
+   "prefix_hits_delta": 0,
+   "prefix_queries_delta": 12476
+  },
+  "shorts_during_primary": {
+   "n": 3,
+   "errors": 0,
+   "completion_tokens": 38,
+   "wall_s": {
+    "p50": 0.569,
+    "p95": 1.418,
+    "min": 0.275,
+    "max": 1.512
+   },
+   "ttft_s": {
+    "p50": 0.234,
+    "p95": 0.242,
+    "min": 0.225,
+    "max": 0.243
+   }
+  },
+  "shorts_during_followup": {
+   "n": 3,
+   "errors": 0,
+   "completion_tokens": 33,
+   "wall_s": {
+    "p50": 4.579,
+    "p95": 9.301,
+    "min": 0.341,
+    "max": 9.826
+   },
+   "ttft_s": {
+    "p50": 3.19,
+    "p95": 3.316,
+    "min": 0.219,
+    "max": 3.33
+   }
+  },
+  "shorts": [
+   {
+    "name": "longgen-short-primary-0",
+    "wall_s": 0.275,
+    "ttft_s": 0.225,
+    "decode_tps": 19.81,
+    "prefill_tps": 186.7,
+    "prompt_tokens": 42,
+    "cached_tokens": null,
+    "completion_tokens": 2,
+    "finish_reason": "stop",
+    "chunks": 1,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 5,
+    "text_sha256": "5dd272b4f316b776",
+    "text_preview": "Paris",
+    "fired_at_s": 5,
+    "phase": "primary"
+   },
+   {
+    "name": "longgen-short-primary-1",
+    "wall_s": 1.512,
+    "ttft_s": 0.243,
+    "decode_tps": 21.27,
+    "prefill_tps": 164.7,
+    "prompt_tokens": 40,
+    "cached_tokens": null,
+    "completion_tokens": 28,
+    "finish_reason": "stop",
+    "chunks": 27,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 145,
+    "text_sha256": "fbbaa3753534742c",
+    "text_preview": "TCP uses sequence numbers so the receiver can detect lost, duplicated, or reordered segments and reassemble the byte str",
+    "fired_at_s": 20,
+    "phase": "primary"
+   },
+   {
+    "name": "longgen-short-primary-2",
+    "wall_s": 0.569,
+    "ttft_s": 0.234,
+    "decode_tps": 20.91,
+    "prefill_tps": 175.3,
+    "prompt_tokens": 41,
+    "cached_tokens": null,
+    "completion_tokens": 8,
+    "finish_reason": "stop",
+    "chunks": 7,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 7,
+    "text_sha256": "34ff51c7b6320bbd",
+    "text_preview": "2, 3, 5",
+    "fired_at_s": 40,
+    "phase": "primary"
+   },
+   {
+    "name": "longgen-short-followup-4",
+    "wall_s": 4.579,
+    "ttft_s": 3.33,
+    "decode_tps": 0.8,
+    "prefill_tps": 11.1,
+    "prompt_tokens": 37,
+    "cached_tokens": null,
+    "completion_tokens": 2,
+    "finish_reason": "stop",
+    "chunks": 1,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 5,
+    "text_sha256": "c2e3ac47f4a32546",
+    "text_preview": "READY",
+    "fired_at_s": 5,
+    "phase": "followup"
+   },
+   {
+    "name": "longgen-short-followup-5",
+    "wall_s": 0.341,
+    "ttft_s": 0.219,
+    "decode_tps": 16.42,
+    "prefill_tps": 196.2,
+    "prompt_tokens": 43,
+    "cached_tokens": null,
+    "completion_tokens": 3,
+    "finish_reason": "stop",
+    "chunks": 2,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 3,
+    "text_sha256": "a934c244755c66ae",
+    "text_preview": "391",
+    "fired_at_s": 10,
+    "phase": "followup"
+   },
+   {
+    "name": "longgen-short-followup-3",
+    "wall_s": 9.826,
+    "ttft_s": 3.19,
+    "decode_tps": 4.07,
+    "prefill_tps": 12.9,
+    "prompt_tokens": 41,
+    "cached_tokens": null,
+    "completion_tokens": 28,
+    "finish_reason": "stop",
+    "chunks": 27,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 148,
+    "text_sha256": "d478362b56a8acc8",
+    "text_preview": "A mutex is a synchronization primitive that allows only one thread to acquire it at a time, ensuring mutually exclusive ",
+    "fired_at_s": 1,
+    "phase": "followup"
+   }
+  ]
+ },
+ "cold": {
+  "primary": {
+   "name": "cold",
+   "wall_s": 460.596,
+   "ttft_s": null,
+   "decode_tps": null,
+   "prefill_tps": null,
+   "prompt_tokens": 0,
+   "cached_tokens": null,
+   "completion_tokens": 0,
+   "finish_reason": null,
+   "chunks": 0,
+   "reasoning_chars": 0,
+   "tool_calls": 0,
+   "cancelled": false,
+   "error": null,
+   "text_chars": 0,
+   "text_sha256": "e3b0c44298fc1c14",
+   "text_preview": ""
+  },
+  "followup": {
+   "name": "cold-followup",
+   "wall_s": 0.006,
+   "ttft_s": null,
+   "decode_tps": null,
+   "prefill_tps": null,
+   "prompt_tokens": 0,
+   "cached_tokens": null,
+   "completion_tokens": 0,
+   "finish_reason": null,
+   "chunks": 0,
+   "reasoning_chars": 0,
+   "tool_calls": 0,
+   "cancelled": false,
+   "error": "HTTP 500: {\"error\":{\"message\":\"EngineCore encountered an issue. See stack trace (above) for the root cause.\",\"type\":\"InternalServerError\",\"param\":null,\"code\":500}}",
+   "text_chars": 0,
+   "text_sha256": "e3b0c44298fc1c14",
+   "text_preview": "",
+   "prefix_hits_delta": 0,
+   "prefix_queries_delta": 0
+  },
+  "shorts_during_primary": {
+   "n": 3,
+   "errors": 0,
+   "completion_tokens": 38,
+   "wall_s": {
+    "p50": 12.537,
+    "p95": 36.437,
+    "min": 4.497,
+    "max": 39.093
+   },
+   "ttft_s": {
+    "p50": 3.35,
+    "p95": 3.628,
+    "min": 3.221,
+    "max": 3.659
+   }
+  },
+  "shorts_during_followup": {
+   "n": 3,
+   "errors": 3,
+   "completion_tokens": 0
+  },
+  "shorts": [
+   {
+    "name": "cold-short-primary-0",
+    "wall_s": 4.497,
+    "ttft_s": 3.221,
+    "decode_tps": 0.78,
+    "prefill_tps": 13.0,
+    "prompt_tokens": 42,
+    "cached_tokens": null,
+    "completion_tokens": 2,
+    "finish_reason": "stop",
+    "chunks": 1,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 5,
+    "text_sha256": "5dd272b4f316b776",
+    "text_preview": "Paris",
+    "fired_at_s": 5,
+    "phase": "primary"
+   },
+   {
+    "name": "cold-short-primary-2",
+    "wall_s": 12.537,
+    "ttft_s": 3.35,
+    "decode_tps": 0.76,
+    "prefill_tps": 12.2,
+    "prompt_tokens": 41,
+    "cached_tokens": null,
+    "completion_tokens": 8,
+    "finish_reason": "stop",
+    "chunks": 7,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 7,
+    "text_sha256": "34ff51c7b6320bbd",
+    "text_preview": "2, 3, 5",
+    "fired_at_s": 40,
+    "phase": "primary"
+   },
+   {
+    "name": "cold-short-primary-1",
+    "wall_s": 39.093,
+    "ttft_s": 3.659,
+    "decode_tps": 0.76,
+    "prefill_tps": 10.9,
+    "prompt_tokens": 40,
+    "cached_tokens": null,
+    "completion_tokens": 28,
+    "finish_reason": "stop",
+    "chunks": 27,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": null,
+    "text_chars": 145,
+    "text_sha256": "fbbaa3753534742c",
+    "text_preview": "TCP uses sequence numbers so the receiver can detect lost, duplicated, or reordered segments and reassemble the byte str",
+    "fired_at_s": 20,
+    "phase": "primary"
+   },
+   {
+    "name": "cold-short-followup-3",
+    "wall_s": 0.0,
+    "ttft_s": null,
+    "decode_tps": null,
+    "prefill_tps": null,
+    "prompt_tokens": 0,
+    "cached_tokens": null,
+    "completion_tokens": 0,
+    "finish_reason": null,
+    "chunks": 0,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": "URLError: <urlopen error [Errno 111] Connection refused>",
+    "text_chars": 0,
+    "text_sha256": "e3b0c44298fc1c14",
+    "text_preview": "",
+    "fired_at_s": 1,
+    "phase": "followup"
+   },
+   {
+    "name": "cold-short-followup-4",
+    "wall_s": 0.0,
+    "ttft_s": null,
+    "decode_tps": null,
+    "prefill_tps": null,
+    "prompt_tokens": 0,
+    "cached_tokens": null,
+    "completion_tokens": 0,
+    "finish_reason": null,
+    "chunks": 0,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": "URLError: <urlopen error [Errno 111] Connection refused>",
+    "text_chars": 0,
+    "text_sha256": "e3b0c44298fc1c14",
+    "text_preview": "",
+    "fired_at_s": 5,
+    "phase": "followup"
+   },
+   {
+    "name": "cold-short-followup-5",
+    "wall_s": 0.0,
+    "ttft_s": null,
+    "decode_tps": null,
+    "prefill_tps": null,
+    "prompt_tokens": 0,
+    "cached_tokens": null,
+    "completion_tokens": 0,
+    "finish_reason": null,
+    "chunks": 0,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": "URLError: <urlopen error [Errno 111] Connection refused>",
+    "text_chars": 0,
+    "text_sha256": "e3b0c44298fc1c14",
+    "text_preview": "",
+    "fired_at_s": 10,
+    "phase": "followup"
+   }
+  ],
+  "needle": "ORCHID-939Z",
+  "needle_found": false
+ },
+ "cancel": {
+  "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+ },
+ "soak": {
+  "duration_s": 1800.0,
+  "requests": 6,
+  "errors": 6,
+  "error_samples": [
+   "URLError: <urlopen error [Errno 111] Connection refused>",
+   "URLError: <urlopen error [Errno 111] Connection refused>",
+   "URLError: <urlopen error [Errno 111] Connection refused>",
+   "URLError: <urlopen error [Errno 111] Connection refused>",
+   "URLError: <urlopen error [Errno 111] Connection refused>",
+   "URLError: <urlopen error [Errno 111] Connection refused>"
+  ],
+  "aggregate_completion_tps": 0.0,
+  "aggregate_prompt_tps": 0.0,
+  "by_kind": {
+   "long_prompt": {
+    "n": 0,
+    "errors": 0,
+    "completion_tokens": 0
+   },
+   "coding": {
+    "n": 2,
+    "errors": 2,
+    "completion_tokens": 0
+   },
+   "short": {
+    "n": 1,
+    "errors": 1,
+    "completion_tokens": 0
+   },
+   "medium_gen": {
+    "n": 3,
+    "errors": 3,
+    "completion_tokens": 0
+   }
+  },
+  "drift": {
+   "long_prompt": {
+    "first_half_p50_wall": 0,
+    "second_half_p50_wall": 0
+   },
+   "coding": {
+    "first_half_p50_wall": 0,
+    "second_half_p50_wall": 0
+   },
+   "short": {
+    "first_half_p50_wall": 0,
+    "second_half_p50_wall": 0
+   },
+   "medium_gen": {
+    "first_half_p50_wall": 0,
+    "second_half_p50_wall": 0
+   }
+  },
+  "long_prompt_needle_ok": 0,
+  "long_prompt_total": 0,
+  "kinds": [
+   "short",
+   "coding",
+   "medium_gen",
+   "long_prompt",
+   "short"
+  ],
+  "workers": 4,
+  "samples": [
+   {
+    "t": 0.0,
+    "metrics": {
+     "error": "<urlopen error [Errno 111] Connection refused>"
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 117.86,
+      "SwapFree_GiB": 15.21,
+      "clock_mhz": 208,
+      "gpu_util": 0
+     },
+     "r1": {
+      "MemAvailable_GiB": 15.19,
+      "SwapFree_GiB": 12.56,
+      "clock_mhz": 2548,
+      "gpu_util": 96
+     },
+     "r2": {
+      "MemAvailable_GiB": 14.9,
+      "SwapFree_GiB": 13.18,
+      "clock_mhz": 2535,
+      "gpu_util": 96
+     },
+     "r3": {
+      "MemAvailable_GiB": 15.04,
+      "SwapFree_GiB": 13.07,
+      "clock_mhz": 2535,
+      "gpu_util": 96
+     }
+    },
+    "requests_done": 6,
+    "errors": 6
+   },
+   {
+    "t": 61.4,
+    "metrics": {
+     "error": "<urlopen error [Errno 111] Connection refused>"
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 117.86,
+      "SwapFree_GiB": 15.21,
+      "clock_mhz": 208,
+      "gpu_util": 0
+     },
+     "r1": {
+      "MemAvailable_GiB": 118.0,
+      "SwapFree_GiB": 15.35,
+      "clock_mhz": 208,
+      "gpu_util": 0
+     },
+     "r2": {
+      "MemAvailable_GiB": 118.1,
+      "SwapFree_GiB": 15.5,
+      "clock_mhz": 208,
+      "gpu_util": 0
+     },
+     "r3": {
+      "MemAvailable_GiB": 118.15,
+      "SwapFree_GiB": 15.51,
+      "clock_mhz": 208,
+      "gpu_util": 0
+     }
+    },
+    "requests_done": 6,
+    "errors": 6
+   },
+   {
+    "t": 122.8,
+    "metrics": {
+     "error": "<urlopen error [Errno 111] Connection refused>"
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 116.63,
+      "SwapFree_GiB": 15.21,
+      "clock_mhz": 201,
+      "gpu_util": 0
+     },
+     "r1": {
+      "MemAvailable_GiB": 116.3,
+      "SwapFree_GiB": 15.35,
+      "clock_mhz": 227,
+      "gpu_util": 0
+     },
+     "r2": {
+      "MemAvailable_GiB": 116.8,
+      "SwapFree_GiB": 15.51,
+      "clock_mhz": 208,
+      "gpu_util": 0
+     },
+     "r3": {
+      "MemAvailable_GiB": 116.38,
+      "SwapFree_GiB": 15.51,
+      "clock_mhz": 208,
+      "gpu_util": 0
+     }
+    },
+    "requests_done": 6,
+    "errors": 6
+   },
+   {
+    "t": 184.2,
+    "metrics": {
+     "error": "<urlopen error [Errno 111] Connection refused>"
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 109.62,
+      "SwapFree_GiB": 15.21,
+      "clock_mhz": 2411,
+      "gpu_util": 0
+     },
+     "r1": {
+      "MemAvailable_GiB": 110.56,
+      "SwapFree_GiB": 15.35,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     },
+     "r2": {
+      "MemAvailable_GiB": 110.61,
+      "SwapFree_GiB": 15.51,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     },
+     "r3": {
+      "MemAvailable_GiB": 110.74,
+      "SwapFree_GiB": 15.51,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     }
+    },
+    "requests_done": 6,
+    "errors": 6
+   },
+   {
+    "t": 245.6,
+    "metrics": {
+     "error": "<urlopen error [Errno 111] Connection refused>"
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 109.67,
+      "SwapFree_GiB": 15.21,
+      "clock_mhz": 2411,
+      "gpu_util": 0
+     },
+     "r1": {
+      "MemAvailable_GiB": 110.58,
+      "SwapFree_GiB": 15.35,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     },
+     "r2": {
+      "MemAvailable_GiB": 110.68,
+      "SwapFree_GiB": 15.51,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     },
+     "r3": {
+      "MemAvailable_GiB": 110.75,
+      "SwapFree_GiB": 15.51,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     }
+    },
+    "requests_done": 6,
+    "errors": 6
+   },
+   {
+    "t": 307.0,
+    "metrics": {
+     "error": "<urlopen error [Errno 111] Connection refused>"
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 109.68,
+      "SwapFree_GiB": 15.21,
+      "clock_mhz": 2411,
+      "gpu_util": 0
+     },
+     "r1": {
+      "MemAvailable_GiB": 110.6,
+      "SwapFree_GiB": 15.35,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     },
+     "r2": {
+      "MemAvailable_GiB": 110.7,
+      "SwapFree_GiB": 15.51,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     },
+     "r3": {
+      "MemAvailable_GiB": 110.77,
+      "SwapFree_GiB": 15.51,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     }
+    },
+    "requests_done": 6,
+    "errors": 6
+   },
+   {
+    "t": 368.4,
+    "metrics": {
+     "error": "<urlopen error [Errno 111] Connection refused>"
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 109.69,
+      "SwapFree_GiB": 15.21,
+      "clock_mhz": 2411,
+      "gpu_util": 0
+     },
+     "r1": {
+      "MemAvailable_GiB": 110.59,
+      "SwapFree_GiB": 15.35,
+      "clock_mhz": 2411,
+      "gpu_util": 0
+     },
+     "r2": {
+      "MemAvailable_GiB": 110.72,
+      "SwapFree_GiB": 15.51,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     },
+     "r3": {
+      "MemAvailable_GiB": 110.78,
+      "SwapFree_GiB": 15.51,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     }
+    },
+    "requests_done": 6,
+    "errors": 6
+   },
+   {
+    "t": 430.1,
+    "metrics": {
+     "error": "<urlopen error [Errno 111] Connection refused>"
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 109.7,
+      "SwapFree_GiB": 15.21,
+      "clock_mhz": 2411,
+      "gpu_util": 0
+     },
+     "r1": {
+      "MemAvailable_GiB": 110.61,
+      "SwapFree_GiB": 15.35,
+      "clock_mhz": 2411,
+      "gpu_util": 0
+     },
+     "r2": {
+      "MemAvailable_GiB": 110.71,
+      "SwapFree_GiB": 15.51,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     },
+     "r3": {
+      "MemAvailable_GiB": 110.79,
+      "SwapFree_GiB": 15.51,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     }
+    },
+    "requests_done": 6,
+    "errors": 6
+   },
+   {
+    "t": 491.9,
+    "metrics": {
+     "error": "<urlopen error [Errno 111] Connection refused>"
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 63.7,
+      "SwapFree_GiB": 15.21,
+      "clock_mhz": 2411,
+      "gpu_util": 1
+     },
+     "r1": {
+      "MemAvailable_GiB": 64.27,
+      "SwapFree_GiB": 15.35,
+      "clock_mhz": 2411,
+      "gpu_util": 1
+     },
+     "r2": {
+      "MemAvailable_GiB": 64.48,
+      "SwapFree_GiB": 15.51,
+      "clock_mhz": 2405,
+      "gpu_util": 1
+     },
+     "r3": {
+      "MemAvailable_GiB": 64.54,
+      "SwapFree_GiB": 15.51,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     }
+    },
+    "requests_done": 6,
+    "errors": 6
+   },
+   {
+    "t": 553.5,
+    "metrics": {
+     "error": "<urlopen error [Errno 111] Connection refused>"
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 63.44,
+      "SwapFree_GiB": 15.21,
+      "clock_mhz": 2411,
+      "gpu_util": 1
+     },
+     "r1": {
+      "MemAvailable_GiB": 64.8,
+      "SwapFree_GiB": 15.34,
+      "clock_mhz": 2405,
+      "gpu_util": 1
+     },
+     "r2": {
+      "MemAvailable_GiB": 64.97,
+      "SwapFree_GiB": 15.5,
+      "clock_mhz": 2405,
+      "gpu_util": 1
+     },
+     "r3": {
+      "MemAvailable_GiB": 64.96,
+      "SwapFree_GiB": 15.51,
+      "clock_mhz": 2405,
+      "gpu_util": 1
+     }
+    },
+    "requests_done": 6,
+    "errors": 6
+   },
+   {
+    "t": 615.6,
+    "metrics": {
+     "error": "<urlopen error [Errno 111] Connection refused>"
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 63.84,
+      "SwapFree_GiB": 15.2,
+      "clock_mhz": 2411,
+      "gpu_util": 1
+     },
+     "r1": {
+      "MemAvailable_GiB": 66.67,
+      "SwapFree_GiB": 13.13,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     },
+     "r2": {
+      "MemAvailable_GiB": 67.08,
+      "SwapFree_GiB": 12.88,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     },
+     "r3": {
+      "MemAvailable_GiB": 65.78,
+      "SwapFree_GiB": 14.26,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     }
+    },
+    "requests_done": 6,
+    "errors": 6
+   },
+   {
+    "t": 677.9,
+    "metrics": {
+     "error": "<urlopen error [Errno 111] Connection refused>"
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 63.89,
+      "SwapFree_GiB": 15.2,
+      "clock_mhz": 2411,
+      "gpu_util": 1
+     },
+     "r1": {
+      "MemAvailable_GiB": 66.65,
+      "SwapFree_GiB": 13.13,
+      "clock_mhz": 2411,
+      "gpu_util": 0
+     },
+     "r2": {
+      "MemAvailable_GiB": 67.05,
+      "SwapFree_GiB": 12.88,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     },
+     "r3": {
+      "MemAvailable_GiB": 65.77,
+      "SwapFree_GiB": 14.26,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     }
+    },
+    "requests_done": 6,
+    "errors": 6
+   },
+   {
+    "t": 739.6,
+    "metrics": {
+     "error": "<urlopen error [Errno 111] Connection refused>"
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 59.67,
+      "SwapFree_GiB": 12.33,
+      "clock_mhz": 2418,
+      "gpu_util": 0
+     },
+     "r1": {
+      "MemAvailable_GiB": 59.36,
+      "SwapFree_GiB": 13.13,
+      "clock_mhz": 2424,
+      "gpu_util": 0
+     },
+     "r2": {
+      "MemAvailable_GiB": 60.44,
+      "SwapFree_GiB": 12.49,
+      "clock_mhz": 2470,
+      "gpu_util": 71
+     },
+     "r3": {
+      "MemAvailable_GiB": 59.97,
+      "SwapFree_GiB": 13.12,
+      "clock_mhz": 2463,
+      "gpu_util": 67
+     }
+    },
+    "requests_done": 6,
+    "errors": 6
+   },
+   {
+    "t": 801.6,
+    "metrics": {
+     "error": "<urlopen error [Errno 111] Connection refused>"
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 14.79,
+      "SwapFree_GiB": 12.31,
+      "clock_mhz": 2411,
+      "gpu_util": 0
+     },
+     "r1": {
+      "MemAvailable_GiB": 15.48,
+      "SwapFree_GiB": 13.13,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     },
+     "r2": {
+      "MemAvailable_GiB": 16.33,
+      "SwapFree_GiB": 12.49,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     },
+     "r3": {
+      "MemAvailable_GiB": 15.76,
+      "SwapFree_GiB": 13.12,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     }
+    },
+    "requests_done": 6,
+    "errors": 6
+   },
+   {
+    "t": 863.8,
+    "metrics": {
+     "running": 0.0,
+     "waiting": 0.0,
+     "kv_usage": 0.0,
+     "prefix_queries": 0.0,
+     "prefix_hits": 0.0,
+     "spec_accepted": null,
+     "spec_drafts": null,
+     "requests_total": 0.0
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 11.93,
+      "SwapFree_GiB": 12.47,
+      "clock_mhz": 2411,
+      "gpu_util": 0
+     },
+     "r1": {
+      "MemAvailable_GiB": 15.57,
+      "SwapFree_GiB": 13.13,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     },
+     "r2": {
+      "MemAvailable_GiB": 16.32,
+      "SwapFree_GiB": 12.49,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     },
+     "r3": {
+      "MemAvailable_GiB": 15.86,
+      "SwapFree_GiB": 13.12,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     }
+    },
+    "requests_done": 6,
+    "errors": 6
+   },
+   {
+    "t": 925.9,
+    "metrics": {
+     "running": 0.0,
+     "waiting": 0.0,
+     "kv_usage": 0.0,
+     "prefix_queries": 0.0,
+     "prefix_hits": 0.0,
+     "spec_accepted": null,
+     "spec_drafts": null,
+     "requests_total": 0.0
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 11.91,
+      "SwapFree_GiB": 12.47,
+      "clock_mhz": 2411,
+      "gpu_util": 0
+     },
+     "r1": {
+      "MemAvailable_GiB": 15.55,
+      "SwapFree_GiB": 13.13,
+      "clock_mhz": 2411,
+      "gpu_util": 0
+     },
+     "r2": {
+      "MemAvailable_GiB": 16.35,
+      "SwapFree_GiB": 12.5,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     },
+     "r3": {
+      "MemAvailable_GiB": 15.87,
+      "SwapFree_GiB": 13.12,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     }
+    },
+    "requests_done": 6,
+    "errors": 6
+   },
+   {
+    "t": 988.0,
+    "metrics": {
+     "running": 0.0,
+     "waiting": 0.0,
+     "kv_usage": 0.0,
+     "prefix_queries": 0.0,
+     "prefix_hits": 0.0,
+     "spec_accepted": null,
+     "spec_drafts": null,
+     "requests_total": 0.0
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 11.9,
+      "SwapFree_GiB": 12.47,
+      "clock_mhz": 2411,
+      "gpu_util": 0
+     },
+     "r1": {
+      "MemAvailable_GiB": 15.56,
+      "SwapFree_GiB": 13.13,
+      "clock_mhz": 2411,
+      "gpu_util": 0
+     },
+     "r2": {
+      "MemAvailable_GiB": 16.32,
+      "SwapFree_GiB": 12.5,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     },
+     "r3": {
+      "MemAvailable_GiB": 15.86,
+      "SwapFree_GiB": 13.12,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     }
+    },
+    "requests_done": 6,
+    "errors": 6
+   },
+   {
+    "t": 1050.0,
+    "metrics": {
+     "running": 0.0,
+     "waiting": 0.0,
+     "kv_usage": 0.0,
+     "prefix_queries": 0.0,
+     "prefix_hits": 0.0,
+     "spec_accepted": null,
+     "spec_drafts": null,
+     "requests_total": 0.0
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 11.9,
+      "SwapFree_GiB": 12.47,
+      "clock_mhz": 2411,
+      "gpu_util": 0
+     },
+     "r1": {
+      "MemAvailable_GiB": 15.55,
+      "SwapFree_GiB": 13.13,
+      "clock_mhz": 2411,
+      "gpu_util": 0
+     },
+     "r2": {
+      "MemAvailable_GiB": 16.3,
+      "SwapFree_GiB": 12.5,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     },
+     "r3": {
+      "MemAvailable_GiB": 15.85,
+      "SwapFree_GiB": 13.12,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     }
+    },
+    "requests_done": 6,
+    "errors": 6
+   },
+   {
+    "t": 1111.9,
+    "metrics": {
+     "running": 0.0,
+     "waiting": 0.0,
+     "kv_usage": 0.0,
+     "prefix_queries": 0.0,
+     "prefix_hits": 0.0,
+     "spec_accepted": null,
+     "spec_drafts": null,
+     "requests_total": 0.0
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 11.9,
+      "SwapFree_GiB": 12.47,
+      "clock_mhz": 2411,
+      "gpu_util": 0
+     },
+     "r1": {
+      "MemAvailable_GiB": 15.5,
+      "SwapFree_GiB": 13.14,
+      "clock_mhz": 2411,
+      "gpu_util": 0
+     },
+     "r2": {
+      "MemAvailable_GiB": 16.11,
+      "SwapFree_GiB": 12.5,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     },
+     "r3": {
+      "MemAvailable_GiB": 15.86,
+      "SwapFree_GiB": 13.12,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     }
+    },
+    "requests_done": 6,
+    "errors": 6
+   },
+   {
+    "t": 1173.8,
+    "metrics": {
+     "running": 0.0,
+     "waiting": 0.0,
+     "kv_usage": 0.0,
+     "prefix_queries": 0.0,
+     "prefix_hits": 0.0,
+     "spec_accepted": null,
+     "spec_drafts": null,
+     "requests_total": 0.0
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 11.81,
+      "SwapFree_GiB": 12.48,
+      "clock_mhz": 2411,
+      "gpu_util": 0
+     },
+     "r1": {
+      "MemAvailable_GiB": 15.5,
+      "SwapFree_GiB": 13.14,
+      "clock_mhz": 2411,
+      "gpu_util": 0
+     },
+     "r2": {
+      "MemAvailable_GiB": 16.02,
+      "SwapFree_GiB": 12.5,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     },
+     "r3": {
+      "MemAvailable_GiB": 15.85,
+      "SwapFree_GiB": 13.12,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     }
+    },
+    "requests_done": 6,
+    "errors": 6
+   },
+   {
+    "t": 1235.8,
+    "metrics": {
+     "running": 0.0,
+     "waiting": 0.0,
+     "kv_usage": 0.0,
+     "prefix_queries": 0.0,
+     "prefix_hits": 0.0,
+     "spec_accepted": null,
+     "spec_drafts": null,
+     "requests_total": 0.0
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 12.35,
+      "SwapFree_GiB": 11.97,
+      "clock_mhz": 2411,
+      "gpu_util": 0
+     },
+     "r1": {
+      "MemAvailable_GiB": 15.5,
+      "SwapFree_GiB": 13.14,
+      "clock_mhz": 2411,
+      "gpu_util": 0
+     },
+     "r2": {
+      "MemAvailable_GiB": 15.79,
+      "SwapFree_GiB": 12.5,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     },
+     "r3": {
+      "MemAvailable_GiB": 15.82,
+      "SwapFree_GiB": 13.12,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     }
+    },
+    "requests_done": 6,
+    "errors": 6
+   },
+   {
+    "t": 1297.7,
+    "metrics": {
+     "running": 0.0,
+     "waiting": 0.0,
+     "kv_usage": 0.0,
+     "prefix_queries": 0.0,
+     "prefix_hits": 0.0,
+     "spec_accepted": null,
+     "spec_drafts": null,
+     "requests_total": 0.0
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 11.8,
+      "SwapFree_GiB": 11.97,
+      "clock_mhz": 2411,
+      "gpu_util": 0
+     },
+     "r1": {
+      "MemAvailable_GiB": 15.49,
+      "SwapFree_GiB": 13.14,
+      "clock_mhz": 2411,
+      "gpu_util": 0
+     },
+     "r2": {
+      "MemAvailable_GiB": 15.79,
+      "SwapFree_GiB": 12.5,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     },
+     "r3": {
+      "MemAvailable_GiB": 15.85,
+      "SwapFree_GiB": 13.12,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     }
+    },
+    "requests_done": 6,
+    "errors": 6
+   },
+   {
+    "t": 1359.6,
+    "metrics": {
+     "running": 0.0,
+     "waiting": 0.0,
+     "kv_usage": 0.0,
+     "prefix_queries": 23.0,
+     "prefix_hits": 0.0,
+     "spec_accepted": null,
+     "spec_drafts": null,
+     "requests_total": 1.0
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 11.65,
+      "SwapFree_GiB": 11.97,
+      "clock_mhz": 2411,
+      "gpu_util": 0
+     },
+     "r1": {
+      "MemAvailable_GiB": 15.45,
+      "SwapFree_GiB": 13.14,
+      "clock_mhz": 2411,
+      "gpu_util": 0
+     },
+     "r2": {
+      "MemAvailable_GiB": 15.74,
+      "SwapFree_GiB": 12.5,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     },
+     "r3": {
+      "MemAvailable_GiB": 15.82,
+      "SwapFree_GiB": 13.12,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     }
+    },
+    "requests_done": 6,
+    "errors": 6
+   },
+   {
+    "t": 1421.5,
+    "metrics": {
+     "running": 0.0,
+     "waiting": 0.0,
+     "kv_usage": 0.0,
+     "prefix_queries": 23.0,
+     "prefix_hits": 0.0,
+     "spec_accepted": null,
+     "spec_drafts": null,
+     "requests_total": 1.0
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 11.65,
+      "SwapFree_GiB": 11.97,
+      "clock_mhz": 2411,
+      "gpu_util": 0
+     },
+     "r1": {
+      "MemAvailable_GiB": 15.46,
+      "SwapFree_GiB": 13.14,
+      "clock_mhz": 2411,
+      "gpu_util": 0
+     },
+     "r2": {
+      "MemAvailable_GiB": 15.73,
+      "SwapFree_GiB": 12.5,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     },
+     "r3": {
+      "MemAvailable_GiB": 15.82,
+      "SwapFree_GiB": 13.12,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     }
+    },
+    "requests_done": 6,
+    "errors": 6
+   },
+   {
+    "t": 1483.4,
+    "metrics": {
+     "running": 0.0,
+     "waiting": 0.0,
+     "kv_usage": 0.0,
+     "prefix_queries": 23.0,
+     "prefix_hits": 0.0,
+     "spec_accepted": null,
+     "spec_drafts": null,
+     "requests_total": 1.0
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 11.67,
+      "SwapFree_GiB": 11.97,
+      "clock_mhz": 2411,
+      "gpu_util": 0
+     },
+     "r1": {
+      "MemAvailable_GiB": 15.45,
+      "SwapFree_GiB": 13.14,
+      "clock_mhz": 2411,
+      "gpu_util": 0
+     },
+     "r2": {
+      "MemAvailable_GiB": 15.76,
+      "SwapFree_GiB": 12.5,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     },
+     "r3": {
+      "MemAvailable_GiB": 15.81,
+      "SwapFree_GiB": 13.12,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     }
+    },
+    "requests_done": 6,
+    "errors": 6
+   },
+   {
+    "t": 1545.3,
+    "metrics": {
+     "running": 0.0,
+     "waiting": 0.0,
+     "kv_usage": 0.0,
+     "prefix_queries": 23.0,
+     "prefix_hits": 0.0,
+     "spec_accepted": null,
+     "spec_drafts": null,
+     "requests_total": 1.0
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 11.69,
+      "SwapFree_GiB": 11.97,
+      "clock_mhz": 2411,
+      "gpu_util": 0
+     },
+     "r1": {
+      "MemAvailable_GiB": 15.46,
+      "SwapFree_GiB": 13.14,
+      "clock_mhz": 2411,
+      "gpu_util": 0
+     },
+     "r2": {
+      "MemAvailable_GiB": 16.28,
+      "SwapFree_GiB": 12.5,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     },
+     "r3": {
+      "MemAvailable_GiB": 15.8,
+      "SwapFree_GiB": 13.12,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     }
+    },
+    "requests_done": 6,
+    "errors": 6
+   },
+   {
+    "t": 1607.3,
+    "metrics": {
+     "running": 0.0,
+     "waiting": 0.0,
+     "kv_usage": 0.0,
+     "prefix_queries": 23.0,
+     "prefix_hits": 0.0,
+     "spec_accepted": null,
+     "spec_drafts": null,
+     "requests_total": 1.0
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 11.72,
+      "SwapFree_GiB": 11.97,
+      "clock_mhz": 2411,
+      "gpu_util": 0
+     },
+     "r1": {
+      "MemAvailable_GiB": 15.47,
+      "SwapFree_GiB": 13.14,
+      "clock_mhz": 2411,
+      "gpu_util": 0
+     },
+     "r2": {
+      "MemAvailable_GiB": 16.21,
+      "SwapFree_GiB": 12.5,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     },
+     "r3": {
+      "MemAvailable_GiB": 15.8,
+      "SwapFree_GiB": 13.12,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     }
+    },
+    "requests_done": 6,
+    "errors": 6
+   },
+   {
+    "t": 1669.2,
+    "metrics": {
+     "running": 0.0,
+     "waiting": 0.0,
+     "kv_usage": 0.0,
+     "prefix_queries": 23.0,
+     "prefix_hits": 0.0,
+     "spec_accepted": null,
+     "spec_drafts": null,
+     "requests_total": 1.0
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 11.73,
+      "SwapFree_GiB": 11.97,
+      "clock_mhz": 2411,
+      "gpu_util": 0
+     },
+     "r1": {
+      "MemAvailable_GiB": 15.47,
+      "SwapFree_GiB": 13.14,
+      "clock_mhz": 2411,
+      "gpu_util": 0
+     },
+     "r2": {
+      "MemAvailable_GiB": 16.0,
+      "SwapFree_GiB": 12.5,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     },
+     "r3": {
+      "MemAvailable_GiB": 15.81,
+      "SwapFree_GiB": 13.12,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     }
+    },
+    "requests_done": 6,
+    "errors": 6
+   },
+   {
+    "t": 1731.1,
+    "metrics": {
+     "running": 0.0,
+     "waiting": 0.0,
+     "kv_usage": 0.0,
+     "prefix_queries": 23.0,
+     "prefix_hits": 0.0,
+     "spec_accepted": null,
+     "spec_drafts": null,
+     "requests_total": 1.0
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 11.74,
+      "SwapFree_GiB": 11.97,
+      "clock_mhz": 2411,
+      "gpu_util": 0
+     },
+     "r1": {
+      "MemAvailable_GiB": 15.47,
+      "SwapFree_GiB": 13.14,
+      "clock_mhz": 2411,
+      "gpu_util": 0
+     },
+     "r2": {
+      "MemAvailable_GiB": 15.78,
+      "SwapFree_GiB": 12.5,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     },
+     "r3": {
+      "MemAvailable_GiB": 15.81,
+      "SwapFree_GiB": 13.12,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     }
+    },
+    "requests_done": 6,
+    "errors": 6
+   },
+   {
+    "t": 1793.0,
+    "metrics": {
+     "running": 0.0,
+     "waiting": 0.0,
+     "kv_usage": 0.0,
+     "prefix_queries": 23.0,
+     "prefix_hits": 0.0,
+     "spec_accepted": null,
+     "spec_drafts": null,
+     "requests_total": 1.0
+    },
+    "mem": {
+     "r0": {
+      "MemAvailable_GiB": 11.74,
+      "SwapFree_GiB": 11.97,
+      "clock_mhz": 2411,
+      "gpu_util": 0
+     },
+     "r1": {
+      "MemAvailable_GiB": 15.48,
+      "SwapFree_GiB": 13.14,
+      "clock_mhz": 2411,
+      "gpu_util": 0
+     },
+     "r2": {
+      "MemAvailable_GiB": 15.79,
+      "SwapFree_GiB": 12.5,
+      "clock_mhz": 2411,
+      "gpu_util": 0
+     },
+     "r3": {
+      "MemAvailable_GiB": 15.82,
+      "SwapFree_GiB": 13.13,
+      "clock_mhz": 2405,
+      "gpu_util": 0
+     }
+    },
+    "requests_done": 6,
+    "errors": 6
+   }
+  ],
+  "rows": [
+   {
+    "name": "soak-coding-1-0",
+    "wall_s": 0.0,
+    "ttft_s": null,
+    "decode_tps": null,
+    "prefill_tps": null,
+    "prompt_tokens": 0,
+    "cached_tokens": null,
+    "completion_tokens": 0,
+    "finish_reason": null,
+    "chunks": 0,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": "URLError: <urlopen error [Errno 111] Connection refused>",
+    "text_chars": 0,
+    "text_sha256": "e3b0c44298fc1c14",
+    "text_preview": "",
+    "kind": "coding",
+    "worker": 1,
+    "t_end": 0.0
+   },
+   {
+    "name": "soak-medium_gen-1-1",
+    "wall_s": 0.0,
+    "ttft_s": null,
+    "decode_tps": null,
+    "prefill_tps": null,
+    "prompt_tokens": 0,
+    "cached_tokens": null,
+    "completion_tokens": 0,
+    "finish_reason": null,
+    "chunks": 0,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": "URLError: <urlopen error [Errno 111] Connection refused>",
+    "text_chars": 0,
+    "text_sha256": "e3b0c44298fc1c14",
+    "text_preview": "",
+    "kind": "medium_gen",
+    "worker": 1,
+    "t_end": 0.0
+   },
+   {
+    "name": "soak-medium_gen-2-0",
+    "wall_s": 0.004,
+    "ttft_s": null,
+    "decode_tps": null,
+    "prefill_tps": null,
+    "prompt_tokens": 0,
+    "cached_tokens": null,
+    "completion_tokens": 0,
+    "finish_reason": null,
+    "chunks": 0,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": "URLError: <urlopen error [Errno 111] Connection refused>",
+    "text_chars": 0,
+    "text_sha256": "e3b0c44298fc1c14",
+    "text_preview": "",
+    "kind": "medium_gen",
+    "worker": 2,
+    "t_end": 0.0
+   },
+   {
+    "name": "soak-short-0-0",
+    "wall_s": 0.015,
+    "ttft_s": null,
+    "decode_tps": null,
+    "prefill_tps": null,
+    "prompt_tokens": 0,
+    "cached_tokens": null,
+    "completion_tokens": 0,
+    "finish_reason": null,
+    "chunks": 0,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": "URLError: <urlopen error [Errno 111] Connection refused>",
+    "text_chars": 0,
+    "text_sha256": "e3b0c44298fc1c14",
+    "text_preview": "",
+    "kind": "short",
+    "worker": 0,
+    "t_end": 0.0
+   },
+   {
+    "name": "soak-coding-0-1",
+    "wall_s": 0.001,
+    "ttft_s": null,
+    "decode_tps": null,
+    "prefill_tps": null,
+    "prompt_tokens": 0,
+    "cached_tokens": null,
+    "completion_tokens": 0,
+    "finish_reason": null,
+    "chunks": 0,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": "URLError: <urlopen error [Errno 111] Connection refused>",
+    "text_chars": 0,
+    "text_sha256": "e3b0c44298fc1c14",
+    "text_preview": "",
+    "kind": "coding",
+    "worker": 0,
+    "t_end": 0.0
+   },
+   {
+    "name": "soak-medium_gen-0-2",
+    "wall_s": 0.0,
+    "ttft_s": null,
+    "decode_tps": null,
+    "prefill_tps": null,
+    "prompt_tokens": 0,
+    "cached_tokens": null,
+    "completion_tokens": 0,
+    "finish_reason": null,
+    "chunks": 0,
+    "reasoning_chars": 0,
+    "tool_calls": 0,
+    "cancelled": false,
+    "error": "URLError: <urlopen error [Errno 111] Connection refused>",
+    "text_chars": 0,
+    "text_sha256": "e3b0c44298fc1c14",
+    "text_preview": "",
+    "kind": "medium_gen",
+    "worker": 0,
+    "t_end": 0.0
+   }
+  ]
+ },
+ "sanity_end": {
+  "exact_json": true,
+  "normal_eos": true,
+  "tool_call": true,
+  "json_schema": true,
+  "json_schema_text": "{\"host\": \"spark-f1cc\", \"healthy\": true, \"ranks\": 4}",
+  "all_pass": true
+ },
+ "metrics_after": {
+  "running": 0.0,
+  "waiting": 0.0,
+  "kv_usage": 0.0,
+  "prefix_queries": 290.0,
+  "prefix_hits": 0.0,
+  "spec_accepted": null,
+  "spec_drafts": null,
+  "requests_total": 5.0
+ },
+ "memory_after": {
+  "r0": {
+   "MemAvailable_GiB": 11.72,
+   "SwapFree_GiB": 11.97,
+   "clock_mhz": 2411,
+   "gpu_util": 0
+  },
+  "r1": {
+   "MemAvailable_GiB": 15.47,
+   "SwapFree_GiB": 13.14,
+   "clock_mhz": 2411,
+   "gpu_util": 0
+  },
+  "r2": {
+   "MemAvailable_GiB": 15.78,
+   "SwapFree_GiB": 12.5,
+   "clock_mhz": 2405,
+   "gpu_util": 0
+  },
+  "r3": {
+   "MemAvailable_GiB": 15.81,
+   "SwapFree_GiB": 13.13,
+   "clock_mhz": 2405,
+   "gpu_util": 0
+  }
+ },
+ "finished": "2026-09-03T15:32:07Z",
+ "own_requests": 113,
+ "foreign_requests": 0
+}

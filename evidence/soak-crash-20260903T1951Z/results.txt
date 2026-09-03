@@ -1,0 +1,9 @@
+2026-09-03T15:34:16Z validation suite finished, engine healthy, watchdog idle; starting overnight chain (old493 first, then tok1)
+2026-09-03T15:34:16Z === old493: cfg=old493.env env=[]
+2026-09-03T15:44:05Z old493: healthy; rank0 live: sha256:9bb1557a42348a0fd58 NCCL_SOCKET_IFNAME=enp1s0f1np1 DFLASH_TOKENS=3 EXL3_FAT_KERNEL=0 SPEC_METHOD=dflash 
+2026-09-03T18:19:10Z old493: survived; soak 155 min; errors=0; samples=145; log=/home/spark/AI/workload-TP4-soak150-old493-20260903T154405Z.log
+2026-09-03T18:19:10Z === tok1: cfg=prod.env env=[SPEC_METHOD=dflash DFLASH_TOKENS=1]
+2026-09-03T18:29:01Z tok1: healthy; rank0 live: sha256:c1485765a61cd723219 NNODES=4 EXL3_FAT_KERNEL=1 SPEC_METHOD=dflash DFLASH_TOKENS=1 
+2026-09-03T20:26:05Z tok1: survived; soak 117 min; errors=10; samples=112; log=/home/spark/AI/workload-TP4-soak150-tok1-20260903T182901Z.log
+2026-09-03T20:26:05Z === restore prod.env
+2026-09-03T20:35:57Z PROD RESTORED: health=200, watchdog resumed
