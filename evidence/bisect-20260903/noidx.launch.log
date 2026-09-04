@@ -1,0 +1,32 @@
+rank 0 10.200.0.11 first-addr=169.254.199.81
+rank 1 10.200.0.12 first-addr=169.254.25.1
+rank 2 10.200.0.13 first-addr=169.254.200.13
+rank 3 10.200.0.14 first-addr=169.254.200.14
+rank 0 clocks: sm=208 MHz max=3003 MHz util=0%
+rank 1 clocks: sm=208 MHz max=3003 MHz util=0%
+rank 2 clocks: sm=208 MHz max=3003 MHz util=0%
+rank 3 clocks: sm=208 MHz max=3003 MHz util=0%
+2026-09-03T21:48:39Z preflight PASS
+2026-09-03T21:48:44Z rank 0 (10.200.0.11): rc=0 rank=0 host=spark-f1cc fabric=10.200.0.11 gid=5 link=200000Mb/s swappiness=60 swap-used-MiB=837 mem-available-GiB=118.0 mem-free-GiB=118.6 started glm53-tp4-prod-r0 
+2026-09-03T21:48:47Z rank 1 (10.200.0.12): rc=0 rank=1 host=spark-a393 fabric=10.200.0.12 gid=6 link=200000Mb/s swappiness=60 swap-used-MiB=670 mem-available-GiB=118.1 mem-free-GiB=118.7 started glm53-tp4-prod-r1 
+2026-09-03T21:48:50Z rank 2 (10.200.0.13): rc=0 rank=2 host=spark-2d65 fabric=10.200.0.13 gid=6 link=100000Mb/s swappiness=60 swap-used-MiB=511 mem-available-GiB=118.2 mem-free-GiB=118.8 started glm53-tp4-prod-r2 
+2026-09-03T21:48:53Z rank 3 (10.200.0.14): rc=0 rank=3 host=spark-2b4f fabric=10.200.0.14 gid=3 link=100000Mb/s swappiness=60 swap-used-MiB=501 mem-available-GiB=118.3 mem-free-GiB=118.9 started glm53-tp4-prod-r3 
+2026-09-03T21:48:53Z launched 4 ranks (tag=prod, logs in /home/spark/AI/tp4-prod-logs)
+2026-09-03T21:48:54Z waiting... health=000 r0: 
+2026-09-03T21:49:26Z waiting... health=000 r0: __init__.py: reasoning fix already present (#53046)
+2026-09-03T21:49:58Z waiting... health=000 r0: (Worker pid=1380) INFO 09-03 21:49:58 [parallel_state.py:1638] world_size=4 rank=0 local_rank=0 distributed_init_method=tcp://10.200.0.11:29531 backend=nccl
+2026-09-03T21:50:30Z waiting... health=000 r0: (Worker_TP0 pid=1380) Loading safetensors checkpoint shards:   6% Completed | 7/120 [00:13<03:45,  1.99s/it]
+2026-09-03T21:51:01Z waiting... health=000 r0: (Worker_TP0 pid=1380) Loading safetensors checkpoint shards:  20% Completed | 24/120 [00:44<02:45,  1.73s/it]
+2026-09-03T21:51:33Z waiting... health=000 r0: (Worker_TP0 pid=1380) Loading safetensors checkpoint shards:  33% Completed | 40/120 [01:16<02:41,  2.02s/it]
+2026-09-03T21:52:05Z waiting... health=000 r0: (Worker_TP0 pid=1380) Loading safetensors checkpoint shards:  48% Completed | 57/120 [01:49<01:54,  1.81s/it]
+2026-09-03T21:52:37Z waiting... health=000 r0: (Worker_TP0 pid=1380) Loading safetensors checkpoint shards:  61% Completed | 73/120 [02:21<01:30,  1.93s/it]
+2026-09-03T21:53:09Z waiting... health=000 r0: (Worker_TP0 pid=1380) Loading safetensors checkpoint shards:  74% Completed | 89/120 [02:53<01:01,  1.98s/it]
+2026-09-03T21:53:41Z waiting... health=000 r0: (Worker_TP0 pid=1380) Loading safetensors checkpoint shards:  90% Completed | 108/120 [03:24<00:16,  1.39s/it]
+2026-09-03T21:54:13Z waiting... health=000 r0: (Worker_TP0 pid=1380) INFO 09-03 21:54:13 [interface.py:950] Padding mamba page size by 4.74% to ensure that mamba page size and attention page size are exactly
+2026-09-03T21:54:45Z waiting... health=000 r0: (Worker_TP0 pid=1380)   warn("tl.make_block_ptr is deprecated. Use TensorDescriptor or tl.make_tensor_descriptor instead.")
+2026-09-03T21:55:17Z waiting... health=000 r0: (EngineCore pid=1224) INFO 09-03 21:55:14 [shm_broadcast.py:801] No available shared memory broadcast block found in 60 seconds. This typically happens when som
+2026-09-03T21:55:49Z waiting... health=000 r0: (Worker_TP0 pid=1380) Capturing CUDA graphs (FULL):   0%|          | 0/5 [00:00<?, ?it/s]Capturing CUDA graphs (FULL):  20%|██        | 1/5 [00:00<00:00, 
+2026-09-03T21:56:21Z waiting... health=000 r0: (Worker_TP0 pid=1380) Capturing dflash2 CUDA graphs (FULL):   0%|          | 0/5 [00:00<?, ?it/s]Capturing dflash2 CUDA graphs (FULL):  20%|██        | 1/
+2026-09-03T21:56:53Z waiting... health=000 r0: (APIServer pid=1) INFO 09-03 21:56:51 [base.py:235] Multi-modal warmup completed in 10.196s
+2026-09-03T21:57:23Z HEALTHY after 510s
+pid 812011 log /home/spark/AI/workload-TP4-soak150-noidx-20260903T215723Z.log receipt /home/spark/AI/workload-TP4-soak150-noidx-20260903T215723Z.json

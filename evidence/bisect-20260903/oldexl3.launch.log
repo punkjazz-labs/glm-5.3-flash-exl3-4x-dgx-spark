@@ -1,0 +1,32 @@
+rank 0 10.200.0.11 first-addr=169.254.199.81
+rank 1 10.200.0.12 first-addr=169.254.25.1
+rank 2 10.200.0.13 first-addr=169.254.200.13
+rank 3 10.200.0.14 first-addr=169.254.200.14
+rank 0 clocks: sm=208 MHz max=3003 MHz util=0%
+rank 1 clocks: sm=208 MHz max=3003 MHz util=0%
+rank 2 clocks: sm=208 MHz max=3003 MHz util=0%
+rank 3 clocks: sm=208 MHz max=3003 MHz util=0%
+2026-09-04T00:31:36Z preflight PASS
+2026-09-04T00:31:41Z rank 0 (10.200.0.11): rc=0 rank=0 host=spark-f1cc fabric=10.200.0.11 gid=5 link=200000Mb/s swappiness=60 swap-used-MiB=844 mem-available-GiB=118.0 mem-free-GiB=118.6 started glm53-tp4-prod-r0 
+2026-09-04T00:31:44Z rank 1 (10.200.0.12): rc=0 rank=1 host=spark-a393 fabric=10.200.0.12 gid=6 link=200000Mb/s swappiness=60 swap-used-MiB=667 mem-available-GiB=118.2 mem-free-GiB=118.7 started glm53-tp4-prod-r1 
+2026-09-04T00:31:47Z rank 2 (10.200.0.13): rc=0 rank=2 host=spark-2d65 fabric=10.200.0.13 gid=6 link=100000Mb/s swappiness=60 swap-used-MiB=523 mem-available-GiB=118.3 mem-free-GiB=118.9 started glm53-tp4-prod-r2 
+2026-09-04T00:31:50Z rank 3 (10.200.0.14): rc=0 rank=3 host=spark-2b4f fabric=10.200.0.14 gid=3 link=100000Mb/s swappiness=60 swap-used-MiB=505 mem-available-GiB=118.3 mem-free-GiB=118.9 started glm53-tp4-prod-r3 
+2026-09-04T00:31:50Z launched 4 ranks (tag=prod, logs in /home/spark/AI/tp4-prod-logs)
+2026-09-04T00:31:51Z waiting... health=000 r0: 
+2026-09-04T00:32:23Z waiting... health=000 r0: __init__.py: reasoning fix already present (#53046)
+2026-09-04T00:32:55Z waiting... health=000 r0: glm53: video placeholders aligned to encoder grid_t (Glm5Next→glm46v)
+2026-09-04T00:33:26Z waiting... health=000 r0: (Worker_TP0 pid=1382) Loading safetensors checkpoint shards:   4% Completed | 5/120 [00:10<03:49,  1.99s/it]
+2026-09-04T00:33:58Z waiting... health=000 r0: (Worker_TP0 pid=1382) Loading safetensors checkpoint shards:  18% Completed | 22/120 [00:42<02:45,  1.68s/it]
+2026-09-04T00:34:30Z waiting... health=000 r0: (Worker_TP0 pid=1382) Loading safetensors checkpoint shards:  32% Completed | 38/120 [01:14<02:38,  1.93s/it]
+2026-09-04T00:35:02Z waiting... health=000 r0: (Worker_TP0 pid=1382) Loading safetensors checkpoint shards:  45% Completed | 54/120 [01:46<02:09,  1.97s/it]
+2026-09-04T00:35:34Z waiting... health=000 r0: (Worker_TP0 pid=1382) Loading safetensors checkpoint shards:  58% Completed | 70/120 [02:18<01:39,  1.99s/it]
+2026-09-04T00:36:07Z waiting... health=000 r0: (Worker_TP0 pid=1382) Loading safetensors checkpoint shards:  72% Completed | 87/120 [02:51<01:05,  1.99s/it]
+2026-09-04T00:36:38Z waiting... health=000 r0: (Worker_TP0 pid=1382) Loading safetensors checkpoint shards:  88% Completed | 106/120 [03:22<00:11,  1.17it/s]
+2026-09-04T00:37:10Z waiting... health=000 r0: (Worker_TP0 pid=1382) 
+2026-09-04T00:37:42Z waiting... health=000 r0: (Worker_TP0 pid=1382)   warn("tl.make_block_ptr is deprecated. Use TensorDescriptor or tl.make_tensor_descriptor instead.")
+2026-09-04T00:38:14Z waiting... health=000 r0: (Worker_TP0 pid=1382)   warn("tl.make_block_ptr is deprecated. Use TensorDescriptor or tl.make_tensor_descriptor instead.")
+2026-09-04T00:38:46Z waiting... health=000 r0: (Worker_TP0 pid=1382) INFO 09-04 00:38:40 [kernel.py:306] Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['vllm_c', 'native']
+2026-09-04T00:39:19Z waiting... health=000 r0: (Worker_TP0 pid=1382) Capturing CUDA graphs (FULL):   0%|          | 0/5 [00:00<?, ?it/s]Capturing CUDA graphs (FULL):  20%|██        | 1/5 [00:00<00:01, 
+2026-09-04T00:39:50Z waiting... health=000 r0: (APIServer pid=1) INFO 09-04 00:39:49 [api_server.py:678] Supported tasks: ['generate']
+2026-09-04T00:40:20Z HEALTHY after 510s
+pid 1059463 log /home/spark/AI/workload-TP4-soak150-oldexl3-20260904T004020Z.log receipt /home/spark/AI/workload-TP4-soak150-oldexl3-20260904T004020Z.json

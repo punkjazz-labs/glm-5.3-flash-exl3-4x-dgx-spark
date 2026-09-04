@@ -1,0 +1,9 @@
+2026-09-04T01:58:38Z MAINT set; relaunching on prod.env (noidx)
+2026-09-04T01:59:05Z stopped tag=prod
+2026-09-04T01:59:43Z preflight PASS
+2026-09-04T01:59:56Z launched 4 ranks (tag=prod, logs in /home/spark/AI/tp4-prod-logs)
+2026-09-04T02:08:25Z HEALTHY after 509s
+rank 0 live: glm53-exl3-c190db1-noidx:candidate VLLM_MEMORY_PROFILER_ESTIMATE_CUDAGRAPHS=1 EXL3_FAT_KERNEL=1 HOST_SWAPPINESS=60 SPEC_METHOD=dflash DFLASH_TOKENS=3 rank 1 live: glm53-exl3-c190db1-noidx:candidate PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True DFLASH_TOKENS=3 SPEC_METHOD=dflash EXL3_FAT_KERNEL=1 HOST_SWAPPINESS=60 rank 2 live: glm53-exl3-c190db1-noidx:candidate HEAD_IP=10.200.0.11 DFLASH_TOKENS=3 EXL3_FAT_KERNEL=1 HOST_SWAPPINESS=60 SPEC_METHOD=dflash rank 3 live: glm53-exl3-c190db1-noidx:candidate PORT=8890 SPEC_METHOD=dflash DFLASH_TOKENS=3 EXL3_FAT_KERNEL=1 HOST_SWAPPINESS=60 2026-09-04T02:08:28Z PINEAPPLE: 'PINEAPPLE' vllm-0.1.dev20051+g487ecf187-tp4-f27ca70e
+2026-09-04T02:08:28Z NOIDX LIVE; running the validation suite
+pid 1180931 log /home/spark/AI/workload-TP4-noidx-full-20260904T020828Z.log receipt /home/spark/AI/workload-TP4-noidx-full-20260904T020828Z.json
+2026-09-04T02:54:29Z SUITE DONE; watchdog resumed; health=200

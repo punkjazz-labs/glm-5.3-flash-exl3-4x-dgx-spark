@@ -288,3 +288,69 @@ four intervals, and a probe completion failing twice in a row -> recovery. **Dec
 (3 tokens), no fat kernel**, the configuration of run 5; the overnight chain's final restore step launches it and resumes
 the watchdog. c190db1 stays staged on every rank.
 
+Validation suite on the final configuration (`TP4-final493`, 20:59Z-21:44Z on the live quartet, 493cb88 + draft 3,
+`evidence/workload-TP4-final493-20260903T205905Z.json`; 2 foreign requests), against yesterday's two runs of the same suite:
+
+| metric | old image, yesterday (`TP4-final`) | fat kernel + draft, yesterday (`TP4-fat`) | **493cb88 + draft, tonight** |
+|---|---|---|---|
+| 282k cold prefill | 1162 tok/s, 242 s | 1324 tok/s, 213 s | 1162 tok/s, 243 s |
+| coding first token, 3 fresh prompts behind the 24k prefill | 0.5 / 2.2 / 2.2 s | 0.5 / 2.0 / 3.5 s | 0.5 / 3.9 / 21.5 s (the bimodal case landed) |
+| coding 4-way aggregate | 62.6 tok/s | 63.2 tok/s | 59.7 tok/s |
+| 12k generation decode | 32.2 tok/s | 36.8 tok/s | **41.0 tok/s** |
+| warm follow-up on the 12k conversation | 8.6 s | 3.1 s | 6.6 s |
+| cold: warm follow-up | 1.6 s | 1.0 s | 1.9 s |
+| 30-min soak | 188 req, 0 err | 195 req, 0 err | 184 req, 0 err |
+| soak short p50 / p95 | 0.54 / 9.3 s | 0.60 / 18.1 s | 1.14 / 7.3 s |
+| soak aggregate gen | 53.7 tok/s | 56.7 tok/s | 52.2 tok/s |
+| min MemAvailable | 6.4 GiB | 7.1 GiB | 8.3 GiB |
+
+Same image and knobs as yesterday's first column; the 12k decode came out 41 instead of 32 tok/s (draft acceptance on that
+prose run; the suite's single generation is a one-sample measurement), everything else within the usual spread. The
+c190db1 prefill and warm-follow-up advantages are what the bisect is trying to win back.
+
+### 2026-09-03/04, bisect of the c190db1 stall (`recipe/bisect/`, `evidence/bisect-20260903/`)
+
+What actually differs between the 493cb88 and c190db1 images as our launcher runs them: the exl3.py overlay (PR77, 778
+-> 1623 lines) with its compiled extension, and the PR86 indexer-workspace patch applied at build time to
+`vllm/v1/attention/backends/mla/indexer.py` (a wrapper that is meant to return the stock expression unless
+`GLM53_INDEXER_WORKSPACE=rightsize`). The spinwait change (PR96) is inert here: our launcher never runs
+`patch_spinwait.py` and both images carry the stock `busy_loop_s = 1`. vLLM is the same build in both. Two derived
+images were built in seconds on every rank from the staged c190db1 (`Dockerfile.noidx`: pristine `indexer.py` from the
+493cb88 image; `Dockerfile.oldexl3`: the 493cb88 `exl3.py` over the new extension) and soaked with the same mix:
+
+| run | image | fat kernel | draft | outcome |
+|---|---|---|---|---|
+| 8 | **c190db1 minus PR86** (`noidx`) | on | on, 3 | **150 min clean**: 488 req, 0 err, 121/121 needles, 96k prefill 1280 tok/s, acceptance 0.45, memory flat |
+| 9 | c190db1 with the 493cb88 exl3.py, PR86 still applied (`oldexl3`) | n/a | on, 3 | stall at ~64 min (liveness probe failed 01:45Z, engine dead 01:47Z, 218k-token dump as before) |
+
+**Verdict: the PR86 indexer-workspace patch is the regression.** With it reverted, c190db1 keeps the E2 fat-expert
+prefill kernel, the DFlash2 draft and the PR63 template fix and does not stall; with it present, even the old overlay
+stalls. Why a patch that "returns the stock expression unless opted in" hangs a four-node TP job mid-prefill is upstream's
+question (the wrapper changes how the sparse-indexer gather workspace is sized or cached on the prefill path; our stalls
+were all inside long chunked prefills, at chunk boundaries, with all four ranks stopping on the same forward).
+
+**Production decision (2026-09-04): `prod.env` pins `glm53-exl3-c190db1-noidx:candidate`** (tag; per-rank IDs differ
+because each rank built it), the c190db1 root, `EXL3_FAT_KERNEL=1`, `SPEC_METHOD=dflash`, `DFLASH_TOKENS=3`. The
+validation suite on it follows below. The 493cb88 image and root stay on every rank as the fallback.
+
+Validation suite on the adopted build (`TP4-noidx-full`, 02:08Z-02:54Z 2026-09-04, `evidence/workload-TP4-noidx-full-20260904T020828Z.json`,
+4 foreign requests), next to the two other configurations measured with the same suite:
+
+| metric | 493cb88 + draft (last night's production) | c190db1 + draft, stock (stalls) | **c190db1 minus PR86 + draft (production now)** |
+|---|---|---|---|
+| 282k cold prefill | 1162 tok/s, 243 s | 1324 tok/s, 213 s | **1270 tok/s, 222 s** |
+| coding first token, 3 fresh prompts behind the 24k prefill | 0.5 / 3.9 / 21.5 s | 0.5 / 2.0 / 3.5 s | **0.5 / 2.1 / 3.5 s** |
+| coding 4-way aggregate | 59.7 tok/s | 63.2 tok/s | 62.5 tok/s |
+| 12k generation decode | 41.0 tok/s | 36.8 tok/s | 32.6 tok/s (one-sample measurement; 32-41 across the four runs of this config family) |
+| warm follow-up on the 12k conversation | 6.6 s | 3.1 s | 9.7 s (prefix-cache hit variance under the concurrent shorts; see below) |
+| cold: warm follow-up | 1.9 s | 1.0 s | 1.0 s |
+| 30-min soak | 184 req, 0 err | 195 req, 0 err | **188 req, 0 err** |
+| soak short p50 / p95 | 1.14 / 7.3 s | 0.60 / 18.1 s | 0.60 / 16.6 s |
+| min MemAvailable | 8.3 GiB | 7.1 GiB | 8.4 GiB |
+| 150-min varied soak at the seq cap with 96k prompts | clean | stalls 5/5 | **clean (run 8)** |
+
+The adopted build keeps c190db1's prefill and first-token behaviour, the draft's decode, and passes the long soak. Two
+soft spots carried forward: the 12k warm follow-up on the longgen conversation is 3-10 s depending on whether its prefix
+survives the three concurrent shorts (0.99 s in the cold phase where it always does), and single-stream decode from one
+12k generation is a noisy measurement (32-41 tok/s across runs of the same knobs).
+

@@ -1,0 +1,9 @@
+2026-09-03T21:47:34Z suite finished, engine healthy, watchdog idle; starting bisect chain (noidx, then oldexl3)
+2026-09-03T21:47:34Z === noidx: env=[IMG_ALL=glm53-exl3-c190db1-noidx:candidate ROOT=/home/spark/AI/glm53-c190db1-root EXL3_FAT_KERNEL=1 SPEC_METHOD=dflash DFLASH_TOKENS=3]
+2026-09-03T21:57:23Z noidx: healthy; rank0 live: glm53-exl3-c190db1-noidx:candidate HOST_SWAPPINESS=60 SPEC_METHOD=dflash EXL3_FAT_KERNEL=1 DFLASH_TOKENS=3 
+2026-09-04T00:30:30Z noidx: survived; soak 153 min; errors=0; samples=145; log=/home/spark/AI/workload-TP4-soak150-noidx-20260903T215723Z.log
+2026-09-04T00:30:30Z === oldexl3: env=[IMG_ALL=glm53-exl3-c190db1-oldexl3:candidate ROOT=/home/spark/AI/glm53-c190db1-root EXL3_FAT_KERNEL=0 SPEC_METHOD=dflash DFLASH_TOKENS=3]
+2026-09-04T00:40:20Z oldexl3: healthy; rank0 live: glm53-exl3-c190db1-oldexl3:candidate GLOO_SOCKET_IFNAME=enp1s0f1np1 SPEC_METHOD=dflash DFLASH_TOKENS=3 EXL3_FAT_KERNEL=0 
+2026-09-04T01:45:13Z oldexl3: probe failed (1/2), 6 running, counters flat 4 min
+2026-09-04T01:47:43Z oldexl3: ENGINE-DEAD after 67 min; soak 67 min; errors=42; samples=64; log=/home/spark/AI/workload-TP4-soak150-oldexl3-20260904T004020Z.log
+2026-09-04T01:47:43Z === restore prod.env
