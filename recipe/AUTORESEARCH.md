@@ -432,3 +432,73 @@ into different degenerate loops with different acceptance), which is exactly the
 runs. On real prose the draft accepts ~0.4 and decode sits at 33-35 tok/s; on code ~0.8-0.9 and 39-49 tok/s (the
 thinking-on Go fix decoded at 49 tok/s). Nothing here is hardware or engine variance, and the lever for more decode is
 acceptance (draft length, draft model), not clocks.
+
+### 2026-09-04, run 13: the stall caught with gdb on every rank (`evidence/freeze-20260904/`)
+
+Third armed soak (`~/AI/repro.sh`, fresh boot 07:56Z, armed 11:12Z): **stall at 136 min** with 8 requests running,
+fatal step = chunk 41152 of a long prompt (1984 tokens) beside three draft-carrying decodes. The catcher fired on the
+shm-broadcast warning at 13:30:06Z and took host-side gdb backtraces of every process on every rank in 100 s, three
+rounds, while the engine was still alive (the RPC timeout killed it four minutes later). What they show:
+
+- **Every TP worker's main thread is inside `cudaStreamSynchronize`** (rank 3 in rounds 2-3; its round-1 frame was
+  corrupt), reached from a Python-implemented torch custom op. On this build that is the E1 prefill path of the Mia
+  `exl3.py` (`count_stream.synchronize()` after staging the routing counts to the host, line 1152): it is the first
+  host-blocking point after the GPU stream stopped, not the cause; the 493cb88 `exl3.py` has no such sync and stalled
+  the same way in run 9.
+- **The NCCL proxy-progress thread is the other running thread on every rank**: `ncclProxyProgress -> progressOps ->
+  sendProxyProgress` (transport/net.cc:1362), spinning with `sched_yield` between polls. A collective was launched on
+  all four ranks and its network side never completes. The second communicator's proxy (the draft's group) is idle.
+- GPUs at 96 % utilisation and ~21 W on all ranks: kernels spinning on flags, the NCCL signature.
+- **No NCCL warning has ever been logged** at any of the freezes (`NCCL_DEBUG=WARN` is set), so NCCL never saw a
+  transport error; the collective just waits forever.
+- **The RoCE fabric is lossy.** Per-rank counters (cumulative since boot): `packet_seq_err` 83k / 3.09M / 23k / 122k,
+  `out_of_sequence` 325k / 63k / 2.87M / 48, `roce_adp_retrans` 99k / 1.34M / 137k / 61k, `local_ack_timeout_err` 16 / 0
+  / 48 / 0, `req_cqe_error` 0 / 0 / 48 / 0 (the 48 match the engine deaths), `rx_out_of_buffer` on ranks 1-2, and
+  141,921 global-pause frames (11.4 s cumulative) sent by rank 0. The NICs run with global pause only: no PFC, no ECN
+  (`roce_np`/`roce_rp` empty), MTU 1500, and the links are mixed: ranks 0-1 at 200 Gb/s, ranks 2-3 at 100 Gb/s.
+  cuda-gdb cannot attach late to a process blocked in the driver, so the kernel names stay unknown.
+
+Reading: the TP allreduces of a long prefill chunk are the largest, most bursty transfers this cluster makes; the
+fabric drops and reorders packets under them and the NICs' adaptive retransmission usually recovers; once in a while a
+collective never completes and nothing reports it. That fits every observation so far: independent of image, fat
+kernel, draft, PR86 and knobs; a per-run race at 3-136 min; always inside a long chunked prefill; all ranks spinning.
+The 2-node upstream recipe has no switch between its Sparks.
+
+Mitigations to test, one variable at a time, each with the catcher armed: `NCCL_PROTO=Simple` (no LL/LL128 flag-in-data
+protocols; started 2026-09-04 ~14:00Z as `~/AI/repro-nccl.sh`), then `NCCL_ALGO=Ring`, `NCCL_BUFFSIZE`, IB timeout and
+retry, and on the fabric side equal link speeds for ranks 2-3, jumbo MTU and PFC/ECN if the switch supports them.
+`tp4-cluster.sh` now passes `NCCL_PROTO NCCL_ALGO NCCL_IB_TIMEOUT NCCL_IB_RETRY_CNT NCCL_BUFFSIZE` through to the
+containers as environment overrides, and the catcher snapshots the RoCE counters at each freeze.
+
+### 2026-09-04, run 14: `NCCL_PROTO=Simple` does not help, and NCCL's own op state names the cause (`evidence/freeze-20260904/freeze-20260904T140542Z/`)
+
+Fresh boot with `NCCL_PROTO=Simple` (verified live in the container), catcher armed: **stall 6 minutes into the soak**
+(14:04:45Z, 8 running, KV 12.5 %), same signature. This time gdb was pointed at NCCL's proxy state on the still-frozen
+worker ranks (`proxystate*.txt`, gdb Python walking to the `sendProxyProgress`/`recvProxyProgress` frame):
+
+| rank | proxy frame | op | channel | peer | steps | posted | received | transmitted | done |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 | recvProxyProgress (polling `ibv_poll_cq` via `ncclIbTest`) | AllReduce, opCount 305624, protocol 2 = Simple | 47 | 0 | 24 x 1 MiB | 16 | 8 | 8 | 8 |
+| 2 | sendProxyProgress (net.cc:1335) | same op | 43 | 3 | 24 x 1 MiB | (cut) | | | |
+| 3 | recvProxyProgress | same op | 28 | 2 | 24 x 1 MiB | 8 | 0 | 0 | 0 |
+
+The same allreduce is stuck on every rank. The receivers have posted RDMA receive buffers for steps the senders were
+supposed to write (rank 1 waits for steps 9-16 from rank 0, rank 3 for steps 1-8 from rank 2) and the data never
+arrives; the senders poll completion queues that never complete; no side ever reports an error, so the kernels spin
+and the engine dies 300 s later on its RPC timeout. In the six minutes of this soak the receivers' RoCE counters moved
+by thousands: rank 1 `packet_seq_err` +4,830 and `roce_adp_retrans` +498, rank 2 `out_of_sequence` +5,057 and
+`np_cnp_sent` +2,250, rank 3 `packet_seq_err` +226 (rank 0's counters did not move: the loss shows on the receiving
+side of each hop). Rank 2 also carries `req_transport_retries_exceeded=8`, `roce_adp_retrans_to` is in the thousands
+on every rank. The NICs sit on global pause only (no PFC, no ECN), MTU 1500, ranks 2-3 linked at 100 Gb/s.
+
+**Cause: the RoCE fabric between the four Sparks loses packets under the allreduce traffic of a long prefill chunk; the
+ConnectX adaptive retransmission recovers almost all of it, and once in a while a transfer is never completed and never
+reported, which leaves the whole TP ring waiting forever.** Nothing in the engine, the image, the kernels, the draft or
+the scheduler is involved beyond generating the traffic pattern that triggers it; `NCCL_PROTO=Simple` changes nothing
+because the loss is below NCCL.
+
+What would fix it, in order of leverage: PFC or at least ECN on the switch ports and NICs (lossless RoCE), jumbo MTU,
+and the two 100 Gb/s links brought to 200 Gb/s (fewer, larger, evenly paced packets); on the software side only
+palliatives remain: smaller bursts (`MAX_NUM_BATCHED_TOKENS=1024`, `NCCL_BUFFSIZE`), and the watchdog that already turns a
+stall into a ten-minute recovery. If the switch cannot do PFC, a direct-cable topology (like upstream's two-node recipe)
+is the only lossless option.

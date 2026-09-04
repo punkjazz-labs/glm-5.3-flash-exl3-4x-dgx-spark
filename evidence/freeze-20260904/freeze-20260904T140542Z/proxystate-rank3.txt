@@ -1,0 +1,2 @@
+== rank 3 worker 2168560 14:08:43 96 %, 20.32 W
+proxy thread: 

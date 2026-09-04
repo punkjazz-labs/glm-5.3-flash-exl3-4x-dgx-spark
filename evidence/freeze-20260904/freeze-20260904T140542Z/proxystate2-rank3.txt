@@ -1,0 +1,28 @@
+== rank 3 worker 2168560 14:09:15
+proxy thread: 60
+
+0x0000ef6a383f7584 in ?? ()
+[Switching to thread 60 (Thread 0xef655bfff180 (LWP 2168960))]
+#0  0x0000ef6a38195c0c in __GI_sched_yield () at ../sysdeps/unix/syscall-template.S:120
+#0  0x0000ef6a38195c0c in __GI_sched_yield () at ../sysdeps/unix/syscall-template.S:120
+#1  0x0000ef69abe60e70 in __gthread_yield () at /usr/include/c++/8/aarch64-redhat-linux/bits/gthr-default.h:692
+#2  std::this_thread::yield () at /usr/include/c++/8/thread:357
+#0  0x0000ef6a38195c0c in __GI_sched_yield () at ../sysdeps/unix/syscall-template.S:120
+120	in ../sysdeps/unix/syscall-template.S
+No symbol "args" in current context.
+No symbol "args" in current context.
+No symbol "args" in current context.
+No symbol "args" in current context.
+No symbol "args" in current context.
+No symbol "args" in current context.
+No symbol "args" in current context.
+No symbol "args" in current context.
+No symbol "args" in current context.
+No symbol "args" in current context.
+No symbol "args" in current context.
+No symbol "args" in current context.
+No symbol "args" in current context.
+No symbol "args" in current context.
+No symbol "args" in current context.
+No symbol "args" in current context.
+[Inferior 1 (process 2168560) detached]

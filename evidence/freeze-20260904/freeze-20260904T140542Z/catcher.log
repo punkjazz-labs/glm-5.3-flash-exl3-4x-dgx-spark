@@ -1,0 +1,12 @@
+2026-09-04T13:58:52Z watching /home/spark/AI/tp4-prod-logs/r0.log for the shm-broadcast warning (tag=prod)
+2026-09-04T14:05:42Z FREEZE DETECTED -> /home/spark/AI/freeze-20260904T140542Z
+2026-09-04T14:07:19Z rank 3: 7123 lines
+2026-09-04T14:07:20Z rank 2: 7090 lines
+2026-09-04T14:07:21Z rank 1: 5765 lines
+2026-09-04T14:07:41Z rank 0: 8355 lines
+2026-09-04T14:07:41Z dumps complete: metrics.txt
+r0-context.txt
+rank0.txt
+rank1.txt
+rank2.txt
+rank3.txt

@@ -1,0 +1,25 @@
+== rank 3 worker 2168560 14:10:12
+
+0x0000ef6a06e18e24 in ?? () from target:/lib/aarch64-linux-gnu/libcuda.so.1
+thread 60 frame recvProxyProgress
+coll = 4 '\004'
+protocol = 2 '\002'
+opCount = 305624
+nsubs = 1
+state = 2
+sub0 channelId = 28
+sub0 peer = 2
+sub0 nsteps = 24
+sub0 nbytes = 1048576
+sub0 chunkSize = 2097152
+sub0 base = 259488
+sub0 posted = 8
+sub0 received = 0
+sub0 flushed = 0
+sub0 transmitted = 0
+sub0 done = 0
+sub0 end = 0
+sub0 loopOffset = 7340032
+sub0 loopSize = 8388608
+conn.tcomm 0xef6564018970
+[Inferior 1 (process 2168560) detached]

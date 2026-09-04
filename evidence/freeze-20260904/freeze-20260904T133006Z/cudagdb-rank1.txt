@@ -1,0 +1,9 @@
+== rank 1 worker pid 3384533 13:38:11
+
+Using host libthread_db library "/lib/aarch64-linux-gnu/libthread_db.so.1".
+[Detaching after fork from child process 3684412]
+Timed out waiting for the CUDA API to initialize.
+No CUDA kernels.
+No CUDA devices.
+No CUDA contexts.
+[Inferior 1 (process 3384533) detached]

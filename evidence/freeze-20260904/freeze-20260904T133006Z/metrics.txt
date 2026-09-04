@@ -1,0 +1,5 @@
+vllm:num_requests_running{engine="0",model_name="GLM-5.3-Flash-EXL3"} 8.0
+vllm:num_requests_waiting{engine="0",model_name="GLM-5.3-Flash-EXL3"} 0.0
+vllm:num_requests_waiting_by_reason{engine="0",model_name="GLM-5.3-Flash-EXL3",reason="capacity"} 0.0
+vllm:num_requests_waiting_by_reason{engine="0",model_name="GLM-5.3-Flash-EXL3",reason="deferred"} 0.0
+vllm:kv_cache_usage_perc{engine="0",model_name="GLM-5.3-Flash-EXL3"} 0.08251833740831294

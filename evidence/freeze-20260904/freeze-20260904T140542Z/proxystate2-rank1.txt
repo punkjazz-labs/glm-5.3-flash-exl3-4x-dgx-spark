@@ -1,0 +1,27 @@
+== rank 1 worker 3697199 14:09:15
+proxy thread: 60
+
+0x0000fae5b1018e24 in ?? () from target:/lib/aarch64-linux-gnu/libcuda.so.1
+[Switching to thread 60 (Thread 0xfae11ffff180 (LWP 3697685))]
+#0  0x0000fae1a5fb5b00 in ?? () from target:/lib/aarch64-linux-gnu/libmlx5.so
+#0  0x0000fae1a5fb5b00 in ?? () from target:/lib/aarch64-linux-gnu/libmlx5.so
+#1  0x0000fae556111edc [PAC] in wrap_ibv_poll_cq (num_entries=4, num_done=<synthetic pointer>, wc=0xfae11fffd948, cq=<optimized out>) at include/ibvwrap.h:60
+#2  ncclIbTest (request=0xfae129688028, done=0xfae11fffe010, sizes=0xfae11fffe210) at transport/net_ib/p2p.cc:845
+#0  0x0000fae1a5fb5b00 in ?? () from target:/lib/aarch64-linux-gnu/libmlx5.so
+No symbol "args" in current context.
+No symbol "args" in current context.
+No symbol "args" in current context.
+No symbol "args" in current context.
+No symbol "args" in current context.
+No symbol "args" in current context.
+No symbol "args" in current context.
+No symbol "args" in current context.
+No symbol "args" in current context.
+No symbol "args" in current context.
+No symbol "args" in current context.
+No symbol "args" in current context.
+No symbol "args" in current context.
+No symbol "args" in current context.
+No symbol "args" in current context.
+No symbol "args" in current context.
+[Inferior 1 (process 3697199) detached]
