@@ -323,7 +323,7 @@ images were built in seconds on every rank from the staged c190db1 (`Dockerfile.
 | 8 | **c190db1 minus PR86** (`noidx`) | on | on, 3 | **150 min clean**: 488 req, 0 err, 121/121 needles, 96k prefill 1280 tok/s, acceptance 0.45, memory flat |
 | 9 | c190db1 with the 493cb88 exl3.py, PR86 still applied (`oldexl3`) | n/a | on, 3 | stall at ~64 min (liveness probe failed 01:45Z, engine dead 01:47Z, 218k-token dump as before) |
 
-**Verdict: the PR86 indexer-workspace patch is the regression.** With it reverted, c190db1 keeps the E2 fat-expert
+**Verdict (withdrawn 2026-09-04 by run 11, see below): the PR86 indexer-workspace patch is the regression.** With it reverted, c190db1 keeps the E2 fat-expert
 prefill kernel, the DFlash2 draft and the PR63 template fix and does not stall; with it present, even the old overlay
 stalls. Why a patch that "returns the stock expression unless opted in" hangs a four-node TP job mid-prefill is upstream's
 question (the wrapper changes how the sparse-indexer gather workspace is sized or cached on the prefill path; our stalls
@@ -341,8 +341,8 @@ Validation suite on the adopted build (`TP4-noidx-full`, 02:08Z-02:54Z 2026-09-0
 | 282k cold prefill | 1162 tok/s, 243 s | 1324 tok/s, 213 s | **1270 tok/s, 222 s** |
 | coding first token, 3 fresh prompts behind the 24k prefill | 0.5 / 3.9 / 21.5 s | 0.5 / 2.0 / 3.5 s | **0.5 / 2.1 / 3.5 s** |
 | coding 4-way aggregate | 59.7 tok/s | 63.2 tok/s | 62.5 tok/s |
-| 12k generation decode | 41.0 tok/s | 36.8 tok/s | 32.6 tok/s (one-sample measurement; 32-41 across the four runs of this config family) |
-| warm follow-up on the 12k conversation | 6.6 s | 3.1 s | 9.7 s (prefix-cache hit variance under the concurrent shorts; see below) |
+| 12k generation decode | 41.0 tok/s | 36.8 tok/s | 32.6 tok/s (one `ignore_eos` sample; the 32-41 spread across runs is draft acceptance on the degenerate tail, see below) |
+| warm follow-up on the 12k conversation | 6.6 s (5376 prefix tokens hit) | 3.1 s (8960) | 9.7 s (1792; hits = where the re-tokenised answer first diverges, see below) |
 | cold: warm follow-up | 1.9 s | 1.0 s | 1.0 s |
 | 30-min soak | 184 req, 0 err | 195 req, 0 err | **188 req, 0 err** |
 | soak short p50 / p95 | 1.14 / 7.3 s | 0.60 / 18.1 s | 0.60 / 16.6 s |
@@ -350,7 +350,85 @@ Validation suite on the adopted build (`TP4-noidx-full`, 02:08Z-02:54Z 2026-09-0
 | 150-min varied soak at the seq cap with 96k prompts | clean | stalls 5/5 | **clean (run 8)** |
 
 The adopted build keeps c190db1's prefill and first-token behaviour, the draft's decode, and passes the long soak. Two
-soft spots carried forward: the 12k warm follow-up on the longgen conversation is 3-10 s depending on whether its prefix
-survives the three concurrent shorts (0.99 s in the cold phase where it always does), and single-stream decode from one
-12k generation is a noisy measurement (32-41 tok/s across runs of the same knobs).
+numbers in this table are noisy by construction, and the 2026-09-04 variance probe below explains both: the 12k warm
+follow-up re-prefills everything after the first token at which the model's own 12k `ignore_eos` output stops
+re-tokenising identically (its first emitted end-of-turn), quantised to 1792-token KV blocks, so 3-10 s is 3-10k tokens
+of re-prefill at ~1200 tok/s; and the single 12k generation's decode rate is the draft acceptance rate of whatever
+degenerate text that `ignore_eos` run drifted into (0.32 -> 30 tok/s, 0.45 -> 36, code 0.88 -> 39).
 
+
+### 2026-09-04, run 11: the confirmation that withdrew the bisect verdict
+
+Before asking upstream to revert PR86 the verdict was checked. Code reading first: the c190db1 vs 493cb88 image diff of
+`vllm/v1/attention/backends/mla/indexer.py` is exactly the PR86 patch; `GLM53_INDEXER_WORKSPACE` is unset in our
+containers, so the patched `get_max_prefill_buffer_size` returns the stock `max_model_len * 40`; it is called once at
+init (`models/glm5next/nvidia/attention.py:302`); the builder guard is skipped in stock mode; and the vLLM cache volume
+holds no torch.compile cache that a source change could key. The patched file was therefore a runtime no-op, the
+verdict rested on 5/5 stalls with it vs one clean run without it (about a 5 % chance of a fluke), and one more run was
+needed. Run 11 (fresh boot of `glm53-exl3-c190db1-noidx:candidate`, identical mix, 07:06Z start): **stall at 24 min**,
+engine dead 07:30:56Z after the 300 s RPC timeout, the fatal step scheduling chunk offset 84864 of a 96k prompt (1984
+tokens) beside three decodes with 3 draft tokens each; ranks 1-3 at 96 % utilisation and ~21 W until removed. The
+verdict is withdrawn on PR #115 and the prepared upstream change (fork branch `indexer-workspace-opt-in-apply`) was not
+submitted.
+
+Fatal-step scheduler state across all six engine dumps so far: always a chunk of a long prompt's chunked prefill,
+`num_computed_tokens` 24256 / 53809 / 84864 / 89280 (96k prompts) and 218624 (lone 282k), chunk 1984 or 1792, with 0-6
+draft-carrying decodes in the same step. Stall times on the c190db1 family: 78, 31, 35, 82, 64, 24 min (7 of 8 runs; run
+8 clean). Next: `recipe/freeze-catch.sh` (host-side py-spy on every rank at the shm-broadcast warning, 4 minutes before
+the RPC timeout) armed under a further soak (`~/AI/repro.sh`), to read the stuck frames.
+
+Runs 12a/12b (armed): 12a stalled **3 minutes** into the soak (07:47Z); the catcher fired on the shm-broadcast warning
+and dumped every rank in 46 s, but `py-spy --nonblocking` cannot produce native frames, so only thread states came
+back: on all four ranks the `VLLM::Worker_TP` thread was in state R (spinning on the CPU, not blocked in the kernel), the
+engine-core and API processes in S. py-spy `--native` from the host fails on this platform ("Failed to get stack
+traces"); gdb from the host works (all threads, symbols), so the catcher now runs gdb every round (`thread 1` + all
+threads). 12b under that catcher: **150 min clean**, 507 requests, 0 errors, 125/125 needles, 96k prefill 1293 tok/s,
+spec acceptance 0.45, running max 8, min free 8.8 GiB (`evidence/workload-TP4-soak150-repro-20260904.json`; 20 foreign
+requests reached the quartet directly during the run). Tally on the c190db1 family: 9 runs, 7 stalls at 3-82 min, 2
+clean; the stall is a per-run race. The catcher stays in the recipe (`~/AI/repro.sh` on rank0 re-arms it) for the
+next stall.
+
+### 2026-09-04, the two noisy suite numbers, measured (`recipe/variance_probe.py`, `evidence/variance-20260904/`)
+
+Run on the production quartet (noidx build, 4 h up) with the gateway moved to the MSI pair, 06:14Z-06:48Z, one request
+at a time. Every generation asks for `return_token_ids`; the follow-up history is tokenised with `/tokenize` and compared
+token by token with the sequence the engine actually produced, so the first divergence is a number, not a guess.
+
+**Warm follow-up TTFT.** TTFT = (prompt tokens - prefix-cache hits) / ~1150 tok/s, and hits = the first divergence
+rounded down to a 1792-token KV block (the hybrid model's block; the suite's historical hit counts 1792/3584/5376/8960
+are all multiples of it).
+
+| conversation | answer tokens | first divergence | hits | follow-up TTFT | re-prefill rate | what diverged |
+|---|---|---|---|---|---|---|
+| 12k `ignore_eos` novel #1 | 12288 | 9070 | 8960 | 3.0 s | 1133 tok/s | the model emitted `<|user|>` (end of turn) at 9070 and kept going; the text sent back has no such token |
+| 12k `ignore_eos` novel #2 | 12288 | 7906 | 7168 | 4.3 s | 1220 tok/s | same text on both sides, tokenised differently (`-up novel ends well`) |
+| natural 6000-token essay | 6000 | none | 5376 | 0.9 s | (tail block + question) | whole answer round-trips; only the partial last block is re-prefilled |
+| natural 3764-token essay | 3764 | none | 3584 | 0.6 s | | same |
+| 6000-token essay that degenerated (`He did not answer. He (`) | 6000 | 3914 | 3584 | 2.3 s | 1067 tok/s | non-canonical tokenisation inside the loop text |
+| thinking on, 3072 tokens of reasoning | 3072 | at `<think>` | 0 | 0.24 s (58-token prompt) | | the template renders history as `<think></think>` + content; the reasoning is never reusable |
+
+So the suite's 3-10 s is the `ignore_eos` artefact: the follow-up pays for everything after the point where the model
+would have stopped, and that point moves from run to run. Real conversations with thinking off reuse the whole previous
+answer minus at most 1791 tokens; with thinking on they reuse the user turns only (template design, not an engine bug).
+The engine's re-prefill rate is steady. Sending the same follow-up a second time hit 8960 again for novel #1 and 10752
+for novel #2: the re-prefilled tail is not always retained, minor and not pursued.
+
+**Single-stream decode.** Identical prompt, temperature 0, seed 42, 4096 or 12288 tokens with `ignore_eos`, engine idle.
+Clocks 2411-2548 MHz on all ranks throughout, ~42 W busy, <= 76 C, no swap, free memory flat.
+
+| sample | tokens | draft acceptance | decode | 512-token windows |
+|---|---|---|---|---|
+| novel 12288 #1 | 12288 | 0.408 | 34.1 tok/s | 30.5-38.5 |
+| novel 12288 #2 | 12288 | 0.412 | 34.6 tok/s | 31.2-39.7 |
+| novel 4096 #1 | 4096 | 0.323 | 30.4 tok/s | 28.4-33.4 |
+| novel 4096 #2 | 4096 | 0.451 | 35.8 tok/s | 30.9-39.5 |
+| novel 4096 #3 | 4096 | 0.389 | 33.1 tok/s | 31.0-35.1 |
+| novel 4096 #4 | 4096 | 0.602 | 21.4 tok/s | contaminated: a foreign 36k-token request ran alongside (someone reached the quartet directly while the gateway was on the pair); discarded |
+| Rust B-tree, code | 4096 | 0.884 | 38.9 tok/s | 32.1-45.6 |
+
+Decode is monotone in the acceptance rate of the DFlash2 draft: 0.32 -> 30, 0.39 -> 33, 0.41 -> 34, 0.45 -> 36, 0.88 -> 39 tok/s.
+The same prompt at temperature 0 does not produce the same text past its natural end (the `ignore_eos` tail drifts
+into different degenerate loops with different acceptance), which is exactly the suite's 12k sample, hence 32-41 across
+runs. On real prose the draft accepts ~0.4 and decode sits at 33-35 tok/s; on code ~0.8-0.9 and 39-49 tok/s (the
+thinking-on Go fix decoded at 49 tok/s). Nothing here is hardware or engine variance, and the lever for more decode is
+acceptance (draft length, draft model), not clocks.
