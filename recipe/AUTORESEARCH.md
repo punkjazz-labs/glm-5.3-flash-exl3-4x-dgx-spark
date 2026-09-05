@@ -502,3 +502,115 @@ and the two 100 Gb/s links brought to 200 Gb/s (fewer, larger, evenly paced pack
 palliatives remain: smaller bursts (`MAX_NUM_BATCHED_TOKENS=1024`, `NCCL_BUFFSIZE`), and the watchdog that already turns a
 stall into a ten-minute recovery. If the switch cannot do PFC, a direct-cable topology (like upstream's two-node recipe)
 is the only lossless option.
+
+### 2026-09-04 15:04Z, the switch (`evidence/switch-20260904/`)
+
+MikroTik CRS812-8DS-2DQ-2DDQ, RouterOS 7.19.5, reached from the Mini's direct cable (192.168.88.1, REST). Port map by
+bridge host table: `qsfp56-dd-1-1` f1cc and `qsfp56-dd-1-5` a393 (one 400G QSFP-DD breakout, 200G RS-FEC each),
+`qsfp56-2-1` 2d65 (NADDOD 200G DAC, **port pinned to `100G-baseCR4`**), `qsfp56-1-1` 2b4f (Amphenol NJAAKK, 100G,
+**FEC off**), `qsfp56-dd-2-1/2-5` stand-in-node/37c4 (200G). Every port had rx/tx flow control **off** while the NICs
+pause: the switch's own counters showed 56.2 M frames dropped on egress toward f1cc, 19.1 M toward 2d65, 5.6 M toward
+a393, 3.8 M toward stand-in-node, and 176k pause frames received from f1cc and ignored. That is the packet loss.
+
+Changes applied 15:04Z (`switch-apply.sh`, rollback `switch-rollback.sh`, before/after config in the evidence dir):
+flow control on for the six node ports; 2d65's port to `200G-baseCR4` + `fec91` (RS-FEC): **links at 200 Gb/s**; 2b4f's
+port to `200G-baseCR4` + `fec91`: no link with the Amphenol cable, so `100G-baseCR4` + `fec91`: **100 Gb/s with RS-FEC**
+(was none). Node side after: f1cc/a393/2d65 200G RS-FEC, 2b4f 100G RS-FEC, pause RX/TX on everywhere, all-to-all fabric
+pings OK. 2b4f needs a real 200G QSFP56 DAC. The renegotiation of a393's port made the watchdog's in-flight recovery
+(from the 14:54 hot-swap stall) fail its rank check, so it fell back to TP2 on f1cc+a393 (healthy 15:12Z); production
+returns to TP4 through `tp4-cutover.sh`. Next: soak with the catcher and compare the switch tx-drop and NIC
+sequence-error counters against these baselines.
+
+2b4f retry (15:29-15:34Z, `switch-2b4f-200g.sh`): with the port at `200G-baseCR4` the link did not come up in 90 s with
+RS-FEC, 90 s with FEC auto, or 60 s with FEC off; `100G-baseCR4` + RS-FEC links in 10 s. The cable is labelled Azlan
+SF-NJAAKK0006 "QSFP 112G passive 0.5 m" (a QSFP112-class DAC, EEPROM Amphenol NJAAKK-C106), which should carry 200G
+electrically, so either its EEPROM compliance codes or the port keep it at 100G; swapping cables between 2d65 and 2b4f is
+the discriminating test. The idle quartet survived the three link flaps (no collective in flight); the relaunch that
+followed was unnecessary. Cutover TP2 -> TP4 after the switch changes: launched 15:16:59Z, healthy 15:26:06Z, promoted
+15:28:25Z.
+
+### 2026-09-04 15:53-18:30Z, run 15: the validation soak on the fixed fabric (`evidence/workload-TP4-soak150-postfix-20260904.json`)
+
+Same armed 150-min mix, gateway on the pair, `litellm-auto-sync` disabled. **Clean: 153 min, 327 requests, 0 errors,
+80/80 needles, no freeze**, and the fabric counters did not move: switch egress drops unchanged on every port (the 2b4f
+100G port +97 frames in the first hour, then nothing), NIC `packet_seq_err` +1 on f1cc, 0 on a393, +17 on 2d65, 0 on 2b4f,
+no new pause frames from the NICs. Against run 14 (+4,830 sequence errors on a393 in six minutes) the loss is gone.
+
+The cost of global pause is real: run 12b on the lossy fabric completed 507 requests in the same 150 minutes, this run 327.
+Per kind (p50): 24k prefill 724 tok/s vs 1169, 96k prefill 734 vs 1293, short decode 10.0 vs 11.9, coding decode 6.2 vs
+8.7, long_gen decode 4.2 vs 6.4; aggregate generation 30.6 vs 47.4 tok/s. Every collective now waits for pause instead of
+racing over drops. Batch 4 (`experiments-batch4.tsv`) measures the knobs on this fabric; `NCCL_ALGO=Ring` rows were added
+because ring traffic has no fan-in (one sender per receiver), so it should need far fewer pauses than NCCL's tree
+patterns; the fabric-side alternatives are ECN marking (not available on the CRS812 as far as RouterOS 7.19 shows) or
+the direct-cable topology.
+
+### 2026-09-04 18:31-21:16Z, batch 4: the knobs on the fixed fabric (`experiments-batch4.tsv`, `evidence/autoresearch-batch4/`)
+
+Live baseline first, one variable per row, same harness and gates as batch 3. Reference on the lossy fabric for the
+same knobs (batch 3, `mem075-dflash3-seqs8`): coding 61.5 tok/s, first token 2.9 s, decode 32.9, shorts 0.46 s, 64k
+cold 1185 tok/s, 8-way 134.7 tok/s.
+
+| row | overrides | coding 4-way agg | coding first token p50 | single decode | shorts p50 | 64k cold prefill | 8-way agg | score |
+|---|---|---|---|---|---|---|---|---|
+| live-postfix-baseline | live: 0.75 / 8 / 2048 / k3 | 52.050 | 4.481 s | 34.280 | 0.531 s | 744.100 | 104.250 | 1.000 |
+| mnbt4096 | MNBT=4096 util=0.75 seqs=8 k=3 | 51.660 | 8.775 s | 34.470 | 0.603 s | 752.900 | 110.460 | 0.904 |
+| seqs12 | MNBT=2048 util=0.75 seqs=12 k=3 | 51.620 | 33.428 s | 32.270 | 0.516 s | 758.000 | 110.900 | 0.717 |
+| k4 | MNBT=2048 util=0.75 seqs=8 k=4 | 44.900 | 5.652 s | 28.600 | 0.535 s | 751.100 | 105.470 | 0.914 |
+| k5 | MNBT=2048 util=0.75 seqs=8 k=5 | 55.480 | 4.623 s | 30.960 | 0.631 s | 757.800 | 102.300 | 0.988 |
+| util080 | MNBT=2048 util=0.80 seqs=8 k=3 | 52.600 | 19.717 s | 30.870 | 0.542 s | 755.100 | 106.910 | 0.774 |
+| ring | NCCL_ALGO=Ring MNBT=2048 util=0.75 seqs=8 k=3 | 54.360 | 5.618 s | 33.060 | 0.588 s | 756.500 | 105.700 | 0.969 |
+| ring-mnbt4096 | NCCL_ALGO=Ring MNBT=4096 util=0.75 seqs=8 k=3 | 52.690 | 8.543 s | 30.570 | 0.580 s | 763.000 | 108.910 | 0.893 |
+
+Nothing beats the baseline; decode is untouched by the fabric, prefill and concurrency pay for the pauses whatever the
+knob, and ring-only NCCL (no fan-in) changes nothing, so the pauses are not caused by senders converging on one port.
+The one asymmetry the fix introduced is 2d65 sending at 200 Gb/s into 2b4f's 100 Gb/s port (before the fix 2d65 was
+100 Gb/s too and that hop was balanced; the switch's egress drops toward 2b4f were tiny). Test: 2d65's port back to
+`100G-baseCR4` + RS-FEC at 21:17Z (all four links equal and lossless), relaunch, live bench (`live-equal100g`), then the
+armed 150-min soak (`~/AI/night.sh`).
+
+### 2026-09-04 21:40Z - 2026-09-05 00:17Z, run 16: equal links, new template (`evidence/workload-TP4-soak150-equal100g-template2-20260904.json`)
+
+`live-equal100g` (all four links at 100G, RS-FEC, flow control on, template root-t2 live): coding 53.3 tok/s, first
+token 19.6 s (noisy), decode 31.3, 64k cold 758 tok/s, 8-way 105.2: the same ceiling as with 2d65 at 200G, so the
+throughput cost of global pause is not the 200-to-100 speed asymmetry. The armed soak behind it: **150 min clean, 145
+samples, 0 errors, no freeze**, the second clean run on the lossless fabric, this one with the updated chat template
+serving (sanity before/after pass). 2d65's port went back to `200G-baseCR4` + RS-FEC at 00:17Z (validated clean by run
+15) so the fabric is ready for a 200G cable on 2b4f. Batch 5 (NCCL transport shape) follows.
+
+### 2026-09-05 00:28-04:15Z, batch 5: NCCL transport shape on the lossless fabric (`experiments-batch5.tsv`, `evidence/autoresearch-batch5/`)
+
+2d65 back at 200G, template root-t2 live, watchdog paused, gateway on the pair, one variable per row.
+
+| row | overrides | coding 4-way agg | coding first token p50 | single decode | shorts p50 | 64k cold prefill | 8-way agg | min free GiB | score |
+|---|---|---|---|---|---|---|---|---|---|
+| live-b5-baseline | live: 0.75 / 8 / 2048 / k3, default NCCL | 53.070 | 4.532 s | 35.780 | 0.573 s | 757.700 | 109.030 | 8.960 | 1.000 |
+| buff1m | buff=1048576 | 53.360 | 5.635 s | 31.440 | 0.572 s | 759.100 | 107.850 | 11.360 | 0.943 |
+| buff8m | buff=8388608 | 52.880 | 4.548 s | 31.170 | 0.554 s | 759.900 | 108.290 | 4.780 | 0.976 |
+| chan4 | min_ch=4 max_ch=4 | 55.860 | 5.074 s | 38.150 | 0.559 s | 846.300 | 116.060 | 20.320 | 1.030 |
+| chan16 | min_ch=16 max_ch=16 | 54.770 | 4.264 s | 30.850 | 0.559 s | 802.900 | 109.360 | 16.470 | 1.001 |
+| qps4 | qps=4 split | 52.300 | 4.463 s | 38.180 | 0.572 s | 769.500 | 97.720 | 8.190 | 0.995 |
+| chan2 | min_ch=2 max_ch=2 | 54.810 | 29.699 s | 32.860 | 0.547 s | 851.800 | 115.060 | 20.080 | 0.746 |
+| chan1 | min_ch=1 max_ch=1 | 52.960 | 5.415 s | 38.100 | 0.501 s | 789.700 | 116.470 | 18.880 | 0.998 |
+| chan8 | min_ch=8 max_ch=8 | 53.210 | 17.632 s | 35.090 | 0.545 s | 846.800 | 118.930 | 17.420 | 0.822 |
+| chan4-qps4 | min_ch=4 max_ch=4 qps=4 split | 51.750 | 17.255 s | 33.640 | 0.562 s | 813.900 | 122.420 | 18.770 | 0.814 |
+
+**4 NCCL channels is the lever**: prefill 846 tok/s (+12 % over the 758 ceiling), single decode 38.2 (+7 %), coding
+55.9 (+5 %), 8-way 116 (+6 %), and 20 GiB minimum free host memory instead of 9 (fewer NCCL buffers). Fewer parallel
+flows means fewer pauses. The prefill plateau (~850) holds from 2 to 8 channels, but 2 and 8 channels (and 4 channels
+with 4 queue pairs) pay for it with a 17-30 s coding first-token p50; 1 channel loses prefill again; buffer size and
+queue pairs alone do nothing. `prod.env` carried `NCCL_MIN_NCHANNELS=4 NCCL_MAX_NCHANNELS=4` for the armed soak that followed (run 17).
+
+### 2026-09-05 04:20-05:27Z, run 17: the 4-channel soak stalls; production settles on run 16's configuration (`evidence/freeze-20260905/run17/`)
+
+Armed soak on 4 NCCL channels, 2d65 at 200G: **engine dead after 65 min** (62 samples, 35 errors), catcher fired, same
+signature (workers in `cudaStreamSynchronize`). The RoCE counters at the freeze show the loss back with a vengeance:
+2b4f `out_of_sequence` +127k (from 30), 2d65 `packet_seq_err` +125k and `roce_adp_retrans` +45k, a393 `packet_seq_err`
++22k, in one hour, against +17 across the whole of run 15. Four channels carry the same bytes in a quarter of the flows,
+and those fat flows from a 200G sender into the 100G port overrun what global pause can hold back. So the +12 % was
+bought with the same loss that causes the stalls: **not adopted**, `prod.env` back to default channels.
+
+Production for the three unattended weeks is run 16's configuration, the only one with a clean 150-minute armed soak
+and flat counters on this switch: default NCCL channels, 2d65's port pinned to `100G-baseCR4` + RS-FEC like 2b4f's
+(f1cc/a393 stay 200G on the breakout), flow control on, template root-t2. Throughput ~758 tok/s at 64k prefill, decode
+unchanged. When 2b4f gets a NADDOD 200G DAC, set both `qsfp56-1-1` and `qsfp56-2-1` back to `200G-baseCR4` + `fec91`
+and re-run the armed soak; the 200/200 topology was clean in run 15 with default channels.

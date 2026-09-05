@@ -1,0 +1,40 @@
+[Switching to thread 1 (Thread 0xeb6c2d73c720 (LWP 3547268))]
+#0  0x0000eb6c2d4fbd34 in epoll_pwait () from target:/lib/aarch64-linux-gnu/libc.so.6
+#0  0x0000eb6c2d4fbd34 in epoll_pwait () from target:/lib/aarch64-linux-gnu/libc.so.6
+#1  0x0000eb6a051eb0b4 in uv__io_poll (loop=0x18b2fdc0, timeout=<optimized out>) at src/unix/linux.c:1432
+#2  0x0000eb6a051ddd64 in uv_run (loop=0x18b2fdc0, mode=UV_RUN_DEFAULT) at src/unix/core.c:448
+#3  0x0000eb6a0511b5a8 in __pyx_f_6uvloop_4loop_4Loop__Loop__run (__pyx_v_self=0x19baeee0, __pyx_v_mode=UV_RUN_DEFAULT) at uvloop/loop.c:18458
+#4  0x0000eb6a0517c7d4 in __pyx_f_6uvloop_4loop_4Loop__run (__pyx_v_self=0x19baeee0, __pyx_v_mode=UV_RUN_DEFAULT) at uvloop/loop.c:18876
+#5  0x0000eb6a0518ac58 in __pyx_pf_6uvloop_4loop_4Loop_24run_forever (__pyx_v_self=0x19baeee0) at uvloop/loop.c:31528
+#6  __pyx_pw_6uvloop_4loop_4Loop_25run_forever (__pyx_v_self=0x19baeee0, __pyx_args=<optimized out>, __pyx_nargs=<optimized out>, __pyx_kwds=<optimized out>) at uvloop/loop.c:31331
+#7  0x00000000004c3550 in PyObject_VectorcallMethod ()
+#8  0x0000eb6a0518e500 [PAC] in __pyx_pf_6uvloop_4loop_4Loop_44run_until_complete (__pyx_v_self=__pyx_v_self@entry=0x19baeee0, __pyx_v_future=__pyx_v_future@entry=0xeb69feff8b80) at uvloop/loop.c:33768
+#9  0x0000eb6a0518f850 in __pyx_pw_6uvloop_4loop_4Loop_45run_until_complete (__pyx_v_self=0x19baeee0, __pyx_args=<optimized out>, __pyx_nargs=1, __pyx_kwds=<optimized out>) at uvloop/loop.c:33318
+#10 0x00000000004c36bc in PyObject_Vectorcall ()
+#11 0x00000000005639e4 [PAC] in _PyEval_EvalFrameDefault ()
+#12 0x0000000000561d34 [PAC] in PyEval_EvalCode ()
+--
+[Switching to thread 1 (Thread 0xfe983147b7c0 (LWP 3549806))]
+#0  0x0000fe9831231148 in read () from target:/lib/aarch64-linux-gnu/libc.so.6
+#0  0x0000fe9831231148 in read () from target:/lib/aarch64-linux-gnu/libc.so.6
+#1  0x00000000005b1998 in _Py_read ()
+#2  0x00000000005d53d8 [PAC] in ?? ()
+#3  0x00000000004ccb7c [PAC] in ?? ()
+#4  0x00000000004c3550 [PAC] in PyObject_VectorcallMethod ()
+#5  0x00000000005d95c4 [PAC] in ?? ()
+#6  0x00000000006d3560 [PAC] in ?? ()
+#7  0x00000000006d3390 [PAC] in ?? ()
+#8  0x00000000004cc334 [PAC] in ?? ()
+#9  0x00000000004c3550 [PAC] in PyObject_VectorcallMethod ()
+#10 0x00000000006d3940 [PAC] in ?? ()
+#11 0x000000000056454c [PAC] in _PyEval_EvalFrameDefault ()
+#12 0x0000000000561d34 [PAC] in PyEval_EvalCode ()
+--
+[Switching to thread 1 (Thread 0xe074fca3a7c0 (LWP 3549807))]
+#0  0x0000e074fc7f0adc in poll () from target:/lib/aarch64-linux-gnu/libc.so.6
+#0  0x0000e074fc7f0adc in poll () from target:/lib/aarch64-linux-gnu/libc.so.6
+#1  0x0000e073b08b0aa4 in zmq_poll () from target:/usr/local/lib/python3.12/dist-packages/zmq/backend/cython/../../../pyzmq.libs/libzmq-97580724.so.5.2.5
+#2  0x0000e073b097c4f0 in ?? () from target:/usr/local/lib/python3.12/dist-packages/zmq/backend/cython/_zmq.abi3.so
+#3  0x00000000004c36bc in PyObject_Vectorcall ()
+#4  0x00000000005639e4 [PAC] in _PyEval_EvalFrameDefault ()
+#5  0x00000000004d08f0 [PAC] in ?? ()

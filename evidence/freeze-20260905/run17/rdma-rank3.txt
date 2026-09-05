@@ -1,0 +1,17 @@
+port_rcv_data=6100841452075
+port_rcv_packets=28944037326
+port_xmit_data=6083090789324
+port_xmit_packets=28036577606
+unicast_rcv_packets=28944037326
+unicast_xmit_packets=28036577606
+lifespan=10
+np_cnp_sent=55084
+out_of_sequence=127843
+packet_seq_err=1470
+roce_adp_retrans=1919
+roce_adp_retrans_to=319
+roce_slow_restart_cnps=1919
+rp_cnp_handled=1052
+rx_write_requests=2078626265
+     tx_discards_phy: 1
+	Speed: 100000Mb/s

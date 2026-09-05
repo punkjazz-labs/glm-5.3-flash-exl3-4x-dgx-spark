@@ -1,0 +1,589 @@
+04:19:50 start TP4-soak150-repro http://127.0.0.1:8890/v1 salt 20260905T041949Z phases ['warmup', 'sanity', 'soak', 'sanity_end']
+04:19:50 phase warmup begin
+04:20:53 warmup warm-think 13.256 ttft 1.969 err None
+04:20:53 warmup warm-tools 3.295 ttft 1.399 err None
+04:20:53 warmup warm-gen 27.948 ttft 0.414 err None
+04:20:53 warmup warm-12k 15.014 ttft 14.933 err None
+04:20:53 warmup warm-12k-again 2.25 ttft 2.034 err None
+04:20:55 phase warmup end 62.8 s
+04:20:55 phase sanity begin
+04:20:58 sanity {'exact_json': True, 'normal_eos': True, 'tool_call': True, 'json_schema': True, 'json_schema_text': '{"host": "spark-f1cc", "healthy": true, "ranks": 4}', 'all_pass': True}
+04:20:59 phase sanity end 2.6 s
+04:20:59 phase soak begin
+04:21:01 soak sample 0.0 {'running': 0.0, 'waiting': 0.0, 'kv_usage': 0.0, 'prefix_queries': 27650.0, 'prefix_hits': 10752.0, 'spec_accepted': 1182.0, 'spec_drafts': 2361.0, 'requests_total': 69.0} {'r0': {'MemAvailable_GiB': 20.0, 'SwapFree_GiB': 11.68, 'clock_mhz': 2470, 'gpu_util': 96}, 'r1': {'MemAvailable_GiB': 23.25, 'SwapFree_GiB': 13.02, 'clock_mhz': 2405, 'gpu_util': 87}, 'r2': {'MemAvailable_GiB': 24.21, 'SwapFree_GiB': 12.56, 'clock_mhz': 2522, 'gpu_util': 95}, 'r3': {'MemAvailable_GiB': 24.21, 'SwapFree_GiB': 12.64, 'clock_mhz': 2522, 'gpu_util': 95}}
+04:22:03 soak sample 61.5 {'running': 4.0, 'waiting': 4.0, 'kv_usage': 0.06499356499356501, 'prefix_queries': 148768.0, 'prefix_hits': 10752.0, 'spec_accepted': 1325.0, 'spec_drafts': 2595.0, 'requests_total': 73.0} {'r0': {'MemAvailable_GiB': 20.0, 'SwapFree_GiB': 11.68, 'clock_mhz': 2476, 'gpu_util': 95}, 'r1': {'MemAvailable_GiB': 23.27, 'SwapFree_GiB': 13.02, 'clock_mhz': 2502, 'gpu_util': 95}, 'r2': {'MemAvailable_GiB': 24.17, 'SwapFree_GiB': 12.56, 'clock_mhz': 2509, 'gpu_util': 95}, 'r3': {'MemAvailable_GiB': 24.18, 'SwapFree_GiB': 12.64, 'clock_mhz': 2509, 'gpu_util': 95}}
+04:23:05 soak sample 123.7 {'running': 4.0, 'waiting': 4.0, 'kv_usage': 0.07979407979407982, 'prefix_queries': 148768.0, 'prefix_hits': 10752.0, 'spec_accepted': 1441.0, 'spec_drafts': 2838.0, 'requests_total': 73.0} {'r0': {'MemAvailable_GiB': 19.92, 'SwapFree_GiB': 11.68, 'clock_mhz': 2476, 'gpu_util': 95}, 'r1': {'MemAvailable_GiB': 23.68, 'SwapFree_GiB': 13.02, 'clock_mhz': 2496, 'gpu_util': 95}, 'r2': {'MemAvailable_GiB': 24.11, 'SwapFree_GiB': 12.56, 'clock_mhz': 2502, 'gpu_util': 95}, 'r3': {'MemAvailable_GiB': 24.1, 'SwapFree_GiB': 12.64, 'clock_mhz': 2509, 'gpu_util': 95}}
+04:24:07 soak sample 185.9 {'running': 8.0, 'waiting': 0.0, 'kv_usage': 0.07400257400257404, 'prefix_queries': 149312.0, 'prefix_hits': 10752.0, 'spec_accepted': 3935.0, 'spec_drafts': 8139.0, 'requests_total': 78.0} {'r0': {'MemAvailable_GiB': 19.87, 'SwapFree_GiB': 11.68, 'clock_mhz': 2476, 'gpu_util': 96}, 'r1': {'MemAvailable_GiB': 23.26, 'SwapFree_GiB': 13.02, 'clock_mhz': 2489, 'gpu_util': 94}, 'r2': {'MemAvailable_GiB': 24.09, 'SwapFree_GiB': 12.56, 'clock_mhz': 2509, 'gpu_util': 95}, 'r3': {'MemAvailable_GiB': 24.12, 'SwapFree_GiB': 12.64, 'clock_mhz': 2515, 'gpu_util': 95}}
+04:25:10 soak sample 248.2 {'running': 8.0, 'waiting': 0.0, 'kv_usage': 0.08655083655083651, 'prefix_queries': 173538.0, 'prefix_hits': 10752.0, 'spec_accepted': 5927.0, 'spec_drafts': 12681.0, 'requests_total': 81.0} {'r0': {'MemAvailable_GiB': 19.86, 'SwapFree_GiB': 11.68, 'clock_mhz': 2476, 'gpu_util': 95}, 'r1': {'MemAvailable_GiB': 23.24, 'SwapFree_GiB': 13.02, 'clock_mhz': 2502, 'gpu_util': 96}, 'r2': {'MemAvailable_GiB': 24.07, 'SwapFree_GiB': 12.56, 'clock_mhz': 2509, 'gpu_util': 96}, 'r3': {'MemAvailable_GiB': 24.1, 'SwapFree_GiB': 12.64, 'clock_mhz': 2502, 'gpu_util': 95}}
+04:26:12 soak sample 310.5 {'running': 8.0, 'waiting': 0.0, 'kv_usage': 0.08655083655083651, 'prefix_queries': 173654.0, 'prefix_hits': 10752.0, 'spec_accepted': 9517.0, 'spec_drafts': 20829.0, 'requests_total': 85.0} {'r0': {'MemAvailable_GiB': 19.86, 'SwapFree_GiB': 11.68, 'clock_mhz': 2463, 'gpu_util': 95}, 'r1': {'MemAvailable_GiB': 23.23, 'SwapFree_GiB': 13.02, 'clock_mhz': 2502, 'gpu_util': 94}, 'r2': {'MemAvailable_GiB': 24.07, 'SwapFree_GiB': 12.56, 'clock_mhz': 2509, 'gpu_util': 96}, 'r3': {'MemAvailable_GiB': 24.09, 'SwapFree_GiB': 12.64, 'clock_mhz': 2489, 'gpu_util': 96}}
+04:27:14 soak sample 372.9 {'running': 7.0, 'waiting': 1.0, 'kv_usage': 0.12580437580437576, 'prefix_queries': 197716.0, 'prefix_hits': 10752.0, 'spec_accepted': 12007.0, 'spec_drafts': 26319.0, 'requests_total': 87.0} {'r0': {'MemAvailable_GiB': 19.85, 'SwapFree_GiB': 11.68, 'clock_mhz': 2476, 'gpu_util': 95}, 'r1': {'MemAvailable_GiB': 23.22, 'SwapFree_GiB': 13.02, 'clock_mhz': 2496, 'gpu_util': 95}, 'r2': {'MemAvailable_GiB': 24.05, 'SwapFree_GiB': 12.56, 'clock_mhz': 2502, 'gpu_util': 95}, 'r3': {'MemAvailable_GiB': 24.09, 'SwapFree_GiB': 12.64, 'clock_mhz': 2502, 'gpu_util': 95}}
+04:28:16 soak sample 435.0 {'running': 8.0, 'waiting': 0.0, 'kv_usage': 0.1293436293436293, 'prefix_queries': 246136.0, 'prefix_hits': 10752.0, 'spec_accepted': 12686.0, 'spec_drafts': 27804.0, 'requests_total': 92.0} {'r0': {'MemAvailable_GiB': 19.86, 'SwapFree_GiB': 11.68, 'clock_mhz': 2476, 'gpu_util': 96}, 'r1': {'MemAvailable_GiB': 23.2, 'SwapFree_GiB': 13.02, 'clock_mhz': 2496, 'gpu_util': 96}, 'r2': {'MemAvailable_GiB': 24.07, 'SwapFree_GiB': 12.56, 'clock_mhz': 2502, 'gpu_util': 95}, 'r3': {'MemAvailable_GiB': 24.09, 'SwapFree_GiB': 12.65, 'clock_mhz': 2509, 'gpu_util': 95}}
+04:29:19 soak sample 497.2 {'running': 8.0, 'waiting': 0.0, 'kv_usage': 0.09588159588159584, 'prefix_queries': 270319.0, 'prefix_hits': 10752.0, 'spec_accepted': 14073.0, 'spec_drafts': 31062.0, 'requests_total': 97.0} {'r0': {'MemAvailable_GiB': 19.86, 'SwapFree_GiB': 11.68, 'clock_mhz': 2483, 'gpu_util': 96}, 'r1': {'MemAvailable_GiB': 23.21, 'SwapFree_GiB': 13.02, 'clock_mhz': 2502, 'gpu_util': 96}, 'r2': {'MemAvailable_GiB': 24.06, 'SwapFree_GiB': 12.56, 'clock_mhz': 2509, 'gpu_util': 95}, 'r3': {'MemAvailable_GiB': 24.08, 'SwapFree_GiB': 12.65, 'clock_mhz': 2489, 'gpu_util': 96}}
+04:30:21 soak sample 559.5 {'running': 8.0, 'waiting': 0.0, 'kv_usage': 0.13416988416988418, 'prefix_queries': 366677.0, 'prefix_hits': 10752.0, 'spec_accepted': 17410.0, 'spec_drafts': 38724.0, 'requests_total': 98.0} {'r0': {'MemAvailable_GiB': 19.83, 'SwapFree_GiB': 11.68, 'clock_mhz': 2470, 'gpu_util': 95}, 'r1': {'MemAvailable_GiB': 23.19, 'SwapFree_GiB': 13.02, 'clock_mhz': 2496, 'gpu_util': 95}, 'r2': {'MemAvailable_GiB': 24.06, 'SwapFree_GiB': 12.56, 'clock_mhz': 2502, 'gpu_util': 95}, 'r3': {'MemAvailable_GiB': 24.08, 'SwapFree_GiB': 12.65, 'clock_mhz': 2496, 'gpu_util': 95}}
+04:31:23 soak sample 621.7 {'running': 8.0, 'waiting': 0.0, 'kv_usage': 0.14736164736164736, 'prefix_queries': 366677.0, 'prefix_hits': 10752.0, 'spec_accepted': 17666.0, 'spec_drafts': 39270.0, 'requests_total': 98.0} {'r0': {'MemAvailable_GiB': 19.84, 'SwapFree_GiB': 11.68, 'clock_mhz': 2476, 'gpu_util': 95}, 'r1': {'MemAvailable_GiB': 23.19, 'SwapFree_GiB': 13.02, 'clock_mhz': 2496, 'gpu_util': 95}, 'r2': {'MemAvailable_GiB': 24.06, 'SwapFree_GiB': 12.56, 'clock_mhz': 2502, 'gpu_util': 95}, 'r3': {'MemAvailable_GiB': 24.07, 'SwapFree_GiB': 12.65, 'clock_mhz': 2502, 'gpu_util': 95}}
+04:32:25 soak sample 683.9 {'running': 8.0, 'waiting': 0.0, 'kv_usage': 0.1071428571428571, 'prefix_queries': 366825.0, 'prefix_hits': 10752.0, 'spec_accepted': 18540.0, 'spec_drafts': 41313.0, 'requests_total': 101.0} {'r0': {'MemAvailable_GiB': 19.79, 'SwapFree_GiB': 11.68, 'clock_mhz': 2476, 'gpu_util': 96}, 'r1': {'MemAvailable_GiB': 23.56, 'SwapFree_GiB': 13.02, 'clock_mhz': 2502, 'gpu_util': 96}, 'r2': {'MemAvailable_GiB': 23.9, 'SwapFree_GiB': 12.56, 'clock_mhz': 2509, 'gpu_util': 95}, 'r3': {'MemAvailable_GiB': 24.02, 'SwapFree_GiB': 12.65, 'clock_mhz': 2489, 'gpu_util': 95}}
+04:33:27 soak sample 746.2 {'running': 7.0, 'waiting': 1.0, 'kv_usage': 0.13063063063063063, 'prefix_queries': 463588.0, 'prefix_hits': 10752.0, 'spec_accepted': 20548.0, 'spec_drafts': 46041.0, 'requests_total': 103.0} {'r0': {'MemAvailable_GiB': 19.76, 'SwapFree_GiB': 11.68, 'clock_mhz': 2470, 'gpu_util': 95}, 'r1': {'MemAvailable_GiB': 23.54, 'SwapFree_GiB': 13.02, 'clock_mhz': 2496, 'gpu_util': 95}, 'r2': {'MemAvailable_GiB': 23.9, 'SwapFree_GiB': 12.56, 'clock_mhz': 2502, 'gpu_util': 95}, 'r3': {'MemAvailable_GiB': 24.03, 'SwapFree_GiB': 12.65, 'clock_mhz': 2496, 'gpu_util': 95}}
+04:34:29 soak sample 808.3 {'running': 7.0, 'waiting': 1.0, 'kv_usage': 0.1428571428571429, 'prefix_queries': 463588.0, 'prefix_hits': 10752.0, 'spec_accepted': 20767.0, 'spec_drafts': 46509.0, 'requests_total': 103.0} {'r0': {'MemAvailable_GiB': 19.78, 'SwapFree_GiB': 11.68, 'clock_mhz': 2470, 'gpu_util': 95}, 'r1': {'MemAvailable_GiB': 23.53, 'SwapFree_GiB': 13.02, 'clock_mhz': 2496, 'gpu_util': 95}, 'r2': {'MemAvailable_GiB': 23.89, 'SwapFree_GiB': 12.56, 'clock_mhz': 2509, 'gpu_util': 95}, 'r3': {'MemAvailable_GiB': 24.03, 'SwapFree_GiB': 12.65, 'clock_mhz': 2509, 'gpu_util': 95}}
+04:35:32 soak sample 870.3 {'running': 7.0, 'waiting': 1.0, 'kv_usage': 0.1354568854568855, 'prefix_queries': 560217.0, 'prefix_hits': 10752.0, 'spec_accepted': 20974.0, 'spec_drafts': 46983.0, 'requests_total': 104.0} {'r0': {'MemAvailable_GiB': 19.75, 'SwapFree_GiB': 11.68, 'clock_mhz': 2470, 'gpu_util': 95}, 'r1': {'MemAvailable_GiB': 23.53, 'SwapFree_GiB': 13.02, 'clock_mhz': 2496, 'gpu_util': 95}, 'r2': {'MemAvailable_GiB': 23.5, 'SwapFree_GiB': 12.56, 'clock_mhz': 2502, 'gpu_util': 95}, 'r3': {'MemAvailable_GiB': 24.04, 'SwapFree_GiB': 12.65, 'clock_mhz': 2502, 'gpu_util': 95}}
+04:36:34 soak sample 932.6 {'running': 7.0, 'waiting': 1.0, 'kv_usage': 0.1505791505791506, 'prefix_queries': 560217.0, 'prefix_hits': 10752.0, 'spec_accepted': 21194.0, 'spec_drafts': 47451.0, 'requests_total': 104.0} {'r0': {'MemAvailable_GiB': 19.76, 'SwapFree_GiB': 11.69, 'clock_mhz': 2476, 'gpu_util': 95}, 'r1': {'MemAvailable_GiB': 23.4, 'SwapFree_GiB': 13.02, 'clock_mhz': 2496, 'gpu_util': 95}, 'r2': {'MemAvailable_GiB': 23.51, 'SwapFree_GiB': 12.56, 'clock_mhz': 2502, 'gpu_util': 96}, 'r3': {'MemAvailable_GiB': 24.01, 'SwapFree_GiB': 12.65, 'clock_mhz': 2509, 'gpu_util': 95}}
+04:37:36 soak sample 994.9 {'running': 8.0, 'waiting': 0.0, 'kv_usage': 0.11647361647361643, 'prefix_queries': 560513.0, 'prefix_hits': 10752.0, 'spec_accepted': 23792.0, 'spec_drafts': 52989.0, 'requests_total': 109.0} {'r0': {'MemAvailable_GiB': 19.75, 'SwapFree_GiB': 11.69, 'clock_mhz': 2476, 'gpu_util': 96}, 'r1': {'MemAvailable_GiB': 23.41, 'SwapFree_GiB': 13.02, 'clock_mhz': 2502, 'gpu_util': 95}, 'r2': {'MemAvailable_GiB': 23.51, 'SwapFree_GiB': 12.56, 'clock_mhz': 2509, 'gpu_util': 95}, 'r3': {'MemAvailable_GiB': 24.02, 'SwapFree_GiB': 12.65, 'clock_mhz': 2489, 'gpu_util': 93}}
+04:38:38 soak sample 1057.0 {'running': 8.0, 'waiting': 0.0, 'kv_usage': 0.1438223938223938, 'prefix_queries': 657513.0, 'prefix_hits': 10752.0, 'spec_accepted': 25852.0, 'spec_drafts': 57252.0, 'requests_total': 111.0} {'r0': {'MemAvailable_GiB': 19.65, 'SwapFree_GiB': 11.69, 'clock_mhz': 2476, 'gpu_util': 95}, 'r1': {'MemAvailable_GiB': 23.44, 'SwapFree_GiB': 13.02, 'clock_mhz': 2496, 'gpu_util': 95}, 'r2': {'MemAvailable_GiB': 23.5, 'SwapFree_GiB': 12.56, 'clock_mhz': 2502, 'gpu_util': 95}, 'r3': {'MemAvailable_GiB': 24.02, 'SwapFree_GiB': 12.65, 'clock_mhz': 2502, 'gpu_util': 95}}
+04:39:40 soak sample 1119.3 {'running': 8.0, 'waiting': 0.0, 'kv_usage': 0.1563706563706564, 'prefix_queries': 657513.0, 'prefix_hits': 10752.0, 'spec_accepted': 26118.0, 'spec_drafts': 57777.0, 'requests_total': 111.0} {'r0': {'MemAvailable_GiB': 19.7, 'SwapFree_GiB': 11.69, 'clock_mhz': 2476, 'gpu_util': 95}, 'r1': {'MemAvailable_GiB': 23.45, 'SwapFree_GiB': 13.02, 'clock_mhz': 2496, 'gpu_util': 95}, 'r2': {'MemAvailable_GiB': 23.49, 'SwapFree_GiB': 12.56, 'clock_mhz': 2502, 'gpu_util': 95}, 'r3': {'MemAvailable_GiB': 24.0, 'SwapFree_GiB': 12.65, 'clock_mhz': 2496, 'gpu_util': 95}}
+04:40:43 soak sample 1181.2 {'running': 8.0, 'waiting': 0.0, 'kv_usage': 0.1000643500643501, 'prefix_queries': 657719.0, 'prefix_hits': 10752.0, 'spec_accepted': 28469.0, 'spec_drafts': 62784.0, 'requests_total': 116.0} {'r0': {'MemAvailable_GiB': 19.7, 'SwapFree_GiB': 11.69, 'clock_mhz': 2483, 'gpu_util': 96}, 'r1': {'MemAvailable_GiB': 23.44, 'SwapFree_GiB': 13.02, 'clock_mhz': 2502, 'gpu_util': 96}, 'r2': {'MemAvailable_GiB': 23.49, 'SwapFree_GiB': 12.56, 'clock_mhz': 2509, 'gpu_util': 94}, 'r3': {'MemAvailable_GiB': 23.93, 'SwapFree_GiB': 12.65, 'clock_mhz': 2489, 'gpu_util': 96}}
+04:41:45 soak sample 1243.5 {'running': 8.0, 'waiting': 0.0, 'kv_usage': 0.12355212355212353, 'prefix_queries': 778222.0, 'prefix_hits': 10752.0, 'spec_accepted': 29423.0, 'spec_drafts': 64941.0, 'requests_total': 120.0} {'r0': {'MemAvailable_GiB': 19.71, 'SwapFree_GiB': 11.69, 'clock_mhz': 2476, 'gpu_util': 95}, 'r1': {'MemAvailable_GiB': 23.44, 'SwapFree_GiB': 13.02, 'clock_mhz': 2496, 'gpu_util': 95}, 'r2': {'MemAvailable_GiB': 23.49, 'SwapFree_GiB': 12.56, 'clock_mhz': 2502, 'gpu_util': 96}, 'r3': {'MemAvailable_GiB': 23.93, 'SwapFree_GiB': 12.65, 'clock_mhz': 2496, 'gpu_util': 96}}
+04:42:47 soak sample 1305.7 {'running': 8.0, 'waiting': 0.0, 'kv_usage': 0.13770913770913773, 'prefix_queries': 778222.0, 'prefix_hits': 10752.0, 'spec_accepted': 29639.0, 'spec_drafts': 65466.0, 'requests_total': 120.0} {'r0': {'MemAvailable_GiB': 19.71, 'SwapFree_GiB': 11.69, 'clock_mhz': 2476, 'gpu_util': 95}, 'r1': {'MemAvailable_GiB': 23.45, 'SwapFree_GiB': 13.02, 'clock_mhz': 2496, 'gpu_util': 95}, 'r2': {'MemAvailable_GiB': 23.5, 'SwapFree_GiB': 12.56, 'clock_mhz': 2502, 'gpu_util': 95}, 'r3': {'MemAvailable_GiB': 23.96, 'SwapFree_GiB': 12.65, 'clock_mhz': 2509, 'gpu_util': 95}}
+04:43:49 soak sample 1367.9 {'running': 8.0, 'waiting': 0.0, 'kv_usage': 0.09877734877734878, 'prefix_queries': 778370.0, 'prefix_hits': 10752.0, 'spec_accepted': 31327.0, 'spec_drafts': 69252.0, 'requests_total': 123.0} {'r0': {'MemAvailable_GiB': 19.71, 'SwapFree_GiB': 11.69, 'clock_mhz': 2483, 'gpu_util': 95}, 'r1': {'MemAvailable_GiB': 23.47, 'SwapFree_GiB': 13.02, 'clock_mhz': 2502, 'gpu_util': 95}, 'r2': {'MemAvailable_GiB': 23.51, 'SwapFree_GiB': 12.56, 'clock_mhz': 2509, 'gpu_util': 96}, 'r3': {'MemAvailable_GiB': 23.95, 'SwapFree_GiB': 12.65, 'clock_mhz': 2489, 'gpu_util': 96}}
+04:44:51 soak sample 1430.0 {'running': 8.0, 'waiting': 0.0, 'kv_usage': 0.1361003861003861, 'prefix_queries': 875134.0, 'prefix_hits': 10752.0, 'spec_accepted': 32218.0, 'spec_drafts': 71343.0, 'requests_total': 124.0} {'r0': {'MemAvailable_GiB': 19.72, 'SwapFree_GiB': 11.69, 'clock_mhz': 2476, 'gpu_util': 95}, 'r1': {'MemAvailable_GiB': 23.45, 'SwapFree_GiB': 13.02, 'clock_mhz': 2502, 'gpu_util': 95}, 'r2': {'MemAvailable_GiB': 23.5, 'SwapFree_GiB': 12.56, 'clock_mhz': 2509, 'gpu_util': 95}, 'r3': {'MemAvailable_GiB': 23.95, 'SwapFree_GiB': 12.65, 'clock_mhz': 2502, 'gpu_util': 95}}
+04:45:53 soak sample 1492.1 {'running': 8.0, 'waiting': 0.0, 'kv_usage': 0.1496138996138996, 'prefix_queries': 875134.0, 'prefix_hits': 10752.0, 'spec_accepted': 32432.0, 'spec_drafts': 71889.0, 'requests_total': 124.0} {'r0': {'MemAvailable_GiB': 19.72, 'SwapFree_GiB': 11.69, 'clock_mhz': 2470, 'gpu_util': 95}, 'r1': {'MemAvailable_GiB': 23.47, 'SwapFree_GiB': 13.02, 'clock_mhz': 2496, 'gpu_util': 95}, 'r2': {'MemAvailable_GiB': 23.5, 'SwapFree_GiB': 12.56, 'clock_mhz': 2502, 'gpu_util': 95}, 'r3': {'MemAvailable_GiB': 23.96, 'SwapFree_GiB': 12.65, 'clock_mhz': 2509, 'gpu_util': 95}}
+04:46:55 soak sample 1554.3 {'running': 3.0, 'waiting': 5.0, 'kv_usage': 0.06241956241956237, 'prefix_queries': 995266.0, 'prefix_hits': 10752.0, 'spec_accepted': 32688.0, 'spec_drafts': 72465.0, 'requests_total': 133.0} {'r0': {'MemAvailable_GiB': 19.72, 'SwapFree_GiB': 11.69, 'clock_mhz': 2476, 'gpu_util': 95}, 'r1': {'MemAvailable_GiB': 23.45, 'SwapFree_GiB': 13.02, 'clock_mhz': 2502, 'gpu_util': 95}, 'r2': {'MemAvailable_GiB': 23.51, 'SwapFree_GiB': 12.56, 'clock_mhz': 2509, 'gpu_util': 96}, 'r3': {'MemAvailable_GiB': 23.96, 'SwapFree_GiB': 12.65, 'clock_mhz': 2509, 'gpu_util': 95}}
+04:47:57 soak sample 1616.2 {'running': 3.0, 'waiting': 5.0, 'kv_usage': 0.07657657657657657, 'prefix_queries': 995266.0, 'prefix_hits': 10752.0, 'spec_accepted': 32770.0, 'spec_drafts': 72627.0, 'requests_total': 133.0} {'r0': {'MemAvailable_GiB': 19.71, 'SwapFree_GiB': 11.69, 'clock_mhz': 2476, 'gpu_util': 95}, 'r1': {'MemAvailable_GiB': 23.45, 'SwapFree_GiB': 13.02, 'clock_mhz': 2496, 'gpu_util': 95}, 'r2': {'MemAvailable_GiB': 23.51, 'SwapFree_GiB': 12.56, 'clock_mhz': 2502, 'gpu_util': 95}, 'r3': {'MemAvailable_GiB': 23.96, 'SwapFree_GiB': 12.65, 'clock_mhz': 2509, 'gpu_util': 95}}
+04:49:00 soak sample 1678.3 {'running': 4.0, 'waiting': 4.0, 'kv_usage': 0.07271557271557272, 'prefix_queries': 1091905.0, 'prefix_hits': 10752.0, 'spec_accepted': 32852.0, 'spec_drafts': 72831.0, 'requests_total': 134.0} {'r0': {'MemAvailable_GiB': 19.7, 'SwapFree_GiB': 11.69, 'clock_mhz': 2476, 'gpu_util': 95}, 'r1': {'MemAvailable_GiB': 23.43, 'SwapFree_GiB': 13.02, 'clock_mhz': 2496, 'gpu_util': 95}, 'r2': {'MemAvailable_GiB': 23.91, 'SwapFree_GiB': 12.56, 'clock_mhz': 2502, 'gpu_util': 95}, 'r3': {'MemAvailable_GiB': 23.96, 'SwapFree_GiB': 12.65, 'clock_mhz': 2509, 'gpu_util': 95}}
+04:50:02 soak sample 1740.5 {'running': 4.0, 'waiting': 4.0, 'kv_usage': 0.08687258687258692, 'prefix_queries': 1091905.0, 'prefix_hits': 10752.0, 'spec_accepted': 32985.0, 'spec_drafts': 73065.0, 'requests_total': 134.0} {'r0': {'MemAvailable_GiB': 19.71, 'SwapFree_GiB': 11.69, 'clock_mhz': 2476, 'gpu_util': 95}, 'r1': {'MemAvailable_GiB': 23.44, 'SwapFree_GiB': 13.02, 'clock_mhz': 2496, 'gpu_util': 95}, 'r2': {'MemAvailable_GiB': 23.93, 'SwapFree_GiB': 12.56, 'clock_mhz': 2502, 'gpu_util': 95}, 'r3': {'MemAvailable_GiB': 23.99, 'SwapFree_GiB': 12.65, 'clock_mhz': 2509, 'gpu_util': 96}}
+04:51:04 soak sample 1802.6 {'running': 8.0, 'waiting': 0.0, 'kv_usage': 0.06756756756756754, 'prefix_queries': 1116719.0, 'prefix_hits': 10752.0, 'spec_accepted': 33920.0, 'spec_drafts': 74976.0, 'requests_total': 142.0} {'r0': {'MemAvailable_GiB': 19.7, 'SwapFree_GiB': 11.69, 'clock_mhz': 2483, 'gpu_util': 95}, 'r1': {'MemAvailable_GiB': 23.46, 'SwapFree_GiB': 13.02, 'clock_mhz': 2502, 'gpu_util': 95}, 'r2': {'MemAvailable_GiB': 23.94, 'SwapFree_GiB': 12.56, 'clock_mhz': 2509, 'gpu_util': 96}, 'r3': {'MemAvailable_GiB': 24.0, 'SwapFree_GiB': 12.65, 'clock_mhz': 2489, 'gpu_util': 96}}
+04:52:06 soak sample 1865.0 {'running': 8.0, 'waiting': 0.0, 'kv_usage': 0.11776061776061775, 'prefix_queries': 1140919.0, 'prefix_hits': 10752.0, 'spec_accepted': 37333.0, 'spec_drafts': 81960.0, 'requests_total': 144.0} {'r0': {'MemAvailable_GiB': 19.72, 'SwapFree_GiB': 11.69, 'clock_mhz': 2476, 'gpu_util': 95}, 'r1': {'MemAvailable_GiB': 23.45, 'SwapFree_GiB': 13.02, 'clock_mhz': 2496, 'gpu_util': 95}, 'r2': {'MemAvailable_GiB': 23.95, 'SwapFree_GiB': 12.56, 'clock_mhz': 2502, 'gpu_util': 96}, 'r3': {'MemAvailable_GiB': 24.0, 'SwapFree_GiB': 12.65, 'clock_mhz': 2496, 'gpu_util': 95}}
+04:53:08 soak sample 1927.2 {'running': 8.0, 'waiting': 0.0, 'kv_usage': 0.08783783783783783, 'prefix_queries': 1141074.0, 'prefix_hits': 10752.0, 'spec_accepted': 39739.0, 'spec_drafts': 87483.0, 'requests_total': 148.0} {'r0': {'MemAvailable_GiB': 19.7, 'SwapFree_GiB': 11.69, 'clock_mhz': 2463, 'gpu_util': 96}, 'r1': {'MemAvailable_GiB': 23.45, 'SwapFree_GiB': 13.02, 'clock_mhz': 2502, 'gpu_util': 96}, 'r2': {'MemAvailable_GiB': 23.93, 'SwapFree_GiB': 12.56, 'clock_mhz': 2509, 'gpu_util': 94}, 'r3': {'MemAvailable_GiB': 23.98, 'SwapFree_GiB': 12.65, 'clock_mhz': 2489, 'gpu_util': 95}}
+04:54:11 soak sample 1989.3 {'running': 8.0, 'waiting': 0.0, 'kv_usage': 0.09009009009009006, 'prefix_queries': 1165298.0, 'prefix_hits': 10752.0, 'spec_accepted': 41647.0, 'spec_drafts': 92112.0, 'requests_total': 152.0} {'r0': {'MemAvailable_GiB': 19.81, 'SwapFree_GiB': 11.69, 'clock_mhz': 2463, 'gpu_util': 96}, 'r1': {'MemAvailable_GiB': 23.44, 'SwapFree_GiB': 13.02, 'clock_mhz': 2502, 'gpu_util': 94}, 'r2': {'MemAvailable_GiB': 23.96, 'SwapFree_GiB': 12.56, 'clock_mhz': 2509, 'gpu_util': 95}, 'r3': {'MemAvailable_GiB': 23.98, 'SwapFree_GiB': 12.65, 'clock_mhz': 2489, 'gpu_util': 95}}
+04:55:13 soak sample 2051.7 {'running': 8.0, 'waiting': 0.0, 'kv_usage': 0.10585585585585588, 'prefix_queries': 1213375.0, 'prefix_hits': 10752.0, 'spec_accepted': 43483.0, 'spec_drafts': 96672.0, 'requests_total': 156.0} {'r0': {'MemAvailable_GiB': 19.76, 'SwapFree_GiB': 11.69, 'clock_mhz': 2476, 'gpu_util': 95}, 'r1': {'MemAvailable_GiB': 23.45, 'SwapFree_GiB': 13.02, 'clock_mhz': 2496, 'gpu_util': 95}, 'r2': {'MemAvailable_GiB': 23.95, 'SwapFree_GiB': 12.56, 'clock_mhz': 2502, 'gpu_util': 95}, 'r3': {'MemAvailable_GiB': 23.96, 'SwapFree_GiB': 12.65, 'clock_mhz': 2496, 'gpu_util': 96}}
+04:56:15 soak sample 2113.8 {'running': 8.0, 'waiting': 0.0, 'kv_usage': 0.13030888030888033, 'prefix_queries': 1237698.0, 'prefix_hits': 10752.0, 'spec_accepted': 44348.0, 'spec_drafts': 99030.0, 'requests_total': 159.0} {'r0': {'MemAvailable_GiB': 19.75, 'SwapFree_GiB': 11.69, 'clock_mhz': 2476, 'gpu_util': 95}, 'r1': {'MemAvailable_GiB': 23.47, 'SwapFree_GiB': 13.02, 'clock_mhz': 2496, 'gpu_util': 95}, 'r2': {'MemAvailable_GiB': 23.95, 'SwapFree_GiB': 12.56, 'clock_mhz': 2502, 'gpu_util': 96}, 'r3': {'MemAvailable_GiB': 23.95, 'SwapFree_GiB': 12.65, 'clock_mhz': 2496, 'gpu_util': 95}}
+04:57:17 soak sample 2175.9 {'running': 8.0, 'waiting': 0.0, 'kv_usage': 0.11036036036036034, 'prefix_queries': 1237795.0, 'prefix_hits': 10752.0, 'spec_accepted': 46948.0, 'spec_drafts': 106026.0, 'requests_total': 161.0} {'r0': {'MemAvailable_GiB': 19.73, 'SwapFree_GiB': 11.69, 'clock_mhz': 2463, 'gpu_util': 96}, 'r1': {'MemAvailable_GiB': 23.47, 'SwapFree_GiB': 13.02, 'clock_mhz': 2502, 'gpu_util': 96}, 'r2': {'MemAvailable_GiB': 23.93, 'SwapFree_GiB': 12.56, 'clock_mhz': 2502, 'gpu_util': 96}, 'r3': {'MemAvailable_GiB': 23.96, 'SwapFree_GiB': 12.65, 'clock_mhz': 2489, 'gpu_util': 96}}
+04:58:20 soak sample 2238.2 {'running': 8.0, 'waiting': 0.0, 'kv_usage': 0.14639639639639634, 'prefix_queries': 1334217.0, 'prefix_hits': 10752.0, 'spec_accepted': 47699.0, 'spec_drafts': 108165.0, 'requests_total': 162.0} {'r0': {'MemAvailable_GiB': 19.74, 'SwapFree_GiB': 11.69, 'clock_mhz': 2476, 'gpu_util': 95}, 'r1': {'MemAvailable_GiB': 23.44, 'SwapFree_GiB': 13.02, 'clock_mhz': 2496, 'gpu_util': 95}, 'r2': {'MemAvailable_GiB': 23.94, 'SwapFree_GiB': 12.56, 'clock_mhz': 2509, 'gpu_util': 95}, 'r3': {'MemAvailable_GiB': 23.96, 'SwapFree_GiB': 12.65, 'clock_mhz': 2489, 'gpu_util': 95}}
+04:59:22 soak sample 2300.4 {'running': 8.0, 'waiting': 0.0, 'kv_usage': 0.15958815958815964, 'prefix_queries': 1334217.0, 'prefix_hits': 10752.0, 'spec_accepted': 47926.0, 'spec_drafts': 108711.0, 'requests_total': 162.0} {'r0': {'MemAvailable_GiB': 19.8, 'SwapFree_GiB': 11.69, 'clock_mhz': 2476, 'gpu_util': 95}, 'r1': {'MemAvailable_GiB': 23.46, 'SwapFree_GiB': 13.02, 'clock_mhz': 2496, 'gpu_util': 95}, 'r2': {'MemAvailable_GiB': 23.93, 'SwapFree_GiB': 12.56, 'clock_mhz': 2502, 'gpu_util': 96}, 'r3': {'MemAvailable_GiB': 23.93, 'SwapFree_GiB': 12.65, 'clock_mhz': 2502, 'gpu_util': 95}}
+05:00:24 soak sample 2362.5 {'running': 8.0, 'waiting': 0.0, 'kv_usage': 0.1219433719433719, 'prefix_queries': 1334467.0, 'prefix_hits': 10752.0, 'spec_accepted': 51201.0, 'spec_drafts': 116037.0, 'requests_total': 165.0} {'r0': {'MemAvailable_GiB': 19.8, 'SwapFree_GiB': 11.69, 'clock_mhz': 2463, 'gpu_util': 96}, 'r1': {'MemAvailable_GiB': 23.43, 'SwapFree_GiB': 13.02, 'clock_mhz': 2496, 'gpu_util': 95}, 'r2': {'MemAvailable_GiB': 23.93, 'SwapFree_GiB': 12.56, 'clock_mhz': 2496, 'gpu_util': 96}, 'r3': {'MemAvailable_GiB': 23.96, 'SwapFree_GiB': 12.65, 'clock_mhz': 2489, 'gpu_util': 96}}
+05:01:26 soak sample 2424.9 {'running': 8.0, 'waiting': 0.0, 'kv_usage': 0.15830115830115832, 'prefix_queries': 1431328.0, 'prefix_hits': 10752.0, 'spec_accepted': 51845.0, 'spec_drafts': 117375.0, 'requests_total': 166.0} {'r0': {'MemAvailable_GiB': 19.8, 'SwapFree_GiB': 11.69, 'clock_mhz': 2476, 'gpu_util': 95}, 'r1': {'MemAvailable_GiB': 23.45, 'SwapFree_GiB': 13.02, 'clock_mhz': 2496, 'gpu_util': 95}, 'r2': {'MemAvailable_GiB': 23.95, 'SwapFree_GiB': 12.56, 'clock_mhz': 2502, 'gpu_util': 95}, 'r3': {'MemAvailable_GiB': 23.94, 'SwapFree_GiB': 12.65, 'clock_mhz': 2502, 'gpu_util': 95}}
+05:02:28 soak sample 2487.1 {'running': 8.0, 'waiting': 0.0, 'kv_usage': 0.16055341055341055, 'prefix_queries': 1527689.0, 'prefix_hits': 10752.0, 'spec_accepted': 52092.0, 'spec_drafts': 117870.0, 'requests_total': 167.0} {'r0': {'MemAvailable_GiB': 19.74, 'SwapFree_GiB': 11.69, 'clock_mhz': 2476, 'gpu_util': 95}, 'r1': {'MemAvailable_GiB': 23.43, 'SwapFree_GiB': 13.02, 'clock_mhz': 2502, 'gpu_util': 95}, 'r2': {'MemAvailable_GiB': 23.95, 'SwapFree_GiB': 12.56, 'clock_mhz': 2502, 'gpu_util': 95}, 'r3': {'MemAvailable_GiB': 23.94, 'SwapFree_GiB': 12.65, 'clock_mhz': 2509, 'gpu_util': 95}}
+05:03:31 soak sample 2549.3 {'running': 7.0, 'waiting': 1.0, 'kv_usage': 0.14414414414414412, 'prefix_queries': 1527689.0, 'prefix_hits': 10752.0, 'spec_accepted': 52347.0, 'spec_drafts': 118344.0, 'requests_total': 168.0} {'r0': {'MemAvailable_GiB': 19.8, 'SwapFree_GiB': 11.69, 'clock_mhz': 2476, 'gpu_util': 95}, 'r1': {'MemAvailable_GiB': 23.44, 'SwapFree_GiB': 13.02, 'clock_mhz': 2496, 'gpu_util': 95}, 'r2': {'MemAvailable_GiB': 23.95, 'SwapFree_GiB': 12.56, 'clock_mhz': 2502, 'gpu_util': 95}, 'r3': {'MemAvailable_GiB': 23.97, 'SwapFree_GiB': 12.65, 'clock_mhz': 2502, 'gpu_util': 96}}
+05:04:33 soak sample 2611.5 {'running': 8.0, 'waiting': 0.0, 'kv_usage': 0.11036036036036034, 'prefix_queries': 1528189.0, 'prefix_hits': 10752.0, 'spec_accepted': 52964.0, 'spec_drafts': 119610.0, 'requests_total': 173.0} {'r0': {'MemAvailable_GiB': 19.78, 'SwapFree_GiB': 11.69, 'clock_mhz': 2476, 'gpu_util': 96}, 'r1': {'MemAvailable_GiB': 23.43, 'SwapFree_GiB': 13.02, 'clock_mhz': 2502, 'gpu_util': 96}, 'r2': {'MemAvailable_GiB': 23.97, 'SwapFree_GiB': 12.56, 'clock_mhz': 2509, 'gpu_util': 95}, 'r3': {'MemAvailable_GiB': 23.95, 'SwapFree_GiB': 12.65, 'clock_mhz': 2489, 'gpu_util': 95}}
+05:05:35 soak sample 2673.9 {'running': 8.0, 'waiting': 0.0, 'kv_usage': 0.11904761904761907, 'prefix_queries': 1528218.0, 'prefix_hits': 10752.0, 'spec_accepted': 57065.0, 'spec_drafts': 127641.0, 'requests_total': 174.0} {'r0': {'MemAvailable_GiB': 19.79, 'SwapFree_GiB': 11.69, 'clock_mhz': 2463, 'gpu_util': 95}, 'r1': {'MemAvailable_GiB': 23.44, 'SwapFree_GiB': 13.02, 'clock_mhz': 2496, 'gpu_util': 95}, 'r2': {'MemAvailable_GiB': 23.95, 'SwapFree_GiB': 12.56, 'clock_mhz': 2496, 'gpu_util': 95}, 'r3': {'MemAvailable_GiB': 23.95, 'SwapFree_GiB': 12.65, 'clock_mhz': 2489, 'gpu_util': 94}}
+05:06:37 soak sample 2736.2 {'running': 8.0, 'waiting': 0.0, 'kv_usage': 0.15444015444015446, 'prefix_queries': 1624846.0, 'prefix_hits': 10752.0, 'spec_accepted': 57908.0, 'spec_drafts': 129126.0, 'requests_total': 175.0} {'r0': {'MemAvailable_GiB': 19.79, 'SwapFree_GiB': 11.69, 'clock_mhz': 2470, 'gpu_util': 95}, 'r1': {'MemAvailable_GiB': 23.45, 'SwapFree_GiB': 13.02, 'clock_mhz': 2496, 'gpu_util': 95}, 'r2': {'MemAvailable_GiB': 23.97, 'SwapFree_GiB': 12.56, 'clock_mhz': 2502, 'gpu_util': 95}, 'r3': {'MemAvailable_GiB': 23.94, 'SwapFree_GiB': 12.65, 'clock_mhz': 2489, 'gpu_util': 96}}
+05:07:40 soak sample 2798.3 {'running': 8.0, 'waiting': 0.0, 'kv_usage': 0.1637709137709138, 'prefix_queries': 1624846.0, 'prefix_hits': 10752.0, 'spec_accepted': 58186.0, 'spec_drafts': 129672.0, 'requests_total': 175.0} {'r0': {'MemAvailable_GiB': 19.78, 'SwapFree_GiB': 11.69, 'clock_mhz': 2476, 'gpu_util': 95}, 'r1': {'MemAvailable_GiB': 23.44, 'SwapFree_GiB': 13.02, 'clock_mhz': 2496, 'gpu_util': 95}, 'r2': {'MemAvailable_GiB': 23.95, 'SwapFree_GiB': 12.56, 'clock_mhz': 2509, 'gpu_util': 96}, 'r3': {'MemAvailable_GiB': 23.97, 'SwapFree_GiB': 12.65, 'clock_mhz': 2489, 'gpu_util': 96}}
+05:08:42 soak sample 2860.7 {'running': 8.0, 'waiting': 0.0, 'kv_usage': 0.1000643500643501, 'prefix_queries': 1649306.0, 'prefix_hits': 10752.0, 'spec_accepted': 60381.0, 'spec_drafts': 133944.0, 'requests_total': 183.0} {'r0': {'MemAvailable_GiB': 19.77, 'SwapFree_GiB': 11.69, 'clock_mhz': 2483, 'gpu_util': 96}, 'r1': {'MemAvailable_GiB': 23.42, 'SwapFree_GiB': 13.02, 'clock_mhz': 2502, 'gpu_util': 96}, 'r2': {'MemAvailable_GiB': 23.95, 'SwapFree_GiB': 12.56, 'clock_mhz': 2509, 'gpu_util': 94}, 'r3': {'MemAvailable_GiB': 23.97, 'SwapFree_GiB': 12.65, 'clock_mhz': 2489, 'gpu_util': 94}}
+05:09:44 soak sample 2922.8 {'running': 8.0, 'waiting': 0.0, 'kv_usage': 0.1351351351351351, 'prefix_queries': 1745598.0, 'prefix_hits': 10752.0, 'spec_accepted': 60752.0, 'spec_drafts': 134724.0, 'requests_total': 184.0} {'r0': {'MemAvailable_GiB': 19.79, 'SwapFree_GiB': 11.69, 'clock_mhz': 2476, 'gpu_util': 95}, 'r1': {'MemAvailable_GiB': 23.43, 'SwapFree_GiB': 13.02, 'clock_mhz': 2496, 'gpu_util': 95}, 'r2': {'MemAvailable_GiB': 23.97, 'SwapFree_GiB': 12.56, 'clock_mhz': 2502, 'gpu_util': 95}, 'r3': {'MemAvailable_GiB': 23.97, 'SwapFree_GiB': 12.65, 'clock_mhz': 2502, 'gpu_util': 95}}
+05:10:46 soak sample 2985.1 {'running': 6.0, 'waiting': 0.0, 'kv_usage': 0.07046332046332049, 'prefix_queries': 1745688.0, 'prefix_hits': 10752.0, 'spec_accepted': 61334.0, 'spec_drafts': 135876.0, 'requests_total': 188.0} {'r0': {'MemAvailable_GiB': 19.74, 'SwapFree_GiB': 11.69, 'clock_mhz': 2483, 'gpu_util': 95}, 'r1': {'MemAvailable_GiB': 23.44, 'SwapFree_GiB': 13.02, 'clock_mhz': 2502, 'gpu_util': 95}, 'r2': {'MemAvailable_GiB': 23.98, 'SwapFree_GiB': 12.56, 'clock_mhz': 2509, 'gpu_util': 96}, 'r3': {'MemAvailable_GiB': 23.95, 'SwapFree_GiB': 12.65, 'clock_mhz': 2489, 'gpu_util': 95}}
+05:11:48 soak sample 3047.4 {'running': 8.0, 'waiting': 0.0, 'kv_usage': 0.12966537966537972, 'prefix_queries': 1842256.0, 'prefix_hits': 10752.0, 'spec_accepted': 61638.0, 'spec_drafts': 136455.0, 'requests_total': 188.0} {'r0': {'MemAvailable_GiB': 19.77, 'SwapFree_GiB': 11.69, 'clock_mhz': 2476, 'gpu_util': 95}, 'r1': {'MemAvailable_GiB': 23.44, 'SwapFree_GiB': 13.02, 'clock_mhz': 2496, 'gpu_util': 95}, 'r2': {'MemAvailable_GiB': 23.95, 'SwapFree_GiB': 12.56, 'clock_mhz': 2502, 'gpu_util': 95}, 'r3': {'MemAvailable_GiB': 23.97, 'SwapFree_GiB': 12.65, 'clock_mhz': 2496, 'gpu_util': 96}}
+05:12:51 soak sample 3109.3 {'running': 8.0, 'waiting': 0.0, 'kv_usage': 0.08912483912483915, 'prefix_queries': 1842486.0, 'prefix_hits': 10752.0, 'spec_accepted': 62203.0, 'spec_drafts': 137646.0, 'requests_total': 191.0} {'r0': {'MemAvailable_GiB': 19.78, 'SwapFree_GiB': 11.69, 'clock_mhz': 2483, 'gpu_util': 95}, 'r1': {'MemAvailable_GiB': 23.44, 'SwapFree_GiB': 13.02, 'clock_mhz': 2502, 'gpu_util': 96}, 'r2': {'MemAvailable_GiB': 23.97, 'SwapFree_GiB': 12.56, 'clock_mhz': 2509, 'gpu_util': 96}, 'r3': {'MemAvailable_GiB': 23.96, 'SwapFree_GiB': 12.65, 'clock_mhz': 2489, 'gpu_util': 96}}
+05:13:53 soak sample 3171.6 {'running': 8.0, 'waiting': 0.0, 'kv_usage': 0.11840411840411835, 'prefix_queries': 1963441.0, 'prefix_hits': 10752.0, 'spec_accepted': 63906.0, 'spec_drafts': 140895.0, 'requests_total': 195.0} {'r0': {'MemAvailable_GiB': 19.77, 'SwapFree_GiB': 11.69, 'clock_mhz': 2476, 'gpu_util': 95}, 'r1': {'MemAvailable_GiB': 23.46, 'SwapFree_GiB': 13.02, 'clock_mhz': 2496, 'gpu_util': 95}, 'r2': {'MemAvailable_GiB': 23.94, 'SwapFree_GiB': 12.56, 'clock_mhz': 2502, 'gpu_util': 95}, 'r3': {'MemAvailable_GiB': 23.98, 'SwapFree_GiB': 12.65, 'clock_mhz': 2502, 'gpu_util': 96}}
+05:14:55 soak sample 3233.9 {'running': 6.0, 'waiting': 2.0, 'kv_usage': 0.10521235521235517, 'prefix_queries': 1963441.0, 'prefix_hits': 10752.0, 'spec_accepted': 64159.0, 'spec_drafts': 141339.0, 'requests_total': 197.0} {'r0': {'MemAvailable_GiB': 19.75, 'SwapFree_GiB': 11.69, 'clock_mhz': 2476, 'gpu_util': 95}, 'r1': {'MemAvailable_GiB': 23.45, 'SwapFree_GiB': 13.02, 'clock_mhz': 2496, 'gpu_util': 95}, 'r2': {'MemAvailable_GiB': 23.93, 'SwapFree_GiB': 12.56, 'clock_mhz': 2502, 'gpu_util': 95}, 'r3': {'MemAvailable_GiB': 23.97, 'SwapFree_GiB': 12.65, 'clock_mhz': 2502, 'gpu_util': 96}}
+05:15:57 soak sample 3295.8 {'running': 6.0, 'waiting': 2.0, 'kv_usage': 0.09459459459459463, 'prefix_queries': 2060444.0, 'prefix_hits': 10752.0, 'spec_accepted': 64381.0, 'spec_drafts': 141735.0, 'requests_total': 198.0} {'r0': {'MemAvailable_GiB': 19.79, 'SwapFree_GiB': 11.69, 'clock_mhz': 2476, 'gpu_util': 95}, 'r1': {'MemAvailable_GiB': 23.45, 'SwapFree_GiB': 13.02, 'clock_mhz': 2502, 'gpu_util': 95}, 'r2': {'MemAvailable_GiB': 23.96, 'SwapFree_GiB': 12.56, 'clock_mhz': 2502, 'gpu_util': 95}, 'r3': {'MemAvailable_GiB': 23.95, 'SwapFree_GiB': 12.65, 'clock_mhz': 2502, 'gpu_util': 95}}
+05:16:59 soak sample 3358.1 {'running': 6.0, 'waiting': 2.0, 'kv_usage': 0.10907335907335902, 'prefix_queries': 2060444.0, 'prefix_hits': 10752.0, 'spec_accepted': 64609.0, 'spec_drafts': 142125.0, 'requests_total': 198.0} {'r0': {'MemAvailable_GiB': 19.76, 'SwapFree_GiB': 11.69, 'clock_mhz': 2476, 'gpu_util': 95}, 'r1': {'MemAvailable_GiB': 23.44, 'SwapFree_GiB': 13.02, 'clock_mhz': 2496, 'gpu_util': 95}, 'r2': {'MemAvailable_GiB': 23.95, 'SwapFree_GiB': 12.56, 'clock_mhz': 2502, 'gpu_util': 95}, 'r3': {'MemAvailable_GiB': 23.96, 'SwapFree_GiB': 12.65, 'clock_mhz': 2509, 'gpu_util': 95}}
+05:18:01 soak sample 3420.3 {'running': 6.0, 'waiting': 1.0, 'kv_usage': 0.11003861003861004, 'prefix_queries': 2084570.0, 'prefix_hits': 10752.0, 'spec_accepted': 64742.0, 'spec_drafts': 142365.0, 'requests_total': 199.0} {'r0': {'MemAvailable_GiB': 19.77, 'SwapFree_GiB': 11.69, 'clock_mhz': 2502, 'gpu_util': 96}, 'r1': {'MemAvailable_GiB': 23.45, 'SwapFree_GiB': 13.02, 'clock_mhz': 2528, 'gpu_util': 96}, 'r2': {'MemAvailable_GiB': 23.95, 'SwapFree_GiB': 12.56, 'clock_mhz': 2535, 'gpu_util': 96}, 'r3': {'MemAvailable_GiB': 23.97, 'SwapFree_GiB': 12.65, 'clock_mhz': 2535, 'gpu_util': 96}}
+05:19:04 soak sample 3482.0 {'running': 6.0, 'waiting': 1.0, 'kv_usage': 0.11003861003861004, 'prefix_queries': 2084570.0, 'prefix_hits': 10752.0, 'spec_accepted': 64742.0, 'spec_drafts': 142365.0, 'requests_total': 199.0} {'r0': {'MemAvailable_GiB': 18.05, 'SwapFree_GiB': 11.69, 'clock_mhz': 2502, 'gpu_util': 96}, 'r1': {'MemAvailable_GiB': 23.34, 'SwapFree_GiB': 13.02, 'clock_mhz': 2528, 'gpu_util': 96}, 'r2': {'MemAvailable_GiB': 23.74, 'SwapFree_GiB': 12.56, 'clock_mhz': 2535, 'gpu_util': 96}, 'r3': {'MemAvailable_GiB': 23.7, 'SwapFree_GiB': 12.65, 'clock_mhz': 2535, 'gpu_util': 96}}
+05:20:06 soak sample 3544.6 {'running': 6.0, 'waiting': 1.0, 'kv_usage': 0.11003861003861004, 'prefix_queries': 2084570.0, 'prefix_hits': 10752.0, 'spec_accepted': 64742.0, 'spec_drafts': 142365.0, 'requests_total': 199.0} {'r0': {'MemAvailable_GiB': 16.7, 'SwapFree_GiB': 11.69, 'clock_mhz': 2502, 'gpu_util': 96}, 'r1': {'MemAvailable_GiB': 22.52, 'SwapFree_GiB': 13.02, 'clock_mhz': 2528, 'gpu_util': 96}, 'r2': {'MemAvailable_GiB': 23.45, 'SwapFree_GiB': 12.56, 'clock_mhz': 2535, 'gpu_util': 96}, 'r3': {'MemAvailable_GiB': 23.33, 'SwapFree_GiB': 12.65, 'clock_mhz': 2535, 'gpu_util': 96}}
+05:21:08 soak sample 3607.0 {'running': 6.0, 'waiting': 1.0, 'kv_usage': 0.11003861003861004, 'prefix_queries': 2084570.0, 'prefix_hits': 10752.0, 'spec_accepted': 64742.0, 'spec_drafts': 142365.0, 'requests_total': 199.0} {'r0': {'MemAvailable_GiB': 19.6, 'SwapFree_GiB': 11.69, 'clock_mhz': 2502, 'gpu_util': 96}, 'r1': {'MemAvailable_GiB': 22.93, 'SwapFree_GiB': 13.02, 'clock_mhz': 2548, 'gpu_util': 96}, 'r2': {'MemAvailable_GiB': 23.78, 'SwapFree_GiB': 12.57, 'clock_mhz': 2554, 'gpu_util': 96}, 'r3': {'MemAvailable_GiB': 23.59, 'SwapFree_GiB': 12.65, 'clock_mhz': 2535, 'gpu_util': 96}}
+05:22:10 soak sample 3668.8 {'running': 6.0, 'waiting': 1.0, 'kv_usage': 0.11003861003861004, 'prefix_queries': 2084570.0, 'prefix_hits': 10752.0, 'spec_accepted': 64742.0, 'spec_drafts': 142365.0, 'requests_total': 199.0} {'r0': {'MemAvailable_GiB': 19.77, 'SwapFree_GiB': 11.69, 'clock_mhz': 2502, 'gpu_util': 96}, 'r1': {'MemAvailable_GiB': 22.94, 'SwapFree_GiB': 13.02, 'clock_mhz': 2548, 'gpu_util': 96}, 'r2': {'MemAvailable_GiB': 23.94, 'SwapFree_GiB': 12.57, 'clock_mhz': 2554, 'gpu_util': 96}, 'r3': {'MemAvailable_GiB': 23.6, 'SwapFree_GiB': 12.65, 'clock_mhz': 2535, 'gpu_util': 96}}
+05:22:33 soak ERROR soak-medium_gen-0-18 HTTP 500: {"error":{"message":"EngineCore encountered an issue. See stack trace (above) for the root cause.","type":"InternalServerError","param":null,"code":50
+05:22:33 soak ERROR soak-medium_gen-6-20 HTTP 500: {"error":{"message":"EngineCore encountered an issue. See stack trace (above) for the root cause.","type":"InternalServerError","param":null,"code":50
+05:22:33 soak ERROR soak-short-7-16 HTTP 500: {"error":{"message":"EngineCore encountered an issue. See stack trace (above) for the root cause.","type":"InternalServerError","param":null,"code":50
+05:22:33 soak ERROR soak-short-4-16 HTTP 500: {"error":{"message":"EngineCore encountered an issue. See stack trace (above) for the root cause.","type":"InternalServerError","param":null,"code":50
+05:22:33 soak ERROR soak-short-1-15 HTTP 500: {"error":{"message":"EngineCore encountered an issue. See stack trace (above) for the root cause.","type":"InternalServerError","param":null,"code":50
+05:22:33 soak ERROR soak-short-7-17 HTTP 500: {"error":{"message":"EngineCore encountered an issue. See stack trace (above) for the root cause.","type":"InternalServerError","param":null,"code":50
+05:22:33 soak ERROR soak-long_gen-4-17 HTTP 500: {"error":{"message":"EngineCore encountered an issue. See stack trace (above) for the root cause.","type":"InternalServerError","param":null,"code":50
+05:22:33 soak ERROR soak-coding-1-16 HTTP 500: {"error":{"message":"EngineCore encountered an issue. See stack trace (above) for the root cause.","type":"InternalServerError","param":null,"code":50
+05:22:33 soak ERROR soak-coding-7-18 HTTP 500: {"error":{"message":"EngineCore encountered an issue. See stack trace (above) for the root cause.","type":"InternalServerError","param":null,"code":50
+05:22:33 soak ERROR soak-long_prompt_96k-5-17 HTTP 500: {"error":{"message":"EngineCore encountered an issue. See stack trace (above) for the root cause.","type":"InternalServerError","param":null,"code":50
+05:22:33 soak ERROR soak-long_prompt-0-19 HTTP 500: {"error":{"message":"EngineCore encountered an issue. See stack trace (above) for the root cause.","type":"InternalServerError","param":null,"code":50
+05:22:33 soak ERROR soak-medium_gen-7-19 HTTP 500: {"error":{"message":"EngineCore encountered an issue. See stack trace (above) for the root cause.","type":"InternalServerError","param":null,"code":50
+05:22:33 soak ERROR soak-medium_gen-1-17 HTTP 500: {"error":{"message":"EngineCore encountered an issue. See stack trace (above) for the root cause.","type":"InternalServerError","param":null,"code":50
+Exception in thread Thread-10 (worker):
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/urllib/request.py", line 1344, in do_open
+05:22:33 soak ERROR soak-long_prompt-2-17 HTTP 500: {"error":{"message":"EngineCore encountered an issue. See stack trace (above) for the root cause.","type":"InternalServerError","param":null,"code":50
+05:22:33 soak ERROR soak-long_prompt_96k-3-19 URLError: <urlopen error [Errno 111] Connection refused>
+    h.request(req.get_method(), req.selector, req.data, headers,
+05:22:33 soak ERROR soak-long_prompt-6-21 URLError: <urlopen error [Errno 111] Connection refused>
+  File "/usr/lib/python3.12/http/client.py", line 1365, in request
+Exception in thread Thread-4 (worker):
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/urllib/request.py", line 1344, in do_open
+05:22:33 soak ERROR soak-short-5-18 HTTP 500: {"error":{"message":"EngineCore encountered an issue. See stack trace (above) for the root cause.","type":"InternalServerError","param":null,"code":50
+05:22:33 soak ERROR soak-short-2-18 URLError: <urlopen error [Errno 111] Connection refused>
+05:22:33 soak ERROR soak-long_prompt_96k-4-18 URLError: <urlopen error [Errno 111] Connection refused>
+    h.request(req.get_method(), req.selector, req.data, headers,
+05:22:33 soak ERROR soak-short-3-20 URLError: <urlopen error [Errno 111] Connection refused>
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.12/http/client.py", line 1365, in request
+05:22:33 soak ERROR soak-long_gen-2-19 URLError: <urlopen error [Errno 111] Connection refused>
+05:22:33 soak ERROR soak-short-5-19 URLError: <urlopen error [Errno 111] Connection refused>
+  File "/usr/lib/python3.12/http/client.py", line 1411, in _send_request
+05:22:33 soak ERROR soak-short-6-22 URLError: <urlopen error [Errno 111] Connection refused>
+    self.endheaders(body, encode_chunked=encode_chunked)
+05:22:33 soak ERROR soak-short-0-20 URLError: <urlopen error [Errno 32] Broken pipe>
+05:22:33 soak ERROR soak-coding-5-20 URLError: <urlopen error [Errno 111] Connection refused>
+Exception in thread Thread-5 (worker):
+05:22:33 soak ERROR soak-long_gen-0-21 URLError: <urlopen error [Errno 111] Connection refused>
+  File "/usr/lib/python3.12/http/client.py", line 1360, in endheaders
+    self._send_request(method, url, body, headers, encode_chunked)
+05:22:33 soak ERROR soak-short-3-21 URLError: <urlopen error [Errno 111] Connection refused>
+Traceback (most recent call last):
+05:22:33 soak ERROR soak-short-4-19 URLError: <urlopen error [Errno 111] Connection refused>
+  File "/usr/lib/python3.12/urllib/request.py", line 1344, in do_open
+    self._send_output(message_body, encode_chunked=encode_chunked)
+Exception in thread Thread-3 (worker):
+05:22:33 soak ERROR soak-medium_gen-5-21 URLError: <urlopen error [Errno 111] Connection refused>
+05:22:33 soak ERROR soak-long_gen-6-23 URLError: <urlopen error [Errno 111] Connection refused>
+  File "/usr/lib/python3.12/http/client.py", line 1120, in _send_output
+    h.request(req.get_method(), req.selector, req.data, headers,
+05:22:33 soak ERROR soak-coding-3-22 URLError: <urlopen error [Errno 111] Connection refused>
+  File "/usr/lib/python3.12/http/client.py", line 1365, in request
+  File "/usr/lib/python3.12/http/client.py", line 1411, in _send_request
+Exception in thread Thread-8 (worker):
+Traceback (most recent call last):
+05:22:33 soak ERROR soak-short-4-20 URLError: <urlopen error [Errno 111] Connection refused>
+    self.send(msg)
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/urllib/request.py", line 1344, in do_open
+Exception in thread Thread-9 (worker):
+  File "/usr/lib/python3.12/urllib/request.py", line 1344, in do_open
+05:22:33 soak ERROR soak-coding-4-21 URLError: <urlopen error [Errno 111] Connection refused>
+    self._send_request(method, url, body, headers, encode_chunked)
+Traceback (most recent call last):
+    h.request(req.get_method(), req.selector, req.data, headers,
+05:22:33 soak ERROR soak-medium_gen-3-23 URLError: <urlopen error [Errno 111] Connection refused>
+  File "/usr/lib/python3.12/http/client.py", line 1411, in _send_request
+    h.request(req.get_method(), req.selector, req.data, headers,
+  File "/usr/lib/python3.12/http/client.py", line 1365, in request
+    self.endheaders(body, encode_chunked=encode_chunked)
+05:22:33 soak ERROR soak-medium_gen-4-22 URLError: <urlopen error [Errno 111] Connection refused>
+  File "/usr/lib/python3.12/urllib/request.py", line 1344, in do_open
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.12/http/client.py", line 1360, in endheaders
+Exception in thread Thread-6 (worker):
+  File "/usr/lib/python3.12/http/client.py", line 1360, in endheaders
+  File "/usr/lib/python3.12/http/client.py", line 1365, in request
+Traceback (most recent call last):
+    h.request(req.get_method(), req.selector, req.data, headers,
+  File "/usr/lib/python3.12/http/client.py", line 1064, in send
+Exception in thread Thread-7 (worker):
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    self._send_request(method, url, body, headers, encode_chunked)
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    self.connect()
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/urllib/request.py", line 1344, in do_open
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.12/http/client.py", line 1120, in _send_output
+  File "/usr/lib/python3.12/http/client.py", line 1120, in _send_output
+  File "/usr/lib/python3.12/urllib/request.py", line 1344, in do_open
+  File "/usr/lib/python3.12/http/client.py", line 1411, in _send_request
+  File "/usr/lib/python3.12/http/client.py", line 1411, in _send_request
+  File "/usr/lib/python3.12/http/client.py", line 1030, in connect
+  File "/usr/lib/python3.12/http/client.py", line 1365, in request
+    self.send(msg)
+    self.endheaders(body, encode_chunked=encode_chunked)
+    self.sock = self._create_connection(
+  File "/usr/lib/python3.12/http/client.py", line 1064, in send
+  File "/usr/lib/python3.12/http/client.py", line 1360, in endheaders
+                ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/socket.py", line 852, in create_connection
+    self.endheaders(body, encode_chunked=encode_chunked)
+    self._send_request(method, url, body, headers, encode_chunked)
+    h.request(req.get_method(), req.selector, req.data, headers,
+    h.request(req.get_method(), req.selector, req.data, headers,
+  File "/usr/lib/python3.12/http/client.py", line 1360, in endheaders
+  File "/usr/lib/python3.12/http/client.py", line 1411, in _send_request
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    self.send(msg)
+  File "/usr/lib/python3.12/http/client.py", line 1365, in request
+    self.connect()
+  File "/usr/lib/python3.12/http/client.py", line 1120, in _send_output
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.12/http/client.py", line 1120, in _send_output
+  File "/usr/lib/python3.12/http/client.py", line 1030, in connect
+  File "/usr/lib/python3.12/http/client.py", line 1365, in request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    self.send(msg)
+  File "/usr/lib/python3.12/http/client.py", line 1064, in send
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.12/http/client.py", line 1360, in endheaders
+  File "/usr/lib/python3.12/http/client.py", line 1064, in send
+    self.sock = self._create_connection(
+    self.connect()
+    self.send(msg)
+  File "/usr/lib/python3.12/http/client.py", line 1411, in _send_request
+    self.connect()
+                ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/http/client.py", line 1030, in connect
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.12/http/client.py", line 1064, in send
+  File "/usr/lib/python3.12/socket.py", line 852, in create_connection
+    self.sock = self._create_connection(
+  File "/usr/lib/python3.12/http/client.py", line 1120, in _send_output
+    self.connect()
+    self._send_request(method, url, body, headers, encode_chunked)
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.12/http/client.py", line 1030, in connect
+  File "/usr/lib/python3.12/http/client.py", line 1030, in connect
+                ^^^^^^^^^^^^^^^^^^^^^^^^
+    raise exceptions[0]
+    self.send(msg)
+  File "/usr/lib/python3.12/socket.py", line 852, in create_connection
+    raise exceptions[0]
+    self.sock = self._create_connection(
+  File "/usr/lib/python3.12/http/client.py", line 1360, in endheaders
+  File "/usr/lib/python3.12/http/client.py", line 1064, in send
+    raise exceptions[0]
+  File "/usr/lib/python3.12/socket.py", line 837, in create_connection
+    self.sock = self._create_connection(
+                ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/socket.py", line 852, in create_connection
+                ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/socket.py", line 852, in create_connection
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.12/socket.py", line 837, in create_connection
+    raise exceptions[0]
+    self.connect()
+  File "/usr/lib/python3.12/http/client.py", line 1120, in _send_output
+  File "/usr/lib/python3.12/socket.py", line 837, in create_connection
+    sock.connect(sa)
+    raise exceptions[0]
+  File "/usr/lib/python3.12/http/client.py", line 1030, in connect
+ConnectionRefusedError: [Errno 111] Connection refused
+  File "/usr/lib/python3.12/http/client.py", line 1411, in _send_request
+  File "/usr/lib/python3.12/socket.py", line 837, in create_connection
+    sock.connect(sa)
+
+    self.send(msg)
+  File "/usr/lib/python3.12/http/client.py", line 1064, in send
+    sock.connect(sa)
+During handling of the above exception, another exception occurred:
+
+    sock.connect(sa)
+    self.endheaders(body, encode_chunked=encode_chunked)
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/threading.py", line 1073, in _bootstrap_inner
+ConnectionRefusedError: [Errno 111] Connection refused
+
+  File "/usr/lib/python3.12/http/client.py", line 1360, in endheaders
+    self.sock = self._create_connection(
+ConnectionRefusedError: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+During handling of the above exception, another exception occurred:
+
+    self.connect()
+  File "/usr/lib/python3.12/http/client.py", line 1030, in connect
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/threading.py", line 1073, in _bootstrap_inner
+    self.run()
+                ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+    self.run()
+Traceback (most recent call last):
+ConnectionRefusedError: [Errno 111] Connection refused
+    self.sock = self._create_connection(
+  File "/usr/lib/python3.12/socket.py", line 837, in create_connection
+  File "/usr/lib/python3.12/threading.py", line 1073, in _bootstrap_inner
+  File "/home/spark/AI/tp4-recipe/glm_workload.py", line 473, in worker
+  File "/usr/lib/python3.12/threading.py", line 1010, in run
+  File "/usr/lib/python3.12/socket.py", line 852, in create_connection
+    self._send_output(message_body, encode_chunked=encode_chunked)
+                ^^^^^^^^^^^^^^^^^^^^^^^^
+    r = soak_job(kind, i, k); r['kind'] = kind; r['worker'] = i; r['t_end'] = round(time.time() - t0, 1)
+    self.run()
+  File "/usr/lib/python3.12/http/client.py", line 1120, in _send_output
+    self._target(*self._args, **self._kwargs)
+        ^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/threading.py", line 1010, in run
+  File "/usr/lib/python3.12/socket.py", line 852, in create_connection
+    sock.connect(sa)
+    raise exceptions[0]
+  File "/usr/lib/python3.12/socket.py", line 837, in create_connection
+  File "/home/spark/AI/tp4-recipe/glm_workload.py", line 462, in soak_job
+    raise exceptions[0]
+    self._target(*self._args, **self._kwargs)
+  File "/home/spark/AI/tp4-recipe/glm_workload.py", line 473, in worker
+    body = sized_prompt(size, seed, f'the reference number is RX-{k}{i}7')
+  File "/usr/lib/python3.12/socket.py", line 837, in create_connection
+  File "/home/spark/AI/tp4-recipe/glm_workload.py", line 473, in worker
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/spark/AI/tp4-recipe/glm_workload.py", line 204, in sized_prompt
+    sock.connect(sa)
+    self.send(msg)
+
+    per_word = tokenize(probe) / 2000
+    r = soak_job(kind, i, k); r['kind'] = kind; r['worker'] = i; r['t_end'] = round(time.time() - t0, 1)
+  File "/usr/lib/python3.12/http/client.py", line 1064, in send
+ConnectionRefusedError: [Errno 111] Connection refused
+               ^^^^^^^^^^^^^^^
+  File "/home/spark/AI/tp4-recipe/glm_workload.py", line 58, in tokenize
+    sock.connect(sa)
+During handling of the above exception, another exception occurred:
+
+
+    r = soak_job(kind, i, k); r['kind'] = kind; r['worker'] = i; r['t_end'] = round(time.time() - t0, 1)
+During handling of the above exception, another exception occurred:
+    self.connect()
+        ^^^^^^^^^^^^^^^^^^^^
+
+  File "/usr/lib/python3.12/http/client.py", line 1030, in connect
+    with urllib.request.urlopen(req, timeout=900) as r:
+  File "/home/spark/AI/tp4-recipe/glm_workload.py", line 462, in soak_job
+Traceback (most recent call last):
+ConnectionRefusedError: [Errno 111] Connection refused
+
+        ^^^^^^^^^^^^^^^^^^^^
+    body = sized_prompt(size, seed, f'the reference number is RX-{k}{i}7')
+  File "/usr/lib/python3.12/threading.py", line 1073, in _bootstrap_inner
+During handling of the above exception, another exception occurred:
+Traceback (most recent call last):
+  File "/home/spark/AI/tp4-recipe/glm_workload.py", line 462, in soak_job
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "/usr/lib/python3.12/urllib/request.py", line 215, in urlopen
+ConnectionRefusedError: [Errno 111] Connection refused
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    body = sized_prompt(size, seed, f'the reference number is RX-{k}{i}7')
+    self.run()
+
+  File "/home/spark/AI/tp4-recipe/glm_workload.py", line 204, in sized_prompt
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/threading.py", line 1073, in _bootstrap_inner
+  File "/usr/lib/python3.12/threading.py", line 1010, in run
+    return opener.open(url, data, timeout)
+    self.sock = self._create_connection(
+During handling of the above exception, another exception occurred:
+
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                ^^^^^^^^^^^^^^^^^^^^^^^^
+    per_word = tokenize(probe) / 2000
+  File "/usr/lib/python3.12/urllib/request.py", line 515, in open
+    self._target(*self._args, **self._kwargs)
+  File "/usr/lib/python3.12/socket.py", line 852, in create_connection
+               ^^^^^^^^^^^^^^^
+Traceback (most recent call last):
+    self.run()
+  File "/home/spark/AI/tp4-recipe/glm_workload.py", line 473, in worker
+  File "/home/spark/AI/tp4-recipe/glm_workload.py", line 58, in tokenize
+  File "/home/spark/AI/tp4-recipe/glm_workload.py", line 204, in sized_prompt
+    raise exceptions[0]
+    with urllib.request.urlopen(req, timeout=900) as r:
+  File "/usr/lib/python3.12/threading.py", line 1010, in run
+    per_word = tokenize(probe) / 2000
+  File "/usr/lib/python3.12/threading.py", line 1073, in _bootstrap_inner
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    r = soak_job(kind, i, k); r['kind'] = kind; r['worker'] = i; r['t_end'] = round(time.time() - t0, 1)
+               ^^^^^^^^^^^^^^^
+  File "/home/spark/AI/tp4-recipe/glm_workload.py", line 58, in tokenize
+  File "/usr/lib/python3.12/socket.py", line 837, in create_connection
+  File "/usr/lib/python3.12/urllib/request.py", line 215, in urlopen
+        ^^^^^^^^^^^^^^^^^^^^
+  File "/home/spark/AI/tp4-recipe/glm_workload.py", line 462, in soak_job
+    with urllib.request.urlopen(req, timeout=900) as r:
+    return opener.open(url, data, timeout)
+Traceback (most recent call last):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 515, in open
+    sock.connect(sa)
+    body = sized_prompt(size, seed, f'the reference number is RX-{k}{i}7')
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    self.run()
+  File "/usr/lib/python3.12/threading.py", line 1073, in _bootstrap_inner
+ConnectionRefusedError: [Errno 111] Connection refused
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/spark/AI/tp4-recipe/glm_workload.py", line 204, in sized_prompt
+  File "/usr/lib/python3.12/threading.py", line 1010, in run
+
+During handling of the above exception, another exception occurred:
+
+    response = self._open(req, data)
+    self._target(*self._args, **self._kwargs)
+Traceback (most recent call last):
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 532, in _open
+    self.run()
+    per_word = tokenize(probe) / 2000
+    self._target(*self._args, **self._kwargs)
+  File "/usr/lib/python3.12/urllib/request.py", line 215, in urlopen
+  File "/usr/lib/python3.12/threading.py", line 1010, in run
+               ^^^^^^^^^^^^^^^
+  File "/home/spark/AI/tp4-recipe/glm_workload.py", line 473, in worker
+  File "/usr/lib/python3.12/threading.py", line 1073, in _bootstrap_inner
+    self._target(*self._args, **self._kwargs)
+  File "/home/spark/AI/tp4-recipe/glm_workload.py", line 58, in tokenize
+  File "/home/spark/AI/tp4-recipe/glm_workload.py", line 473, in worker
+    result = self._call_chain(self.handle_open, protocol, protocol +
+  File "/home/spark/AI/tp4-recipe/glm_workload.py", line 473, in worker
+    r = soak_job(kind, i, k); r['kind'] = kind; r['worker'] = i; r['t_end'] = round(time.time() - t0, 1)
+    response = self._open(req, data)
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    self.run()
+  File "/usr/lib/python3.12/threading.py", line 1010, in run
+    r = soak_job(kind, i, k); r['kind'] = kind; r['worker'] = i; r['t_end'] = round(time.time() - t0, 1)
+        ^^^^^^^^^^^^^^^^^^^^
+               ^^^^^^^^^^^^^^^^^^^^^
+        ^^^^^^^^^^^^^^^^^^^^
+    r = soak_job(kind, i, k); r['kind'] = kind; r['worker'] = i; r['t_end'] = round(time.time() - t0, 1)
+  File "/usr/lib/python3.12/urllib/request.py", line 515, in open
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 492, in _call_chain
+    self._target(*self._args, **self._kwargs)
+  File "/home/spark/AI/tp4-recipe/glm_workload.py", line 462, in soak_job
+    result = func(*args)
+    body = sized_prompt(size, seed, f'the reference number is RX-{k}{i}7')
+    response = self._open(req, data)
+  File "/home/spark/AI/tp4-recipe/glm_workload.py", line 462, in soak_job
+  File "/home/spark/AI/tp4-recipe/glm_workload.py", line 473, in worker
+        ^^^^^^^^^^^^^^^^^^^^
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/spark/AI/tp4-recipe/glm_workload.py", line 204, in sized_prompt
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 532, in _open
+  File "/home/spark/AI/tp4-recipe/glm_workload.py", line 462, in soak_job
+  File "/usr/lib/python3.12/urllib/request.py", line 532, in _open
+             ^^^^^^^^^^^
+    per_word = tokenize(probe) / 2000
+    result = self._call_chain(self.handle_open, protocol, protocol +
+    body = sized_prompt(size, seed, f'the reference number is RX-{k}{i}7')
+    r = soak_job(kind, i, k); r['kind'] = kind; r['worker'] = i; r['t_end'] = round(time.time() - t0, 1)
+               ^^^^^^^^^^^^^^^
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 492, in _call_chain
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/spark/AI/tp4-recipe/glm_workload.py", line 58, in tokenize
+    with urllib.request.urlopen(req, timeout=900) as r:
+  File "/usr/lib/python3.12/urllib/request.py", line 1373, in http_open
+  File "/home/spark/AI/tp4-recipe/glm_workload.py", line 204, in sized_prompt
+    result = func(*args)
+             ^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 1373, in http_open
+        ^^^^^^^^^^^^^^^^^^^^
+    with urllib.request.urlopen(req, timeout=900) as r:
+    return self.do_open(http.client.HTTPConnection, req)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    body = sized_prompt(size, seed, f'the reference number is RX-{k}{i}7')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    per_word = tokenize(probe) / 2000
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 1347, in do_open
+  File "/usr/lib/python3.12/urllib/request.py", line 215, in urlopen
+               ^^^^^^^^^^^^^^^
+  File "/home/spark/AI/tp4-recipe/glm_workload.py", line 58, in tokenize
+    return self.do_open(http.client.HTTPConnection, req)
+  File "/home/spark/AI/tp4-recipe/glm_workload.py", line 462, in soak_job
+    raise URLError(err)
+  File "/home/spark/AI/tp4-recipe/glm_workload.py", line 204, in sized_prompt
+    return opener.open(url, data, timeout)
+    with urllib.request.urlopen(req, timeout=900) as r:
+urllib.error.URLError: <urlopen error [Errno 111] Connection refused>
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 515, in open
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    body = sized_prompt(size, seed, f'the reference number is RX-{k}{i}7')
+  File "/usr/lib/python3.12/urllib/request.py", line 215, in urlopen
+    return opener.open(url, data, timeout)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 1347, in do_open
+    per_word = tokenize(probe) / 2000
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+               ^^^^^^^^^^^^^^^
+    raise URLError(err)
+  File "/usr/lib/python3.12/urllib/request.py", line 215, in urlopen
+  File "/usr/lib/python3.12/urllib/request.py", line 515, in open
+  File "/home/spark/AI/tp4-recipe/glm_workload.py", line 58, in tokenize
+    response = self._open(req, data)
+urllib.error.URLError: <urlopen error [Errno 111] Connection refused>
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/spark/AI/tp4-recipe/glm_workload.py", line 204, in sized_prompt
+    with urllib.request.urlopen(req, timeout=900) as r:
+    response = self._open(req, data)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    return opener.open(url, data, timeout)
+  File "/usr/lib/python3.12/urllib/request.py", line 532, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+    per_word = tokenize(probe) / 2000
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 532, in _open
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+               ^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 515, in open
+  File "/home/spark/AI/tp4-recipe/glm_workload.py", line 58, in tokenize
+  File "/usr/lib/python3.12/urllib/request.py", line 215, in urlopen
+    response = self._open(req, data)
+               ^^^^^^^^^^^^^^^^^^^^^
+    with urllib.request.urlopen(req, timeout=900) as r:
+    result = self._call_chain(self.handle_open, protocol, protocol +
+  File "/usr/lib/python3.12/urllib/request.py", line 532, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    return opener.open(url, data, timeout)
+  File "/usr/lib/python3.12/urllib/request.py", line 492, in _call_chain
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    result = self._call_chain(self.handle_open, protocol, protocol +
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 515, in open
+  File "/usr/lib/python3.12/urllib/request.py", line 492, in _call_chain
+  File "/usr/lib/python3.12/urllib/request.py", line 492, in _call_chain
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    result = func(*args)
+    response = self._open(req, data)
+  File "/usr/lib/python3.12/urllib/request.py", line 215, in urlopen
+    result = func(*args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    result = func(*args)
+             ^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 492, in _call_chain
+             ^^^^^^^^^^^
+    return opener.open(url, data, timeout)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 1373, in http_open
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 1373, in http_open
+    result = func(*args)
+  File "/usr/lib/python3.12/urllib/request.py", line 532, in _open
+             ^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 1373, in http_open
+  File "/usr/lib/python3.12/urllib/request.py", line 515, in open
+    return self.do_open(http.client.HTTPConnection, req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    result = self._call_chain(self.handle_open, protocol, protocol +
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 1347, in do_open
+    return self.do_open(http.client.HTTPConnection, req)
+    response = self._open(req, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+             ^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 492, in _call_chain
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 1373, in http_open
+  File "/usr/lib/python3.12/urllib/request.py", line 1347, in do_open
+    return self.do_open(http.client.HTTPConnection, req)
+  File "/usr/lib/python3.12/urllib/request.py", line 532, in _open
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    result = func(*args)
+             ^^^^^^^^^^^
+    raise URLError(err)
+    result = self._call_chain(self.handle_open, protocol, protocol +
+    raise URLError(err)
+    return self.do_open(http.client.HTTPConnection, req)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 1373, in http_open
+  File "/usr/lib/python3.12/urllib/request.py", line 1347, in do_open
+  File "/usr/lib/python3.12/urllib/request.py", line 492, in _call_chain
+    return self.do_open(http.client.HTTPConnection, req)
+    raise URLError(err)
+urllib.error.URLError: <urlopen error [Errno 111] Connection refused>
+urllib.error.URLError: <urlopen error [Errno 111] Connection refused>
+    result = func(*args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib.error.URLError: <urlopen error [Errno 111] Connection refused>
+             ^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 1347, in do_open
+  File "/usr/lib/python3.12/urllib/request.py", line 1373, in http_open
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 1347, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error [Errno 111] Connection refused>
+    return self.do_open(http.client.HTTPConnection, req)
+    raise URLError(err)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib.error.URLError: <urlopen error [Errno 111] Connection refused>
+  File "/usr/lib/python3.12/urllib/request.py", line 1347, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error [Errno 111] Connection refused>
+05:23:12 soak sample 3730.9 {'error': '<urlopen error [Errno 111] Connection refused>'} {'r0': {'MemAvailable_GiB': 117.91, 'SwapFree_GiB': 15.04, 'clock_mhz': 208, 'gpu_util': 0}, 'r1': {'MemAvailable_GiB': 22.94, 'SwapFree_GiB': 13.02, 'clock_mhz': 2548, 'gpu_util': 96}, 'r2': {'MemAvailable_GiB': 23.94, 'SwapFree_GiB': 12.57, 'clock_mhz': 2554, 'gpu_util': 96}, 'r3': {'MemAvailable_GiB': 23.6, 'SwapFree_GiB': 12.65, 'clock_mhz': 2535, 'gpu_util': 96}}
+05:24:14 soak sample 3793.0 {'error': '<urlopen error [Errno 111] Connection refused>'} {'r0': {'MemAvailable_GiB': 117.89, 'SwapFree_GiB': 15.04, 'clock_mhz': 214, 'gpu_util': 0}, 'r1': {'MemAvailable_GiB': 22.94, 'SwapFree_GiB': 13.02, 'clock_mhz': 2548, 'gpu_util': 96}, 'r2': {'MemAvailable_GiB': 23.94, 'SwapFree_GiB': 12.57, 'clock_mhz': 2554, 'gpu_util': 96}, 'r3': {'MemAvailable_GiB': 23.59, 'SwapFree_GiB': 12.65, 'clock_mhz': 2554, 'gpu_util': 96}}

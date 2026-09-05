@@ -1,0 +1,40 @@
+[Switching to thread 1 (Thread 0xef8b3c812720 (LWP 29775))]
+#0  0x0000ef8b3c5d0adc in __GI___poll (fds=0xef8907209dc0, nfds=1, timeout=<optimized out>) at ../sysdeps/unix/sysv/linux/poll.c:41
+41	in ../sysdeps/unix/sysv/linux/poll.c
+#0  0x0000ef8b3c5d0adc in __GI___poll (fds=0xef8907209dc0, nfds=1, timeout=<optimized out>) at ../sysdeps/unix/sysv/linux/poll.c:41
+#1  0x00000000006ade4c in ?? ()
+#2  0x0000000000564ad4 [PAC] in _PyEval_EvalFrameDefault ()
+#3  0x0000000000561d34 [PAC] in PyEval_EvalCode ()
+#4  0x000000000059ae24 [PAC] in ?? ()
+#5  0x0000000000680284 [PAC] in ?? ()
+#6  0x000000000067fe58 [PAC] in _PyRun_SimpleFileObject ()
+#7  0x000000000067fc24 [PAC] in _PyRun_AnyFileObject ()
+#8  0x000000000068ac2c [PAC] in Py_RunMain ()
+#9  0x000000000068a7e8 [PAC] in Py_BytesMain ()
+#10 0x0000ef8b3c5184c4 [PAC] in __libc_start_call_main (main=main@entry=0x5f5c74 <_start+52>, argc=argc@entry=49, argv=argv@entry=0xffffdf2a4c38) at ../sysdeps/nptl/libc_start_call_main.h:58
+#11 0x0000ef8b3c518598 in __libc_start_main_impl (main=0x5f5c74 <_start+52>, argc=49, argv=0xffffdf2a4c38, init=<optimized out>, fini=<optimized out>, rtld_fini=<optimized out>, stack_end=<optimized out>) at ../csu/libc-start.c:360
+--
+[Switching to thread 1 (Thread 0xeff14f84b7c0 (LWP 32014))]
+#0  0x0000eff14f601148 in __GI___libc_read (nbytes=4096, buf=0x155415d0, fd=41) at ../sysdeps/unix/sysv/linux/read.c:26
+26	in ../sysdeps/unix/sysv/linux/read.c
+#0  0x0000eff14f601148 in __GI___libc_read (nbytes=4096, buf=0x155415d0, fd=41) at ../sysdeps/unix/sysv/linux/read.c:26
+#1  __GI___libc_read (fd=41, buf=0x155415d0, nbytes=4096) at ../sysdeps/unix/sysv/linux/read.c:24
+#2  0x00000000005b1998 in _Py_read ()
+#3  0x00000000005d53d8 [PAC] in ?? ()
+#4  0x00000000004ccb7c [PAC] in ?? ()
+#5  0x00000000004c3550 [PAC] in PyObject_VectorcallMethod ()
+#6  0x00000000005d95c4 [PAC] in ?? ()
+#7  0x00000000006d3560 [PAC] in ?? ()
+#8  0x00000000006d3390 [PAC] in ?? ()
+#9  0x00000000004cc334 [PAC] in ?? ()
+#10 0x00000000004c3550 [PAC] in PyObject_VectorcallMethod ()
+#11 0x00000000006d3940 [PAC] in ?? ()
+--
+[Switching to thread 1 (Thread 0xe2b7875b87c0 (LWP 32015))]
+#0  0x0000e2b755fe8dc4 in ?? () from target:/lib/aarch64-linux-gnu/libcuda.so.1
+#0  0x0000e2b755fe8dc4 in ?? () from target:/lib/aarch64-linux-gnu/libcuda.so.1
+#1  0x0000e2b755deeebc in ?? () from target:/lib/aarch64-linux-gnu/libcuda.so.1
+#2  0x0000e2b755e28f44 in ?? () from target:/lib/aarch64-linux-gnu/libcuda.so.1
+#3  0x0000e2b756ae3d2c in ?? () from target:/lib/aarch64-linux-gnu/libcuda.so.1
+#4  0x0000e2b756ae4148 in ?? () from target:/lib/aarch64-linux-gnu/libcuda.so.1
+#5  0x0000e2b755df9cdc in ?? () from target:/lib/aarch64-linux-gnu/libcuda.so.1

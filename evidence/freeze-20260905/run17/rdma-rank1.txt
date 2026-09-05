@@ -1,0 +1,20 @@
+port_rcv_data=46785777957672
+port_rcv_packets=207341776940
+port_xmit_data=46878727958522
+port_xmit_packets=208776323247
+unicast_rcv_packets=207341776940
+unicast_xmit_packets=208776323247
+lifespan=10
+np_cnp_sent=4221
+out_of_sequence=62682
+packet_seq_err=3123776
+roce_adp_retrans=1342869
+roce_adp_retrans_to=43033
+roce_slow_restart_cnps=1342869
+rp_cnp_handled=1225658
+rx_write_requests=257439691
+     rx_out_of_buffer: 325
+     tx_pause_ctrl_phy: 11652
+     tx_global_pause: 11652
+     tx_global_pause_duration: 930507
+	Speed: 200000Mb/s

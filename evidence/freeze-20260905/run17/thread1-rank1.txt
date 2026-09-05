@@ -1,0 +1,40 @@
+[Switching to thread 1 (Thread 0xe6eec2f39720 (LWP 309458))]
+#0  0x0000e6eec2cf0adc in poll () from target:/lib/aarch64-linux-gnu/libc.so.6
+#0  0x0000e6eec2cf0adc in poll () from target:/lib/aarch64-linux-gnu/libc.so.6
+#1  0x00000000006ade4c in ?? ()
+#2  0x0000000000564ad4 [PAC] in _PyEval_EvalFrameDefault ()
+#3  0x0000000000561d34 [PAC] in PyEval_EvalCode ()
+#4  0x000000000059ae24 [PAC] in ?? ()
+#5  0x0000000000680284 [PAC] in ?? ()
+#6  0x000000000067fe58 [PAC] in _PyRun_SimpleFileObject ()
+#7  0x000000000067fc24 [PAC] in _PyRun_AnyFileObject ()
+#8  0x000000000068ac2c [PAC] in Py_RunMain ()
+#9  0x000000000068a7e8 [PAC] in Py_BytesMain ()
+#10 0x0000e6eec2c384c4 [PAC] in ?? () from target:/lib/aarch64-linux-gnu/libc.so.6
+#11 0x0000e6eec2c38598 in __libc_start_main () from target:/lib/aarch64-linux-gnu/libc.so.6
+#12 0x00000000005f5c70 in _start ()
+--
+[Switching to thread 1 (Thread 0xea445a6dc7c0 (LWP 311492))]
+#0  0x0000ea445a491148 in read () from target:/lib/aarch64-linux-gnu/libc.so.6
+#0  0x0000ea445a491148 in read () from target:/lib/aarch64-linux-gnu/libc.so.6
+#1  0x00000000005b1998 in _Py_read ()
+#2  0x00000000005d53d8 [PAC] in ?? ()
+#3  0x00000000004ccb7c [PAC] in ?? ()
+#4  0x00000000004c3550 [PAC] in PyObject_VectorcallMethod ()
+#5  0x00000000005d95c4 [PAC] in ?? ()
+#6  0x00000000006d3560 [PAC] in ?? ()
+#7  0x00000000006d3390 [PAC] in ?? ()
+#8  0x00000000004cc334 [PAC] in ?? ()
+#9  0x00000000004c3550 [PAC] in PyObject_VectorcallMethod ()
+#10 0x00000000006d3940 [PAC] in ?? ()
+#11 0x000000000056454c [PAC] in _PyEval_EvalFrameDefault ()
+#12 0x0000000000561d34 [PAC] in PyEval_EvalCode ()
+--
+[Switching to thread 1 (Thread 0xe4273b7387c0 (LWP 311493))]
+#0  0x0000e4270a168d88 in ?? () from target:/lib/aarch64-linux-gnu/libcuda.so.1
+#0  0x0000e4270a168d88 in ?? () from target:/lib/aarch64-linux-gnu/libcuda.so.1
+#1  0x0000e42709f6eebc in ?? () from target:/lib/aarch64-linux-gnu/libcuda.so.1
+#2  0x0000e42709fa8f44 in ?? () from target:/lib/aarch64-linux-gnu/libcuda.so.1
+#3  0x0000e4270ac63d2c in ?? () from target:/lib/aarch64-linux-gnu/libcuda.so.1
+#4  0x0000e4270ac64148 in ?? () from target:/lib/aarch64-linux-gnu/libcuda.so.1
+#5  0x0000e42709f79cdc in ?? () from target:/lib/aarch64-linux-gnu/libcuda.so.1
