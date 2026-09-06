@@ -21,6 +21,7 @@ Compare two receipts: glm_workload.py --compare a.json b.json
 """
 import concurrent.futures as cf, hashlib, json, math, os, random, shlex, statistics, subprocess, sys, threading, time, urllib.request, urllib.error
 from pathlib import Path
+from deadline_http import DeadlineExpired, response as deadline_response
 
 URL = os.environ.get('GLM_URL', 'http://127.0.0.1:8890/v1')
 MODEL = 'GLM-5.3-Flash-EXL3'
@@ -31,7 +32,7 @@ COLD_TOKENS = int(os.environ.get('COLD_TOKENS', '280000'))
 LONGGEN_TOKENS = int(os.environ.get('LONGGEN_TOKENS', '12288'))
 CONC_LEVELS = [int(x) for x in os.environ.get('CONC_LEVELS', '4,8').split(',') if x]
 SALT = os.environ.get('GLM_SALT') or time.strftime('%Y%m%dT%H%M%SZ', time.gmtime())
-PHASES = os.environ.get('GLM_PHASES', 'warmup,sanity,coding,longgen,cold,cancel,soak,sanity_end').split(',')
+PHASES = os.environ.get('GLM_PHASES', 'warmup,sanity,coding,longgen,cold,conc,cancel,soak,sanity_end').split(',')
 NOTHINK = {'enable_thinking': False}
 THINK = {'enable_thinking': True}
 LOG_LOCK = threading.Lock()
@@ -123,7 +124,9 @@ def stream(name, messages, max_tokens, think=False, tools=None, ignore_eos=False
     err = None; cancelled = False
     req = urllib.request.Request(URL + '/chat/completions', data=json.dumps(p, separators=(',', ':')).encode(), headers={'Content-Type': 'application/json'})
     try:
-        with urllib.request.urlopen(req, timeout=timeout) as r:
+        connection = (deadline_response(URL + '/chat/completions', req.data, timeout, cancel_after_s)
+                      if cancel_after_s is not None else urllib.request.urlopen(req, timeout=timeout))
+        with connection as r:
             for raw in r:
                 line = raw.decode('utf-8', 'replace').strip()
                 if not line.startswith('data: '):
@@ -147,12 +150,16 @@ def stream(name, messages, max_tokens, think=False, tools=None, ignore_eos=False
                     cancelled = True
                     r.close()
                     break
+    except DeadlineExpired:
+        cancelled = True
     except urllib.error.HTTPError as e:
         err = f'HTTP {e.code}: {e.read()[:300].decode("utf-8", "replace")}'
     except Exception as e:  # noqa: BLE001
         err = f'{type(e).__name__}: {str(e)[:200]}'
     t1 = time.perf_counter(); txt = ''.join(text)
     ct = int(usage.get('completion_tokens') or 0); pt = int(usage.get('prompt_tokens') or 0)
+    if not cancelled and err is None and (finish is None or not usage):
+        err = 'Incomplete stream: missing finish reason or usage'
     cached = (usage.get('prompt_tokens_details') or {}).get('cached_tokens')
     return {'name': name, 'wall_s': round(t1 - t0, 3), 'ttft_s': None if first is None else round(first - t0, 3),
             'decode_tps': None if first is None or t1 <= first or ct < 2 else round((ct - 1) / (t1 - first), 2),
@@ -312,11 +319,11 @@ def phase_sanity(tag):
     tc = (j['choices'][0]['message'].get('tool_calls') or [{}])[0].get('function') or {}
     out['tool_call'] = tc.get('name') == 'multiply' and json.loads(tc.get('arguments') or '{}') == {'a': 6, 'b': 7}
     try:
-        j = post('/chat/completions', {'model': MODEL, 'messages': [{'role': 'user', 'content': 'Report: host rank0 is healthy and runs 4 ranks. Answer as JSON.'}],
+        j = post('/chat/completions', {'model': MODEL, 'messages': [{'role': 'user', 'content': 'Report: host spark-f1cc is healthy and runs 4 ranks. Answer as JSON.'}],
                                        'response_format': {'type': 'json_schema', 'json_schema': {'name': 'status', 'schema': SANITY_SCHEMA, 'strict': True}},
                                        'temperature': 0, 'seed': 42, 'max_tokens': 128, 'chat_template_kwargs': NOTHINK}, 300)
         d = json.loads(j['choices'][0]['message']['content'])
-        out['json_schema'] = d.get('host') == 'rank0' and d.get('healthy') is True and d.get('ranks') == 4
+        out['json_schema'] = d.get('host') == 'spark-f1cc' and d.get('healthy') is True and d.get('ranks') == 4
         out['json_schema_text'] = j['choices'][0]['message']['content'][:120]
     except Exception as e:  # noqa: BLE001
         out['json_schema'] = False; out['json_schema_error'] = str(e)[:300]
@@ -436,7 +443,11 @@ def phase_cancel():
     s = stream('after-cancel-prefill', [{'role': 'user', 'content': short_q(1, 'cancel')}], 32)
     out['mid_prefill'] = {'aborted': strip(r), 'drain_s': d, 'metrics_after': m, 'next_short': strip(s)}
     log('cancel mid-prefill', 'drain_s', d, 'next short ttft', s['ttft_s'], 'err', s['error'])
-    out['pass'] = all(x['drain_s'] is not None and not x['next_short']['error'] for x in (out['mid_decode'], out['mid_prefill']))
+    out['mid_prefill']['deadline_pass'] = bool(r['cancelled'] and not r['error'] and r['wall_s'] <= 4.0 and r['ttft_s'] is None)
+    out['pass'] = (out['mid_prefill']['deadline_pass'] and
+                   all(x['aborted']['cancelled'] and not x['aborted']['error'] and
+                       x['drain_s'] is not None and not x['next_short']['error']
+                       for x in (out['mid_decode'], out['mid_prefill'])))
     return out
 
 
@@ -460,7 +471,10 @@ def soak_job(kind, i, k):
         return stream(f'soak-{kind}-{i}-{k}', [{'role': 'user', 'content': f'Write a very long continuous technical story about a cluster bring-up (working title {seed}). No headings, no lists.'}], SOAK_LONGGEN_TOKENS, ignore_eos=True, timeout=1500)
     size = 96000 if kind == 'long_prompt_96k' else 24000  # 96k exercises the fat-expert prefill kernel under concurrency
     body = sized_prompt(size, seed, f'the reference number is RX-{k}{i}7')
-    return stream(f'soak-{kind}-{i}-{k}', [{'role': 'user', 'content': body + '\n\nWhat is the reference number? Reply with only it.'}], 32, timeout=1500)
+    row = stream(f'soak-{kind}-{i}-{k}', [{'role': 'user', 'content': body + '\n\nWhat is the reference number? Reply with only it.'}], 32, timeout=1500)
+    row['expected_needle'] = f'RX-{k}{i}7'
+    row['needle_found'] = row['text'].strip() == row['expected_needle']
+    return row
 
 
 def phase_soak():
@@ -496,7 +510,7 @@ def phase_soak():
             'error_samples': [r['error'] for r in rows if r['error']][:10],
             'aggregate_completion_tps': round(sum(r['completion_tokens'] for r in rows if not r['error']) / dur, 2),
             'aggregate_prompt_tps': round(sum(r['prompt_tokens'] for r in rows if not r['error']) / dur, 1),
-            'by_kind': by_kind, 'drift': drift, 'long_prompt_needle_ok': sum(1 for r in rows if r['kind'].startswith('long_prompt') and 'RX-' in r['text_preview']),
+            'by_kind': by_kind, 'drift': drift, 'long_prompt_needle_ok': sum(1 for r in rows if r['kind'].startswith('long_prompt') and r.get('needle_found') is True),
             'long_prompt_total': sum(1 for r in rows if r['kind'].startswith('long_prompt') and not r['error']), 'kinds': SOAK_KINDS, 'workers': SOAK_WORKERS,
             'samples': samples, 'rows': rows}
 
@@ -575,7 +589,9 @@ def main():
     global T_START
     T_START = time.time()
     models = json.loads(urllib.request.urlopen(URL + '/models', timeout=30).read())
-    rec = {'label': LABEL, 'url': URL, 'salt': SALT, 'started': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()), 'models': [m['id'] for m in models['data']],
+    rec = {'schema': 'glm-workload-v2', 'runner_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+           'deadline_http_sha256': hashlib.sha256(Path(__file__).with_name('deadline_http.py').read_bytes()).hexdigest(),
+           'label': LABEL, 'url': URL, 'salt': SALT, 'started': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()), 'models': [m['id'] for m in models['data']],
            'soak_min': SOAK_MIN, 'cold_tokens_target': COLD_TOKENS, 'metrics_before': metrics(), 'memory_before': mem(), 'phases': PHASES}
     log('start', LABEL, URL, 'salt', SALT, 'phases', PHASES)
     for ph in PHASES:

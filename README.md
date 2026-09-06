@@ -1,201 +1,177 @@
-# GLM-5.3-Flash EXL3 on four NVIDIA DGX Sparks (TP4), tuned for production
+# GLM-5.3-Flash EXL3 TP4 sparse-attention recipe
 
-A complete, measured recipe for serving `Mia-AiLab/GLM-5.3-Flash-EXL3-TR3-4bpw` (GLM-5.3-Flash, 320B/18B-active MoE,
-EXL3/TR3 4 bpw) with vLLM tensor parallelism across **four DGX Sparks (GB10)** over a ConnectX-7 RoCE fabric, with
-1M-token context, DFlash2 speculative decoding, an OpenAI-compatible endpoint, a watchdog, and the benchmark and
-autoresearch loop that produced the settings. Everything here was run on a real four-Spark cluster in September 2026;
-every number links to a receipt in `evidence/`.
+This portable recipe captures one selected four-rank GB10 configuration: EXL3
+with FP8 KV cache, DFlash2 at three speculative tokens, eager execution, and
+a 64-row sparse-MLA attention slice. It launches a compatible, pinned upstream
+image and runtime root; it is not a standalone vLLM distribution.
 
-It builds on the MiaAI-Lab two-Spark recipe (`GLM-5.3-Flash-EXL3-2x-DGX-Sparks`): same image, same overlay patches,
-same weights. This repository adds the four-node launch path, the production tuning and the evidence.
+The selected run completed one bounded 153-minute mixed-load qualification.
+It is not fresh-install, reboot, indefinite-stability, maximum-context, or
+global-optimum evidence. See [EVIDENCE.md](EVIDENCE.md) and the
+[machine-readable projection](qualification-attention64h16.json).
 
-## What you get
+Older files under `evidence/` and the historical experiment queues describe
+earlier configurations. Their successful short runs are not pooled into this
+configuration's qualification; use the selected settings and commands below.
 
-| | untuned TP4 (recipe defaults) | tuned TP4 (settings) | **tuned + fat-expert kernel (this repo)** |
-|---|---|---|---|
-| single-stream decode, 12k prose generation | 35 tok/s (7 draft tokens, 30 % accepted) | 32 tok/s (3 draft tokens, 53 %) | 37 tok/s |
-| 4 / 8 / 16 simultaneous generations, aggregate | queued above 4 | 89 / 128 / 131 tok/s | 99 / 132 / 131 tok/s |
-| short question fired into a long generation, p50 | 330 s | 0.47 s | 0.47 s |
-| 282k-token cold prompt: prefill | 731 tok/s | 1162 tok/s | 1324 tok/s |
-| warm follow-up on that 282k context | 8.3 s | 1.6 s | 1.0 s |
-| warm follow-up on a 12k conversation | 9.6 s | 8.6 s | 3.1 s |
-| 30-min mixed soak, 4 workers: requests / errors | 66 / 0 | 188 / 0 | 195 / 0 |
-| soak: aggregate generation tok/s | 18.4 | 53.7 | 56.7 |
-| soak: short request p50 | 51 s | 0.54 s | 0.60 s |
-| soak: min free host memory on a rank | 1.3 GiB | 6.4 GiB | 7.1 GiB |
+## Selected result
 
-Receipts: `evidence/workload-tp4.json` (untuned), `evidence/workload-tp4-final.json` (tuned settings, 493cb88 image) and
-`evidence/workload-tp4-fat.json` (final: c190db1 image with the fat-expert kernel), same benchmark
-(`recipe/glm_workload.py`), same prompt sizes, temperature 0, no foreign traffic during the final run.
+| Measurement | Result |
+|---|---:|
+| Accounted HTTP requests / errors | 484 / 0 |
+| Mixed soak duration; requests; exact retrieval | 153.0 min; 371; 93 / 93 |
+| Coding aggregate completion | 60.21 tok/s |
+| Natural 4,096-token long-generation decode | 31.09 tok/s |
+| Cold prefill, 283,572-token prompt | 1,054.4 tok/s |
+| Peak concurrent aggregate completion | 133.72 tok/s |
+| Mixed-soak aggregate completion | 34.62 tok/s |
+| Mixed short-request wall / first-token p95 | 8.84 s / 1.535 s |
 
-## Hardware and wiring
+These are fields from one isolated qualification receipt. They are not a
+cross-project benchmark and should not be compared with differently quantized
+models, engines, prompt sets, context sizes, or soak durations.
 
-- 4x NVIDIA DGX Spark (GB10, 128 GB unified memory each, sm_121a). The recipe was also validated with two MSI
-  EdgeXpert GB10 nodes standing in for two Sparks (mixed vendors work; `RANK_DK` takes `sudo -n docker` per rank).
-- ConnectX-7 fabric: this cluster uses a MikroTik CRS812 switch with a mix of 200G and 100G QSFP DACs. A switch-less
-  ring also works (see alexellis' 4-Spark NVFP4 repo); what matters is that **every rank reaches every other rank on the
-  fabric subnet** (`preflight` checks this) and that NCCL is pinned to the fabric port (`NETDEV`, `HCA`, per-rank RoCEv2
-  GID resolved at launch).
-- The management LAN is not used for anything but SSH from the head. On DGX Spark the "LAN" is often Wi-Fi: all four
-  nodes here left the LAN together during an access-point blip while serving continued unaffected, so run the watchdog
-  and the benchmarks on the head node, not from your laptop.
-- Prefill on a 4-node TP job is fabric-bound: TP4 gained 29 % on a 282k prompt over TP2 (1162 vs 901 tok/s) while
-  decode gained 45 %. The 100G links in this cluster did not change the result measurably.
+## What the patch addresses
 
-## Pinned artefacts
+Earlier unsliced graph and fully eager candidates both stalled. In the decisive
+capture, one rank held a single resident
+`sparse_mla_prefill_kernel<...,16,2048,64>` block at the same program counter
+across three samples while TP peers waited in NCCL. Directional state had
+incoming data and peer credit, but no outgoing GPU data publication from that
+rank. That localizes the observed progress frontier to the GPU/kernel path; it
+does not identify an internal race or prove a general FlashInfer defect.
 
-| Item | Value |
+The patch splits only the final guarded sparse-attention call into rows of at
+most 64 tokens, preserving the outer 2,048-token scheduler batch, weights,
+drafter, cache layout, fabric and upstream overlays. It accepts one source
+SHA-256 and produces one patched SHA-256; it rejects any other backend or
+geometry. Independent numerical checks covered 1, 64, 65, 129, 193 and 2,048
+token rows, including ragged/empty rows, then the selected configuration
+completed the bounded qualification.
+
+An independently pinned report describes a similar H16 prefill-kernel wedge,
+but it is not maintainer confirmation of the same cause here. Its workaround
+is not public source-equivalent. The public Jasl Triton code is also not a
+drop-in replacement: its packed FP8/scales and head handling differ from this
+GLM `fp8_ds_mla` cache, so it would need a GLM adapter and new numerical and
+all-rank qualification. See [Mark Sunner's pinned evidence](https://github.com/marksunner/glm52-dgx-spark-deadlock-evidence/tree/32133d5ef0e4dde00d1da15d639c8a71c92f75f8)
+and [Jasl revision `2dd63d85`](https://github.com/jasl/vllm/tree/2dd63d85f4133cf98721ecf6a8d373e4c1dc356f).
+
+## Pinned inputs and effective runtime
+
+| Input | Pin |
 |---|---|
-| Model | `Mia-AiLab/GLM-5.3-Flash-EXL3-TR3-4bpw` @ `25a44fdbf16862a46b7cc9921142c6c81350af2f` (163.6 GiB) |
-| Draft model | **off** (`SPEC_METHOD=none`) since the 2026-09-03 soaks, as a mitigation: long chunked prefills can stall all four ranks on this build (3/3 soaks with the draft on, once with it off, see below). Pinned for re-enabling: `incoai/GLM-5.3-Flash-DFlash2` @ `dc77ff1c99eeb2df044ee3d4f0094eb033fee410`, 3 tokens, draft TP 4 |
-| Engine | vLLM `0.1.dev20051` + exllamav3 for sm_121a, as built by the MiaAI-Lab recipe Dockerfile |
-| Upstream recipe commit | `493cb88` for the untuned/tuned receipts; `c190db1` (PR77 fat-expert prefill kernel, PR63 template fix) for the batch-3 receipts |
-| Overlay + chat template | `overlay/` and `files/` of the same upstream commit, byte-identical on every rank (`ROOT`) |
-| vLLM args | `--tensor-parallel-size 4 --nnodes 4 --quantization exl3 --kv-cache-dtype fp8 --max-model-len 1000000` + the knobs below (`recipe/node-launch.sh`) |
+| EXL3 checkpoint | [`Mia-AiLab/GLM-5.3-Flash-EXL3-TR3-4bpw`](https://huggingface.co/Mia-AiLab/GLM-5.3-Flash-EXL3-TR3-4bpw) @ `25a44fdbf16862a46b7cc9921142c6c81350af2f` |
+| DFlash2 drafter | [`incoai/GLM-5.3-Flash-DFlash2`](https://huggingface.co/incoai/GLM-5.3-Flash-DFlash2) @ `dc77ff1c99eeb2df044ee3d4f0094eb033fee410` |
+| Upstream image source / overlays | [MiaAI-Lab recipe](https://github.com/MiaAI-Lab/GLM-5.3-Flash-EXL3-2x-DGX-Sparks/tree/c190db1ae17ba8dff20129ed1f308d10c63cf37d) @ `c190db1ae17ba8dff20129ed1f308d10c63cf37d` |
+| Effective engine build | `vllm-0.1.dev20051+g487ecf187-tp4-d6e0b989` |
+| Runtime libraries | FlashInfer 0.6.17; Torch 2.13.0+cu130; CUDA runtime 13.0.96; NCCL 2.30.7; Triton 3.7.1 |
+| Driver / CUDA observation | NVIDIA 580.173.02; CUDA driver API 13000; CUDA runtime 13.0.96 |
+| Selected chat template | `recipe/chat_template-20260904.jinja` SHA-256 `bdc5009ef6024a700f2ab2b8caefb14d083f504cf8d2ce70caa7e459b01cc331` |
+| Sparse MLA patch | `recipe/patch_sparse_mla_slice.py`: source `d665ef…cd01`; patched `f1854c…620c6` |
 
-The image is not published by this repository. Build it on one node from the upstream recipe at the pinned commit
-(`BUILD=1 ./start.sh`), `docker save | ssh docker load` it to the other ranks, and pin the image ID in `cluster.env`.
-Check that the fat-expert kernel is in the image before enabling it:
+The selected template is an explicit local replacement, not the unmodified
+template from upstream `c190db1`. Qualification used independently built image
+digests on each rank; their source and patched-backend hashes matched. Use a
+compatible image digest on each of your ranks, then verify the hashes at
+startup. Do not infer that one image digest was used everywhere in the source
+qualification.
+
+The root model is [GLM-5.3-Flash](https://huggingface.co/zai-org/GLM-5.3-Flash).
+Read [NOTICE.md](NOTICE.md) before serving: DFlash2 makes the selected stack
+non-commercial under its published terms.
+
+## Prepare, configure and launch
+
+Follow [REQUIREMENTS.md](REQUIREMENTS.md). Build or obtain the upstream image
+at the pinned revision, retain its matching `overlay/`, and cache the pinned
+model snapshots on each rank. Configure a site-specific file from the exported
+repository root:
+
 ```bash
-docker run --rm --entrypoint sh <image> -c 'ls /opt/glm53/exl3-fat-kernel && grep -c EXL3_FAT /usr/local/lib/python3.12/dist-packages/vllm/model_executor/layers/quantization/exl3.py'
+cp cluster.env.example cluster.env
+$EDITOR cluster.env
+CFG="$(pwd)/cluster.env"
+source "$CFG"
 ```
 
-## Quickstart
-
-On every rank: the upstream two-Spark recipe's prerequisites (Docker with the NVIDIA runtime, the image, both HF
-snapshots in the HF cache, the overlay root, `/dev/infiniband`, a fabric address on the CX7 port). On the head, as the
-same user, with an SSH key that reaches every rank:
+Install the selected template into each rank's configured runtime root before
+launch. Repeat this step on every rank, using that rank's actual `ROOT`:
 
 ```bash
-git clone <this repo> ~/AI/tp4-recipe && cd ~/AI/tp4-recipe
-cp cluster.env.example cluster.env && $EDITOR cluster.env      # ranks, image, paths, knobs
-cd recipe
-./tp4-cluster.sh ../cluster.env preflight   # fabric reachability both ways, images, GPU clocks
-./tp4-cluster.sh ../cluster.env launch      # node-local launcher on each rank (no SSH inside the containers)
-./tp4-cluster.sh ../cluster.env wait        # ~11 min to /health 200 (weights from page cache; ~20 min cold)
-./tp4-cluster.sh ../cluster.env status
-curl -s http://<HEAD_IP>:8890/v1/models
-nohup ./tp4-watchdog.sh ../cluster.env > ~/AI/tp4-watchdog.out 2>&1 &   # relaunch on engine death, rate-limited
+install -m 0644 recipe/chat_template-20260904.jinja "$ROOT/files/chat_template.jinja"
+shasum -a 256 "$ROOT/files/chat_template.jinja"
 ```
 
-Stop with `./tp4-cluster.sh ../cluster.env stop`. A four-rank TP job does not survive the loss of one rank; the watchdog
-restarts the whole quartet (and, if `TP2_*` are set, falls back to the incumbent two-node deployment when it cannot).
-Touch `~/AI/tp4-maintenance` to pause it.
+On the controller, from the exported repository root:
 
-Benchmark the running service (results as JSON, compare two receipts with `--compare`):
 ```bash
-./workload-run.sh mylabel                    # full suite incl. 30-min soak (~50 min)
-python3 glm_workload.py --compare ../evidence/workload-tp4-final.json ~/AI/workload-mylabel-*.json
-python3 loop_test.py                         # 40 real prompts, thinking off and on: length-capped answers, self-correction
+./recipe/tp4-cluster.sh "$CFG" preflight
+./recipe/tp4-cluster.sh "$CFG" launch
+./recipe/tp4-cluster.sh "$CFG" wait
+./recipe/tp4-cluster.sh "$CFG" ready
+python3 recipe/functional.py http://YOUR_HEAD_IP:8890/v1
+CFG="$CFG" SOAK_MIN=150 SOAK_WORKERS=4 LONGGEN_TOKENS=4096 \
+  SOAK_LONGGEN_TOKENS=4096 COLD_TOKENS=280000 CONC_LEVELS=4,8 \
+  SOAK_KINDS=short,coding,medium_gen,long_prompt,short,long_gen,long_prompt_96k,short \
+  ./recipe/workload-run.sh attention64h16 \
+  warmup,sanity,coding,longgen,cold,conc,cancel,soak,sanity_end
 ```
 
-## Tuning
+`tp4-cluster.sh` sources its config before locating its own directory, while
+`workload-run.sh` and `tp4-watchdog.sh` change into `recipe/` first. Use an
+absolute `CFG` path for all three. `functional.py` posts to
+`/chat/completions`, so it requires the `/v1` endpoint root.
 
-The settings in `cluster.env.example` come from an autoresearch loop (`recipe/AUTORESEARCH.md`): one knob per
-experiment, a fixed ten-minute production-mix benchmark after a full relaunch, a geometric-mean score over six
-production metrics against a baseline, hard reliability gates (contract checks, cancel drain, needle, zero errors,
-memory floor, no foreign traffic during the run, GPU clocks), keep-if-better. Twenty-four experiments over two days; the
-full log with every receipt is in `evidence/autoresearch/` and `evidence/autoresearch-b3/`.
+`cluster.env.example` enables the selected patch. Its controller streams the
+installer into each fresh container. Do not set
+`VLLM_SM120_SPARSE_MLA_SLICE_TOKENS=64` for another image revision: the patch
+rejects a different preimage.
 
-| Knob | upstream default | tuned | measured effect on TP4 |
-|---|---|---|---|
-| `GPU_MEM_UTIL` | 0.87 (0.85 is the most GB10 accepts) | **0.75** | 0.85 leaves 0.85-2 GiB host memory per rank and preceded two engine deaths (NVRM `NV_ERR_NO_MEMORY`); 0.75 keeps ~9 GiB free with no throughput cost, KV pool still >3M tokens; 0.70 adds 4 GiB and nothing else |
-| `MAX_NUM_SEQS` | 4 | **8** | 8 streams: 84 → 135 tok/s aggregate, worst first token 27 s → 1.0 s. 16 streams add nothing (131 tok/s) |
-| `DFLASH_TOKENS` | 7 | **3** (draft now off) | acceptance 30 % → 53 %, decode 27 → 31-33 tok/s on prose; 2 and 5 are worse; no speculation = 22.6 tok/s, which is what production runs since the hang below |
-| `MAX_NUM_BATCHED_TOKENS` | 7168 (TP2) | **2048** | 1024 / 4096 / 8192 tested: cold prefill unchanged, 8192 puts the coding first token at 20 s under load |
-| `MIXED_PREFILL_CHUNK` | skip | **off** | skip never prefills while anything decodes: a short question waited 330 s behind a long answer. off: 0.5-0.7 s, decode of the running request keeps ~90 % of its speed |
-| `EXL3_FAT_KERNEL` | 1 (upstream, since c190db1) | **1** (image built from c190db1 or later) | uncached 64k prefill 1156-1182 → 1356-1361 tok/s (+16-18 %); coding first token 11-22 s → 2.9 s because the 24k prefill fired with the coding requests finishes sooner; decode, short latency, 8-stream throughput unchanged; replicated |
-| `SWAPPINESS` (host `vm.swappiness`, set at launch) | 60 | **60** | 0 was tested (Tech2Wild's pin): one engine death in two runs, rank 1 logging NVRM out-of-memory at serving time; no metric better. Kept at the distribution default |
+## Operation and recovery
 
-Batch 3 on the new image (scores against the shipped settings on the old image; `evidence/autoresearch-b3/`):
+The exported watchdog checks all rank containers and real inference rather
+than trusting `/health` alone. It restarts the retained four-container group,
+then requires all-rank readiness. It rate-limits recovery and pauses on a
+recovery failure or limit; it does not create an image from changed inputs.
 
-| run | 64k prefill tok/s | coding first token p50 | 4k decode | 8-stream agg | score |
-|---|---|---|---|---|---|
-| old image, shipped settings | 1156-1182 | 11.6-22 s | 31-33 | 133-138 | 1.000 |
-| **fat kernel, shipped settings** (two runs) | **1361 / 1356** | **2.9 / 2.8 s** | 31.8 / 34.2 | 129 / 138 | **1.280 / 1.309** |
-| fat kernel, batched tokens 7168 | 1451 | 11.5 s | 38.2 | 134 | 1.061 |
-| fat kernel, batched tokens 4096 | 1383 | 6.1 s | 32.9 | 129 | 1.138 |
-| old image, utilisation 0.70, swappiness 0 | 1191 | 21 s | 31.3 | 132 | 0.895 |
+```bash
+CFG="$(pwd)/cluster.env"
+nohup ./recipe/tp4-watchdog.sh "$CFG" > tp4-watchdog.out 2>&1 &
+```
 
-The coding first-token median is bimodal with fresh prompts (it depends on which request lands behind the 24k prefill),
-so read it together with the prefill column: the kernel moves both, the other rows move only that column.
+Use `touch "$MAINT"` after sourcing the configuration to pause a configured
+watchdog before planned work, and use the same absolute `CFG` with
+`./recipe/tp4-cluster.sh "$CFG" stop` to remove a test group. Define an
+automatic fallback only after qualifying it independently. The included
+`autoresearch_score.py` preserves the frozen receipt scorer used to assess
+workload outputs; do not compare results without its hard gates.
 
-What did not matter or did not work: chunk size for prefill speed (fabric-bound), `MAX_NUM_SEQS` beyond 8 on EXL3
-(decode saturates), and any single-run difference under 3 %: the replicate of the best setting scored 1.054 against a
-first run of 1.079.
+Run the complete local suite without GPUs or model access:
 
+```bash
+python3 -m unittest discover -s tests -v
+```
 
-## The hang that a long soak found (2026-09-03)
+These 12 tests check scoring rejection and cancellation deadlines. They do
+not establish model readiness, numerical equivalence, or sustained reliability.
 
-Ten-minute benches and a 30-minute soak passed; a 150-minute soak at the 8-sequence cap with 96k prompts in the mix hung
-the engine three times out of three (78, 31, 35 min). Each time a 96k prompt had just been admitted: its chunked prefill
-shares steps with 6-7 speculative-decode streams, all four TP ranks stop at the same forward pass, the GPUs spin at 96 %
-utilisation and ~21 W, and five minutes later vLLM dies on `RPC call to sample_tokens timed out`. Nothing in dmesg, no
-NVRM or Xid line. Turning the fat-expert kernel off changed nothing; turning the DFlash2 draft off (`SPEC_METHOD=none`)
-made the identical soak pass 150 minutes with 472 requests and 0 errors, and then the next 282k cold prefill, running
-alone with the draft off, stalled the same way (218624 tokens computed). So the stall is in long chunked prefill on this
-build; the draft and concurrency raise its odds. The recipe ships with the draft off as the better-odds setting
-(single-stream decode 22-23 tok/s instead of 32-37, everything else unchanged) and with the watchdog as the real safety
-net: it relaunches the quartet in about 10 minutes. Whether the 493cb88 image has the same stall is being soaked next. `soak_report.py` summarises a soak receipt;
-`SOAK_KINDS`, `SOAK_WORKERS` and `SOAK_MIN` reproduce the mix (`workload-run.sh <label> warmup,sanity,soak,sanity_end`).
+## Rejected graph mode and fabric boundary
 
-## Reliability notes
+Graph mode is not selected: its full trial completed the frozen model suite,
+but had a worse mixed short-request tail and failed its service handback. The
+eager choice favors the measured interactive tail; it does not claim that
+graphs are generally slower. Coordinated PFC/ECN and dual-HCA/four-channel
+configuration improved the fabric baseline, but the surviving captured
+progress frontier was in the H16 prefill kernel with clean monitored transport
+deltas. That evidence does not support replacing the switch as a remedy.
 
-- **Memory regime.** GB10 has one memory pool. At 0.85 utilisation a rank sits at 1-2 GiB `MemAvailable` and the driver
-  logs out-of-memory bursts; the engine hung twice in that regime (`RPC call to sample_tokens timed out`). The
-  memory-floor gate (3 GiB) and 0.75 are the answer. Drop the page cache before every launch (the launcher does).
-- **Swappiness.** Default 60 has every rank holding 3-4 GiB of cold pages in swap during serving. Set `vm.swappiness=0` and persist it
-  in `/etc/sysctl.d/` only if your own measurements say so: on this cluster it produced the one engine death of the
-  campaign and no gain, so the recipe sets 60 at launch.
-- **GPU clocks.** A GB10 can come out of a reboot pinned at 600-700 MHz (Tech2Wild, 2026-09-02). `preflight`, the watchdog
-  and the benchmark's per-phase probe read the sm clock; a run with a rank under 1000 MHz fails the `clocks` gate.
-- **Thinking off and runaway answers.** `loop_test.py`, 40 prompts, 2048-token cap, run on the tuned config with
-  both images (`evidence/loop-test/`): with thinking off, 1-2 of 40 ran away (the same 150-word monologue prompt was
-  still going at 1000+ words when it hit the cap in both runs), a few more were flagged by the self-correction regex
-  but read as normal answers; the rate matches Tech2Wild's 2 in 120. `reasoning_effort: low` does not remove it (3 of
-  40 capped). With thinking on there is no leakage, but 7-10 of 40 hit the cap because the reasoning alone exceeded
-  2048 tokens (narrative and prose prompts returned no answer text). So: route latency-sensitive traffic with thinking
-  off and a `max_tokens` you can afford to lose to a runaway, watch `finish_reason: length`, and give thinking-on
-  routes a large cap.
-- **Foreign traffic.** A benchmark on a live gateway is worthless if other clients hit the engine; the benchmark compares
-  the engine's success counter with the requests it sent and the `clean` gate rejects the run.
-- **Fresh prompts or you measure the cache.** Every prompt in the benchmark carries a per-request salt; the prefix cache
-  is measured only where a row says warm. (An earlier version of this benchmark reused fixed coding prompts.)
-- **First-token latency under load is a scheduler policy, not a TP question.** See `MIXED_PREFILL_CHUNK` above.
+## Related sources and non-equivalent alternatives
 
-## How this compares (same model, other quants, other kits)
-
-| Setup | single-stream decode | cold prefill | 211-282k replay | notes |
-|---|---|---|---|---|
-| this repo, EXL3 TP4, 4 Sparks | 37 tok/s (prose) | 1324 tok/s @ 282k | 1.0 s | 1M context, 8 streams 132-138 tok/s |
-| EXL3 TP2, 2 Sparks (Tech2Wild's lane, Reederey87 kit, k=7) | 62 counting / 20 prose | 1752 @ 211k | 0.8 s | 1M context, 1.4M-token KV pool |
-| MiaAI-Lab EXL3 TP2, 2 Sparks (their README, E2 kernel) | 65 structured / 27 prose | +20 % over pre-E2 at 8k-300k | | 1M context |
-| Tech2Wild NVFP4 TP2, 2 Sparks | 64 counting / 19 prose | 2763 @ 211k | 9.2 s | 262k context; more tokens per joule |
-| tonyd2wild NVFP4 TP4, 4 Sparks + 200G switch | 54 (mixed) | 1863 warm @ 114k | 2.6 s | 64 seqs, 530 tok/s aggregate |
-
-NVFP4 wins fresh prefill and scales further with concurrency on GB10; EXL3 wins cached context, 1M context on the same
-memory, and mixed load. For agents that re-send long context every turn, that is the EXL3 case, which is why this
-recipe is EXL3. Sources: Tech2Wild, "NVFP4 vs EXL3 on DGX Spark" (2026-09-02) and the repositories credited below.
-
-## Files
-
-| File | Purpose |
-|---|---|
-| `cluster.env.example` | All cluster identities and serving knobs. Copy to `cluster.env`. |
-| `recipe/node-launch.sh` | Node-local rank launcher (runs on each rank through `bash -s`): verifies snapshot/image/fabric address, resolves the RoCEv2 GID, drops page cache, writes the in-container start script, `docker run`. |
-| `recipe/tp4-cluster.sh` | Controller on the head: `preflight`, `launch`, `wait`, `status`, `stop`, `logs`. Environment overrides beat the config file (`GPU_MEM_UTIL=0.8 ./tp4-cluster.sh cfg launch`). |
-| `recipe/tp4-watchdog.sh` | Supervisor: relaunch on engine death, TP2 fallback, rate limit, pause file, clock check. |
-| `recipe/tp4-cutover.sh`, `recipe/tp4-rollback.sh` | Optional TP2 → TP4 cutover with benchmark gate and automatic rollback to the retained TP2 containers. |
-| `recipe/glm_workload.py`, `recipe/workload-run.sh` | The production-mix benchmark (coding + cron mix, long generation, cold 280k prompt, concurrency ladder, cancellation, soak). |
-| `recipe/glm_benchmark.py`, `recipe/compare_baseline.py` | The upstream-style contract + throughput suite and the pass/fail comparison used by the cutover. |
-| `recipe/loop_test.py` | Thinking-off loop test (40 prompts, 8 categories, both modes). |
-| `recipe/autoresearch.sh`, `recipe/autoresearch_score.py`, `recipe/experiments-batch*.tsv`, `recipe/AUTORESEARCH.md` | The tuning loop, the scorer and the queues that produced the settings. |
-| `recipe/91-tp4-linklocal-address.template` | NetworkManager dispatcher that re-adds a rank's fabric addresses at link-up (identity-guarded). |
-| `evidence/` | Every receipt referenced above (JSON + logs), including the frozen TP2 baseline and the autoresearch campaign. |
-
-## Credits
-
-MiaAI-Lab for the EXL3 two-Spark recipe, image and overlay this runs on; Brandon Music (ShapleyMcg) for the EXL3/TR3
-checkpoint; turboderp for exllamav3; IncoAI for DFlash2; Z.AI for GLM-5.3-Flash; Tech2Wild/tonyd2wild for the NVFP4
-recipes and the two-lane comparison whose measurement lessons (clocks, fresh prompts, run it three times) are applied
-here; alexellis for the switch-less four-Spark wiring. Licences of the artefacts: `NOTICE.md`. This repository: MIT.
+- The original [MiaAI-Lab TP2 recipe at `c190db1`](https://github.com/MiaAI-Lab/GLM-5.3-Flash-EXL3-2x-DGX-Sparks/tree/c190db1ae17ba8dff20129ed1f308d10c63cf37d) is implementation provenance, not a validated four-rank switched-RoCE replacement.
+- [NCCL issue #2353](https://github.com/NVIDIA/nccl/issues/2353) was reviewed and withdrawn as a candidate: this run used 2.30.7 and did not show that issue's required `ncclLocalOpAppend` / sleeping-proxy signature. [NCCL #2334](https://github.com/NVIDIA/nccl/issues/2334) remains only a topology/workload analogy.
+- The fabric campaign used RouterOS and switch-marvell 7.23.5 with coordinated PFC/ECN. The vendor [RouterOS changelog](https://mikrotik.com/download/changelogs) documents release provenance; no cable or link-rate change is credited, and fabric changes did not by themselves explain the surviving kernel frontier.
+- [tonyd2wild's pinned NVFP4 forensic note](https://github.com/tonyd2wild/GLM-5.3-Flash-NVFP4-1M-KV-4x-DGX-Spark/blob/8fd2fcd27c04c7fa93e770000b818657f338875d/docs/SM121-CRASH-FORENSICS-2026-08-27.md) retracts an earlier hardware-memory-ceiling diagnosis. Its NVFP4/Marlin stack is not comparable to this EXL3/vLLM result.
+- [cfontes' original NVFP4 card](https://huggingface.co/cfontes/glm-5.3-flash-dflash2-tp4/tree/9417f8e107bf373750fd9b1cadaf9a8a70d530d9) and [later drafter card](https://huggingface.co/cfontes/GLM-5.3-Flash-DFlash2-TP4-Spark/tree/fe78d4cebbaebb3744acdde6311df91b3377e2fb) use different weights; the later card reports no served acceptance gain in its rechecks.
+- [Pinned SGLang TP4 recipe](https://github.com/joesinvestments/GLM-5.3-Flash-FP8-4x-DGX-Spark/tree/880efbc7793d06a21908afd590d34cd59ca2e00b) is a credible native-FP8 alternative, but differs in engine, weights, speculation, context limit and validation duration. It needs a fresh matched qualification.
+- [NVIDIA DGX Spark clustering](https://docs.nvidia.com/dgx/dgx-spark/spark-clustering.html), [vLLM](https://github.com/vllm-project/vllm), and [FlashInfer](https://github.com/flashinfer-ai/flashinfer) describe the upstream platform components.

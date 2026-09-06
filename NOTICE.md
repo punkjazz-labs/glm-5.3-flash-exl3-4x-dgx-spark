@@ -1,15 +1,15 @@
-# Licences of what this recipe runs
+# Third-party artefacts and licences
 
-This repository (the scripts, the benchmark, the receipts) is MIT. It does not ship any model or engine; it launches
-third-party artefacts that carry their own terms:
+This repository contains launcher and benchmark code only. It does not
+redistribute model weights, container images, upstream overlays, or CUDA
+libraries. Obtain and comply with the terms of every dependency below.
 
-| Artefact | Source | Licence |
+| Artefact | Pinned source | Licence / terms to verify |
 |---|---|---|
-| GLM-5.3-Flash (base model) | `zai-org/GLM-5.3-Flash` | MIT |
-| EXL3/TR3 4 bpw checkpoint | `Mia-AiLab/GLM-5.3-Flash-EXL3-TR3-4bpw` (byte-identical re-host of `brandonmusic/GLM-5.3-Flash-tr3-4bpw`) | ShapleyMCG License 1.0 (source-available, not OSI open source) |
-| DFlash2 speculative drafter | `incoai/GLM-5.3-Flash-DFlash2` | CC BY-NC-ND 4.0 (**non-commercial**) |
-| Engine image, overlay patches, chat template | MiaAI-Lab `GLM-5.3-Flash-EXL3-2x-DGX-Sparks` (vLLM + exllamav3 built for sm_121a) | MIT (repository code) |
+| GLM-5.3-Flash base model | `zai-org/GLM-5.3-Flash` | MIT, according to its model card |
+| EXL3/TR3 checkpoint | `Mia-AiLab/GLM-5.3-Flash-EXL3-TR3-4bpw` @ `25a44fdbf16862a46b7cc9921142c6c81350af2f` | ShapleyMCG License 1.0 |
+| DFlash2 drafter | `incoai/GLM-5.3-Flash-DFlash2` @ `dc77ff1c99eeb2df044ee3d4f0094eb033fee410` | CC BY-NC-ND 4.0 |
+| Engine image and overlay | `MiaAI-Lab/GLM-5.3-Flash-EXL3-2x-DGX-Sparks` @ `c190db1ae17ba8dff20129ed1f308d10c63cf37d` | inspect its repository and image terms |
 
-The configuration this recipe ships uses the DFlash2 drafter, so the served stack is non-commercial as it stands.
-Set `SPEC_METHOD=none` (or `mtp`) to serve without it; the receipts in `evidence/autoresearch/` include a no-speculation
-control so you can see what that costs (decode 22.6 vs 31-33 tok/s).
+The selected configuration enables DFlash2. Its non-commercial terms apply to
+the served stack. This notice is informational and is not legal advice.

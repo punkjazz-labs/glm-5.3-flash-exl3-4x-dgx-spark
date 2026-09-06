@@ -1,2 +1,4 @@
 *.env
 !cluster.env.example
+__pycache__/
+*.pyc

@@ -4,7 +4,7 @@
 set -uo pipefail
 CFG=${1:?config}; CMD=${2:?command}; ARG=${3:-}
 # Environment overrides for the tunables beat the values in the config file (autoresearch/A-B relaunches rely on it).
-TUNABLES="SPEC_METHOD MAX_MODEL_LEN GPU_MEM_UTIL MAX_NUM_SEQS MAX_NUM_BATCHED_TOKENS KV_CACHE_DTYPE DFLASH_TOKENS NCCL_DEBUG NCCL_PROTO NCCL_ALGO NCCL_IB_TIMEOUT NCCL_IB_RETRY_CNT NCCL_BUFFSIZE NCCL_MIN_NCHANNELS NCCL_MAX_NCHANNELS NCCL_IB_QPS_PER_CONNECTION NCCL_IB_SPLIT_DATA_ON_QPS NCCL_NET_GDR_LEVEL EXTRA_ARGS MIXED_PREFILL_CHUNK EXL3_FAT_KERNEL SWAPPINESS"
+TUNABLES="SPEC_METHOD MAX_MODEL_LEN GPU_MEM_UTIL MAX_NUM_SEQS MAX_NUM_BATCHED_TOKENS KV_CACHE_DTYPE DFLASH_TOKENS NCCL_DEBUG NCCL_PROTO NCCL_ALGO NCCL_IB_TIMEOUT NCCL_IB_RETRY_CNT NCCL_BUFFSIZE NCCL_MIN_NCHANNELS NCCL_MAX_NCHANNELS NCCL_IB_QPS_PER_CONNECTION NCCL_IB_SPLIT_DATA_ON_QPS NCCL_NET_GDR_LEVEL NCCL_IB_HCA NCCL_IB_TC NCCL_IB_FIFO_TC NCCL_IB_ADDR_RANGE RDMA_GID_MODE EXTRA_ARGS VLLM_USE_BREAKABLE_CUDAGRAPH MIXED_PREFILL_CHUNK EXL3_FAT_KERNEL SWAPPINESS VLLM_SM120_SPARSE_MLA_SLICE_TOKENS"
 # ROOT and IMG_ALL (one image for all four ranks) may also be overridden from the environment (image/overlay experiments).
 for v in $TUNABLES ROOT IMG_ALL; do [ -n "${!v-}" ] && declare "_OV_$v=${!v}"; done
 # shellcheck disable=SC1090
@@ -46,7 +46,13 @@ case "$CMD" in
       if [ -n "$(S $r "${RANK_DK[$r]} ps -aq --filter name=^/$(NAME $r)\$")" ]; then log "rank $r: $(NAME $r) already exists; run stop first"; exit 4; fi
     done
     for r in 0 1 2 3; do
-      env_str="NODE_RANK=$r HEAD_IP=$HEAD_IP FABRIC_IP=${RANK_IPS[$r]} NETDEV=${NETDEV:-enp1s0f1np1} HCA=${HCA:-rocep1s0f1} RDV=$RDV PORT=$PORT IMG=${RANK_IMG[$r]} ROOT=${RANK_ROOT[$r]:-$ROOT} HF=${RANK_HF[$r]:-$HF} VC=${RANK_VC[$r]:-$VC} TAG=$TAG DK='${RANK_DK[$r]}' SPEC_METHOD=$SPEC_METHOD DRAFT_TP=$DRAFT_TP"
+      validator=$(base64 < "$HERE/rdma_preflight.py" | tr -d '\n') || exit 1
+      env_str="RDMA_PREFLIGHT_B64=$validator NODE_RANK=$r HEAD_IP=$HEAD_IP FABRIC_IP=${RANK_IPS[$r]} NETDEV=${NETDEV:-enp1s0f1np1} HCA=${HCA:-rocep1s0f1} RDV=$RDV PORT=$PORT IMG=${RANK_IMG[$r]} ROOT=${RANK_ROOT[$r]:-$ROOT} HF=${RANK_HF[$r]:-$HF} VC=${RANK_VC[$r]:-$VC} TAG=$TAG DK='${RANK_DK[$r]}' SPEC_METHOD=$SPEC_METHOD DRAFT_TP=$DRAFT_TP"
+      if [ "${VLLM_SM120_SPARSE_MLA_SLICE_TOKENS:-0}" != 0 ]; then
+        [ "$VLLM_SM120_SPARSE_MLA_SLICE_TOKENS" = 64 ] || { log 'attention slice must be 0 or 64'; exit 2; }
+        attention_patch=$(base64 < "$HERE/patch_sparse_mla_slice.py" | tr -d '\n') || exit 1
+        env_str="$env_str SPARSE_MLA_PATCH_B64=$attention_patch"
+      fi
       for v in $TUNABLES; do [ -n "${!v-}" ] && env_str="$env_str $v='${!v}'"; done
       out=$(ssh $SSH_OPTS "$RUSER@${RANK_IPS[$r]}" "env $env_str bash -s" < "$HERE/node-launch.sh" 2>&1); rc=$?
       log "rank $r (${RANK_IPS[$r]}): rc=$rc $(echo "$out" | tr '\n' ' ')"
@@ -60,7 +66,10 @@ case "$CMD" in
     deadline=$(( $(date +%s) + ${WAIT_TIMEOUT:-1800} )); t0=$(date +%s)
     while :; do
       code=$(health)
-      if [ "$code" = 200 ]; then log "HEALTHY after $(( $(date +%s) - t0 ))s"; exit 0; fi
+      if [ "$code" = 200 ]; then
+        "$0" "$CFG" ready || { log "health=200 but real readiness failed"; exit 1; }
+        log "READY after $(( $(date +%s) - t0 ))s"; exit 0
+      fi
       for r in 0 1 2 3; do
         st=$(S $r "${RANK_DK[$r]} inspect -f '{{.State.Status}} {{.State.ExitCode}}' $(NAME $r)" 2>/dev/null)
         case "$st" in running*) ;; *) log "rank $r container state: '$st' — FAILED"; tail -40 "$LOGDIR/r$r.log"; exit 1;; esac
@@ -74,10 +83,50 @@ case "$CMD" in
     for r in 0 1 2 3; do printf 'rank %s %s: ' "$r" "${RANK_IPS[$r]}"; S $r "${RANK_DK[$r]} ps -a --filter name=^/$(NAME $r)\$ --format '{{.Status}}'" 2>&1 | head -1; done
     echo "health: $(health)"
     ;;
+  ready)
+    for r in 0 1 2 3; do
+      st=$(S $r "${RANK_DK[$r]} inspect -f '{{.State.Status}}' $(NAME $r)") || exit 1
+      [ "$st" = running ] || { log "rank $r is $st"; exit 1; }
+    done
+    timeout 95 python3 "$HERE/readiness.py" "http://$HEAD_IP:$PORT" 90
+    ;;
+  restart)
+    # Restart the existing, pinned containers as one group. Do not silently
+    # recreate a missing member from potentially different launch settings.
+    for r in 0 1 2 3; do S $r "${RANK_DK[$r]} inspect $(NAME $r) >/dev/null" || exit 1; done
+    for r in 3 2 1 0; do
+      S $r "${RANK_DK[$r]} stop --timeout 60 $(NAME $r) >/dev/null" || exit 1
+    done
+    for r in 0 1 2 3; do
+      st=$(S $r "${RANK_DK[$r]} inspect -f '{{.State.Status}}' $(NAME $r)") || exit 1
+      [ "$st" = exited ] || { log "rank $r did not stop: $st"; exit 1; }
+    done
+    # Match the launcher's unified-memory preparation. Checkpoint page cache
+    # can otherwise make vLLM's free-memory startup check reject a restart.
+    for r in 0 1 2 3; do
+      S $r "sudo -n sh -c 'sync; echo 3 > /proc/sys/vm/drop_caches'" || { log "rank $r memory preparation failed"; exit 1; }
+    done
+    for r in 3 2 1 0; do
+      S $r "${RANK_DK[$r]} start $(NAME $r) >/dev/null" || exit 1
+      [ ! -s "$LOGDIR/r$r.log" ] || mv "$LOGDIR/r$r.log" "$LOGDIR/r$r.$(date -u +%Y%m%dT%H%M%SZ).log"
+      ( setsid nohup ssh -n $SSH_OPTS "$RUSER@${RANK_IPS[$r]}" "${RANK_DK[$r]} logs --since 1m -f $(NAME $r)" > "$LOGDIR/r$r.log" 2>&1 & )
+    done
+    log "restarted retained group tag=$TAG; readiness still pending"
+    ;;
   stop)
-    for r in 3 2 1 0; do S $r "${RANK_DK[$r]} rm -f $(NAME $r) >/dev/null 2>&1 && echo removed || echo absent" | sed "s/^/rank $r: /"; done
-    pkill -f "logs -f glm53-tp4-$TAG-" 2>/dev/null; log "stopped tag=$TAG"
+    fail=0
+    for r in 3 2 1 0; do
+      ids=$(S $r "${RANK_DK[$r]} ps -aq --filter name=^/$(NAME $r)\$") || { log "rank $r unreachable; stop failed"; fail=1; continue; }
+      if [ -n "$ids" ]; then
+        S $r "${RANK_DK[$r]} rm -f $(NAME $r) >/dev/null" || { fail=1; continue; }
+      fi
+      ids=$(S $r "${RANK_DK[$r]} ps -aq --filter name=^/$(NAME $r)\$") || { fail=1; continue; }
+      [ -z "$ids" ] || fail=1
+    done
+    [ "$fail" = 0 ] || { log "stop incomplete tag=$TAG"; exit 1; }
+    pkill -f "logs -f glm53-tp4-$TAG-" 2>/dev/null || true
+    log "verified all ranks absent tag=$TAG"
     ;;
   logs) tail -n "${LINES:-60}" "$LOGDIR/r${ARG:-0}.log" ;;
-  *) echo "usage: $0 <config.env> preflight|launch|wait|status|stop|logs [rank]" >&2; exit 2 ;;
+  *) echo "usage: $0 <config.env> preflight|launch|wait|ready|restart|status|stop|logs [rank]" >&2; exit 2 ;;
 esac

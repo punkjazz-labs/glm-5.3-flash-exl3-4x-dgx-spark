@@ -1,0 +1,62 @@
+{
+  "schema": "glm53-public-qualification-v1",
+  "configuration": {
+    "tensor_parallel_ranks": 4,
+    "quantization": "exl3",
+    "kv_cache_dtype": "fp8",
+    "speculative_method": "dflash",
+    "speculative_tokens": 3,
+    "enforce_eager": true,
+    "breakable_cudagraph": false,
+    "sparse_mla_slice_tokens": 64,
+    "sparse_mla_source_sha256": "d665ef2109b0183d48e3541ecd24e9fa8e1dc3e410983bc29b8d997af9d7cd01",
+    "sparse_mla_patched_sha256": "f1854c0cce9d749d5ce67dd5132f6541c9d01dec4c2bb414267815ed6fd620c6",
+    "selected_chat_template_sha256": "bdc5009ef6024a700f2ab2b8caefb14d083f504cf8d2ce70caa7e459b01cc331"
+  },
+  "runtime": {
+    "upstream_recipe_commit": "c190db1ae17ba8dff20129ed1f308d10c63cf37d",
+    "effective_vllm_build": "0.1.dev20051+g487ecf187-tp4-d6e0b989",
+    "flashinfer": "0.6.17",
+    "torch": "2.13.0+cu130",
+    "cuda_runtime": "13.0.96",
+    "nvidia_driver_version": "580.173.02",
+    "cuda_driver_api_version": 13000,
+    "nccl": "2.30.7",
+    "triton": "3.7.1",
+    "rank_images": "four independently built image digests; source and patched backend hashes were equal on all ranks"
+  },
+  "qualification": {
+    "scope": "One bounded isolated run; not fresh-install, reboot, indefinite-stability, maximum-context, or global-optimum evidence.",
+    "soak_duration_s": 9180.5,
+    "http_requests": 484,
+    "http_errors": 0,
+    "foreign_requests": 0,
+    "soak_requests": 371,
+    "exact_retrieval_checks": {"passed": 93, "total": 93},
+    "frozen_gates_passed": ["sanity", "cancel", "needle", "no_errors", "clean", "clocks", "complete", "final_sanity", "soak", "metrics", "mem_floor"],
+    "metrics": {
+      "coding_aggregate_completion_tps": 60.21,
+      "long_generation_decode_tps": 31.09,
+      "cold_prefill_tps": 1054.4,
+      "concurrency_peak_aggregate_completion_tps": 133.72,
+      "mixed_soak_aggregate_completion_tps": 34.62,
+      "mixed_short_request_wall_p95_s": 8.84,
+      "mixed_short_request_ttft_p95_s": 1.535,
+      "minimum_memory_available_gib": 16.7,
+      "minimum_busy_sm_clock_mhz": 2405
+    },
+    "workload_shape": {
+      "cold_prompt_tokens": 283572,
+      "natural_long_generation_completion_tokens": 4096
+    }
+  },
+  "source_receipts_sha256": {
+    "qualification_guard": "42817b98208c66b39761f03221c1f8efc5007dce25c36d2cca4ef88633e6671c",
+    "workload": "3a7b5fa65b160297bb73e0904becd680e11c4f8a0a2053023b01c91731893357",
+    "workload_audit": "e28a059b81b8a1fafe9212bdb4142aea3da36c0e7743619526206bfa13d43690",
+    "operational_audit": "99624002525e4c11ea5090168f4d9aaf218abdcc3f477628d925f78f87e62e75",
+    "transport_audit": "c82d6dacfe38a2f504a9e48d9702e513f4cae5ab865eac212c4d4c166c83057d",
+    "source_runtime_audit": "f0b44ab74c966318895028069f1d1f21015366273350d894d2c75c77677dec09"
+  },
+  "redaction": "Projection excludes raw requests, generated text, logs, hostnames, addresses, paths, container IDs, image digests, gateway and deployment records."
+}
