@@ -31,6 +31,32 @@ These are fields from one isolated qualification receipt. They are not a
 cross-project benchmark and should not be compared with differently quantized
 models, engines, prompt sets, context sizes, or soak durations.
 
+
+## September 6 one-knob screens (provisional)
+
+These short screens held the selected H16 eager recipe fixed and changed one
+scheduler setting at a time. They used the same frozen runner and hard gates,
+in the fixed-budget evaluation style described by [Karpathy's
+autoresearch](https://github.com/karpathy/autoresearch). They are not part of
+the selected qualification.
+
+| Screen | Coding aggregate tok/s | Long decode tok/s | Cold prefill tok/s | 8-stream aggregate tok/s | Score |
+|---|---:|---:|---:|---:|---:|
+| Selected eager, mixed prefill off | 58.96 | 29.59 | 1,073.1 | 121.84 | 1.000 |
+| Mixed prefill 64 | 54.49 | 32.41 | 1,049.4 | 121.80 | 1.678 |
+| Mixed prefill 128 | 56.50 | 29.57 | 1,045.1 | 125.31 | 1.599 |
+| Native long-prefill threshold 1024 | 61.56 | 35.12 | 1,032.5 | 125.65 | 1.541 |
+
+The native threshold screen is the provisional balanced candidate for a
+separate fixed 20-minute matched mixed-tail screen. The score is a weighted
+tradeoff, not a throughput result. The 128 screen had a better tiny cold-tail
+observation but worse cron latency. Tiny-tail samples were n=3, and none of
+these screens proves a global optimum, a promotion, or long-run candidate
+reliability. The matched screen requires zero errors and foreign requests, at
+least 20 short probes, at least a 20% p95 gain, and no more than a 5% aggregate
+throughput loss. The selected default remains eager execution with mixed
+prefill off.
+
 ## What the patch addresses
 
 Earlier unsliced graph and fully eager candidates both stalled. In the decisive
@@ -175,3 +201,8 @@ deltas. That evidence does not support replacing the switch as a remedy.
 - [cfontes' original NVFP4 card](https://huggingface.co/cfontes/glm-5.3-flash-dflash2-tp4/tree/9417f8e107bf373750fd9b1cadaf9a8a70d530d9) and [later drafter card](https://huggingface.co/cfontes/GLM-5.3-Flash-DFlash2-TP4-Spark/tree/fe78d4cebbaebb3744acdde6311df91b3377e2fb) use different weights; the later card reports no served acceptance gain in its rechecks.
 - [Pinned SGLang TP4 recipe](https://github.com/joesinvestments/GLM-5.3-Flash-FP8-4x-DGX-Spark/tree/880efbc7793d06a21908afd590d34cd59ca2e00b) is a credible native-FP8 alternative, but differs in engine, weights, speculation, context limit and validation duration. It needs a fresh matched qualification.
 - [NVIDIA DGX Spark clustering](https://docs.nvidia.com/dgx/dgx-spark/spark-clustering.html), [vLLM](https://github.com/vllm-project/vllm), and [FlashInfer](https://github.com/flashinfer-ai/flashinfer) describe the upstream platform components.
+
+The subsequent matched 20-minute comparison reduced short completion p95 from
+19.573s to 7.030s with mixed output throughput essentially unchanged (50.70 vs
+50.77 tokens/s). First-token p95 increased. This earns longer qualification;
+it does not change the selected default. See [the detailed result](EVIDENCE.md#matched-20-minute-workload-result).
