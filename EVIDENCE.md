@@ -1,7 +1,7 @@
 # Scoped qualification summary
 
-The selected configuration completed one bounded, isolated TP4 qualification
-on 2026-09-05. The machine-readable projection is
+The historical H16/off configuration completed one bounded, isolated TP4 qualification
+on 2026-09-05. Native1024 completed a separate bounded full qualification and verified live cutover on 7 September. The machine-readable projection is
 [`qualification-attention64h16.json`](qualification-attention64h16.json). It
 contains selected measured fields plus SHA-256 references to the private
 qualification inputs, without copying those inputs. It records 484 of 484
@@ -32,6 +32,26 @@ was already public and is retained unchanged for the local suite. It is not
 evidence for the selected configuration. Its SHA-256 is
 `562e15e71dc77bc9651dfcdc6b3d4c472ee290aacce7bd631f533a76ee672e64`.
 
+## Selected Native1024 evidence
+
+Native1024 retains eager H16 sparse attention, mixed prefill `off`, and
+`MAX_NUM_BATCHED_TOKENS=2048`; its sole scheduler delta is
+`EXTRA_ARGS=--enforce-eager --long-prefill-token-threshold 1024`. Its full run
+recorded 484 HTTP 200 responses, 368 soak requests, 92/92 retrieval checks,
+151.9 minutes, 62.89 coding tok/s, 33.56 long-decode tok/s, 1,010.5 cold-prefill tok/s on a 282,310-token prompt, 126.61 concurrent-8 tok/s, 34.43 mixed aggregate tok/s, and 5.511 s /
+3.108 s short wall/TTFT p95. The workload SHA-256 is
+`577f1182d263a88cee9ac0d3cd64487e170676b5730a39c3a310a3f14c7a743a`; the
+controller, snapshot and final-audit SHA-256 values are respectively
+`dd951c662d5ec24575916192be92a5ed3e00aa17007e71c37707d45a1a23f709`,
+`f91c9950d76b86531c57cc6785ea7dbf714a051e41b1fbf84e1ee895053a185e`, and
+`e07093ad05238636801e014f2018ba17c2b690715d98a000a39be7337ed7d888`.
+
+Matched r1 reduced short wall p95 64.1% with aggregate output +0.14%; reverse
+r2 reduced it 23.2% with aggregate output -1.22%. TTFT traded direction and
+long decode improved in r1 but regressed 18.8% in r2. These observations do
+not claim universal speed or a global optimum. The retained H16 projection
+above remains the historical baseline; it is not a projection of the new native result.
+
 ## September 6 one-knob screens (provisional)
 
 These short screens held the selected H16 eager recipe fixed and changed one
@@ -42,7 +62,7 @@ the selected qualification.
 
 | Screen | Coding aggregate tok/s | Long decode tok/s | Cold prefill tok/s | 8-stream aggregate tok/s | Score |
 |---|---:|---:|---:|---:|---:|
-| Selected eager, mixed prefill off | 58.96 | 29.59 | 1,073.1 | 121.84 | 1.000 |
+| Baseline H16, threshold 0 | 58.96 | 29.59 | 1,073.1 | 121.84 | 1.000 |
 | Mixed prefill 64 | 54.49 | 32.41 | 1,049.4 | 121.80 | 1.678 |
 | Mixed prefill 128 | 56.50 | 29.57 | 1,045.1 | 125.31 | 1.599 |
 | Native long-prefill threshold 1024 | 61.56 | 35.12 | 1,032.5 | 125.65 | 1.541 |
@@ -55,34 +75,36 @@ observation but worse cron latency. Tiny-tail samples were n=3, and none of
 these screens proves a global optimum, a promotion, or long-run candidate
 reliability. The matched screen requires zero errors and foreign requests, at
 least 20 short probes, at least a 20% p95 gain, and no more than a 5% aggregate
-throughput loss. The selected default remains eager execution with mixed
-prefill off.
+throughput loss. Native1024 subsequently passed the live cutover gate and consumer checks.
 
 
 ## Matched 20-minute workload result
 
-The selected baseline and native 1,024-token prefill threshold each completed
-115 mixed requests, including 45 short replies, with zero errors, zero foreign
-requests and 22/22 exact retrieval checks. Both passed every frozen gate.
+Both orders used 115 mixed requests, 45 short probes, 22/22 retrieval checks,
+and zero workload errors or foreign requests. Independent whole-server audits
+reconciled r2 baseline/native as 227/228 HTTP 200 responses, respectively.
+The r1 claims here use the frozen runner accounting, not these r2 access-log audits.
 
-| Mixed workload metric | Selected baseline | Native threshold 1024 |
-|---|---:|---:|
-| Short completion p95 | 19.573s | 7.030s |
-| Slowest short completion | 24.989s | 13.969s |
-| Short first-token p95 | 0.491s | 3.211s |
-| Aggregate output tokens/s | 50.70 | 50.77 |
-| Completed short output tokens | 695 | 694 |
+| Mixed workload metric | r1 baseline | r1 native | r2 baseline | r2 native |
+|---|---:|---:|---:|---:|
+| Short completion p95 | 19.573s | 7.030s | 22.562s | 17.331s |
+| Slowest short completion | 24.989s | 13.969s | 25.465s | 25.576s |
+| Short first-token p95 | 0.491s | 3.211s | 5.595s | 3.087s |
+| Aggregate output tokens/s | 50.70 | 50.77 | 50.81 | 50.19 |
+| Completed short output tokens | 695 | 694 | 722 | 722 |
 
-Short completion p95 improved 64.1% with essentially unchanged mixed throughput.
-First-token p95 worsened, so this is a completion-latency improvement rather than
-a universal latency improvement. The matched standard phases showed coding
-throughput -1.24%, cold prefill -3.92%, concurrent-eight output -1.03%, and long
-decode +2.94%. The first short screen's +18.7% long-decode result did not repeat
-at that magnitude. Its composite score must not be reported as a throughput gain.
+R1 reduced short completion p95 64.1% with output +0.14%; r2 reduced it 23.2%
+with output -1.22%. TTFT worsened in r1 but improved in r2. Long decode improved
+in r1 (+2.94%) and regressed in r2 (-18.8%). These mixed-order results support a
+completion-tail objective, not a universal latency or throughput claim. The full
+qualification, deliberate rollback drill, live cutover and consumer handback are complete.
 
-The candidate passes the declared screen and advances to a fixed 150-minute
-varied-load qualification: 280k cold context, 96k concurrent prompts, long
-output, coding, retrieval, structured output and cancellation. One mixed pair
-is not a repeated population-tail estimate or long-run reliability proof.
-The selected default remains the original eager attention64 configuration
-until qualification and operational handback checks finish.
+## Operational scope
+
+The dedicated native group matched the qualified image, backend, environment
+and mount contents. Its cutover passed a deliberate after-supervisor rollback
+test before the final successful deployment, with real gateway inference and
+one active selected supervisor. The previous H16 group is retained as rollback.
+This does not establish physical reboot survival or indefinite reliability.
+The scheduler change does not address the separate xgrammar FSM error observed
+in an earlier service-wide run.

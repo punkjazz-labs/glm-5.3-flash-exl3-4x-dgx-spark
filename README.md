@@ -1,14 +1,15 @@
 # GLM-5.3-Flash EXL3 TP4 sparse-attention recipe
 
-This portable recipe captures one selected four-rank GB10 configuration: EXL3
-with FP8 KV cache, DFlash2 at three speculative tokens, eager execution, and
-a 64-row sparse-MLA attention slice. It launches a compatible, pinned upstream
+This recipe selects one four-rank GB10 configuration: EXL3
+with FP8 KV cache, DFlash2 at three speculative tokens, eager execution, a
+64-row sparse-MLA attention slice, mixed prefill `off`, a 2,048-token outer
+batch, and native long-prefill threshold 1024. It launches a compatible, pinned upstream
 image and runtime root; it is not a standalone vLLM distribution.
 
-The selected run completed one bounded 153-minute mixed-load qualification.
+Native1024 completed one bounded 150-minute mixed-load qualification and was deployed on 7 September after a successful deliberate rollback drill.
 It is not fresh-install, reboot, indefinite-stability, maximum-context, or
 global-optimum evidence. See [EVIDENCE.md](EVIDENCE.md) and the
-[machine-readable projection](qualification-attention64h16.json).
+[historical H16 baseline projection](qualification-attention64h16.json).
 
 Older files under `evidence/` and the historical experiment queues describe
 earlier configurations. Their successful short runs are not pooled into this
@@ -16,21 +17,20 @@ configuration's qualification; use the selected settings and commands below.
 
 ## Selected result
 
-| Measurement | Result |
+| Measurement | Native1024 full qualification |
 |---|---:|
 | Accounted HTTP requests / errors | 484 / 0 |
-| Mixed soak duration; requests; exact retrieval | 153.0 min; 371; 93 / 93 |
-| Coding aggregate completion | 60.21 tok/s |
-| Natural 4,096-token long-generation decode | 31.09 tok/s |
-| Cold prefill, 283,572-token prompt | 1,054.4 tok/s |
-| Peak concurrent aggregate completion | 133.72 tok/s |
-| Mixed-soak aggregate completion | 34.62 tok/s |
-| Mixed short-request wall / first-token p95 | 8.84 s / 1.535 s |
+| Mixed soak duration; requests; exact retrieval | 151.9 min; 368; 92 / 92 |
+| Coding aggregate completion | 62.89 tok/s |
+| Natural 4,096-token long-generation decode | 33.56 tok/s |
+| Cold prefill, 282,310-token prompt | 1,010.5 tok/s |
+| Peak concurrent-8 aggregate completion | 126.61 tok/s |
+| Mixed-soak aggregate completion | 34.43 tok/s |
+| Mixed short-request wall / first-token p95 | 5.511 s / 3.108 s |
 
-These are fields from one isolated qualification receipt. They are not a
-cross-project benchmark and should not be compared with differently quantized
-models, engines, prompt sets, context sizes, or soak durations.
-
+`qualification-attention64h16.json` remains the historical H16/off baseline
+projection. The native result is bounded evidence for this workload and revision,
+not fresh-install, reboot, indefinite-stability, maximum-context, or global-optimum evidence.
 
 ## September 6 one-knob screens (provisional)
 
@@ -42,20 +42,31 @@ the selected qualification.
 
 | Screen | Coding aggregate tok/s | Long decode tok/s | Cold prefill tok/s | 8-stream aggregate tok/s | Score |
 |---|---:|---:|---:|---:|---:|
-| Selected eager, mixed prefill off | 58.96 | 29.59 | 1,073.1 | 121.84 | 1.000 |
+| Baseline H16, threshold 0 | 58.96 | 29.59 | 1,073.1 | 121.84 | 1.000 |
 | Mixed prefill 64 | 54.49 | 32.41 | 1,049.4 | 121.80 | 1.678 |
 | Mixed prefill 128 | 56.50 | 29.57 | 1,045.1 | 125.31 | 1.599 |
 | Native long-prefill threshold 1024 | 61.56 | 35.12 | 1,032.5 | 125.65 | 1.541 |
 
-The native threshold screen is the provisional balanced candidate for a
-separate fixed 20-minute matched mixed-tail screen. The score is a weighted
+The native threshold screen advanced to two matched mixed-tail screens and a
+bounded full qualification before the verified live cutover. The score is a weighted
 tradeoff, not a throughput result. The 128 screen had a better tiny cold-tail
 observation but worse cron latency. Tiny-tail samples were n=3, and none of
 these screens proves a global optimum, a promotion, or long-run candidate
 reliability. The matched screen requires zero errors and foreign requests, at
 least 20 short probes, at least a 20% p95 gain, and no more than a 5% aggregate
-throughput loss. The selected default remains eager execution with mixed
-prefill off.
+throughput loss. Native1024 is the selected mixed-load default; individual generation and first-token results remain variable.
+
+## Matched mixed20 selection evidence
+
+Both orderings met the declared screen: 45 short probes per run, zero workload
+errors and foreign requests, at least 20% lower short completion-wall p95, and
+no more than 5% aggregate-output loss. In r1, p95 fell 19.573 to 7.030 s
+(64.1%) while aggregate output rose 50.70 to 50.77 tok/s (+0.14%); short TTFT
+p95 rose 0.491 to 3.211 s. In reverse-order r2, p95 fell 22.562 to 17.331 s
+(23.2%) while aggregate output fell 50.81 to 50.19 tok/s (-1.22%); TTFT p95
+improved 5.595 to 3.087 s. Long decode moved in opposite directions: +2.94%
+in r1 and -18.8% in r2. These paired screens support this mixed completion-tail
+objective; they do not show universal latency or throughput improvement.
 
 ## What the patch addresses
 
@@ -202,7 +213,7 @@ deltas. That evidence does not support replacing the switch as a remedy.
 - [Pinned SGLang TP4 recipe](https://github.com/joesinvestments/GLM-5.3-Flash-FP8-4x-DGX-Spark/tree/880efbc7793d06a21908afd590d34cd59ca2e00b) is a credible native-FP8 alternative, but differs in engine, weights, speculation, context limit and validation duration. It needs a fresh matched qualification.
 - [NVIDIA DGX Spark clustering](https://docs.nvidia.com/dgx/dgx-spark/spark-clustering.html), [vLLM](https://github.com/vllm-project/vllm), and [FlashInfer](https://github.com/flashinfer-ai/flashinfer) describe the upstream platform components.
 
-The subsequent matched 20-minute comparison reduced short completion p95 from
-19.573s to 7.030s with mixed output throughput essentially unchanged (50.70 vs
-50.77 tokens/s). First-token p95 increased. This earns longer qualification;
-it does not change the selected default. See [the detailed result](EVIDENCE.md#matched-20-minute-workload-result).
+Both matched orders met the declared completion-tail screen. R1 reduced short wall p95
+19.573s to 7.030s (+0.14% aggregate output); reverse r2 reduced it 22.562s to
+17.331s (-1.22% aggregate output). TTFT and long decode traded direction across
+orders. See [the detailed result](EVIDENCE.md#matched-20-minute-workload-result).
