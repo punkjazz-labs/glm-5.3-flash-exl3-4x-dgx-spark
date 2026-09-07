@@ -108,3 +108,65 @@ one active selected supervisor. The previous H16 group is retained as rollback.
 This does not establish physical reboot survival or indefinite reliability.
 The scheduler change does not address the separate xgrammar FSM error observed
 in an earlier service-wide run.
+
+## September 7 bounded capacity and transport screens
+
+The selected native1024 eight-sequence recipe remains the qualified default. The following later measurements use the same model/backend lane and frozen workload, but do not replace its qualification.
+
+| Screen | Matched observation | Status |
+|---|---|---|
+| `MAX_NUM_SEQS=16`, initial capacity screen | C16 aggregate completion `+36.26%` | Screen only |
+| `MAX_NUM_SEQS=16`, forward mixed pair | C16 `187.52` vs `133.18` tok/s (`+40.80%`) | Default guard failed: short-completion p95 `+49.13%` |
+| `MAX_NUM_SEQS=16`, reverse mixed pair | C16 `188.19` vs `132.19` tok/s (`+42.36%`) | Capacity evidence only; does not repair the forward default-guard failure |
+| Native prefill threshold 1536 | Cold prefill `+3.23%` | Rejected: below the predeclared 5% target |
+| Native prefill threshold 2048 | Cold prefill `+4.39%` | Rejected: below the predeclared 5% target |
+| DFlash draft length 4 | Declared target did not reach 5% in its fresh-control screen | Rejected |
+| Outer batch 4096 | Mixed aggregate output `+0.42%` | Rejected: below the predeclared 5% target |
+| QPS4 plus split-data transport | Long generation `28.87` vs `31.82` tok/s (`-9.27%`) | Rejected; short screen only, **NO SOAK** |
+
+The capacity rows describe aggregate work at offered concurrency 16. They are not a claim that a single interactive stream is 40% faster. The forward pair fails the interactive-default guard, so native1024 remains selected. The QPS candidate changed only `NCCL_IB_QPS_PER_CONNECTION=4` and `NCCL_IB_SPLIT_DATA_ON_QPS=1`; its observed decode difference is not causal attribution to either setting. The recipe already uses both HCAs, cross-NIC routing and four channels. [NVIDIA describes the two PCIe paths](https://docs.nvidia.com/dgx/dgx-spark/spark-clustering.html); NCCL documents [QPs per connection](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html#nccl-ib-qps-per-connection) and [split-data behavior](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html#nccl-ib-split-data-on-qps). A supplied [two-Spark result](https://x.com/Khen_na_/status/2096709963263418515) motivated this fresh test; its DeepSeek/direct-cable result is not a local GLM TP4 measurement.
+
+### Qualified optional batch capacity
+
+The fresh r2 protocol and independent review passed: 16 actual workers, all frozen gates, unchanged four-rank source and identity across 34 snapshots, complete HTTP accounting, exact native restoration, real gateway inference, and the signed runtime gate. Native1024 with `MAX_NUM_SEQS=8` remains the serving default; the 16-sequence setting is an opt-in batch/capacity choice.
+
+| Full r2 observation | Result |
+|---|---:|
+| Varied soak duration / requests | 153.1 min / 493 |
+| Accounted HTTP 200 / non-200 / foreign requests | 634 / 0 / 0 |
+| Exact long-prompt retrieval | 120 / 120 |
+| Minimum available memory across ranks | 17.70 GiB |
+| Coding aggregate completion | 59.33 tok/s |
+| Natural 4,096-token long decode | 30.42 tok/s |
+| Cold prefill, 281,750 prompt tokens | 1,010.8 tok/s |
+| C4 / C8 / C12 / C16 aggregate completion | 89.20 / 130.14 / 164.14 / 181.37 tok/s |
+| Mixed aggregate completion / prompt throughput | 46.70 / 782.90 tok/s |
+| Mixed short completion / first-token p95, n=185 | 181.912 / 169.948 s |
+| Mixed long-generation decode p50 | 3.42 tok/s |
+
+The 16-worker mixed saturation has unacceptable latency for the interactive default. Its 46.70 tok/s mixed output is not a matched improvement over the native default's 34.43 tok/s result: that qualification offered four workers. The earlier matched capacity pairs used four mixed workers plus fixed C16 bursts. Their C16 median per-request decode fell from 17.60 to 12.945 tok/s forward and 17.13 to 12.615 tok/s in reverse, even while aggregate completion increased. More capacity does not mean faster individual decoding.
+
+The first full16 attempt was invalid and aborted: its transient launcher expanded Bash rank arrays before the child shell sourced configuration, leaving empty SSH hosts for memory probes. The launcher was corrected and its real memory transport checked before r2. R1 contributes no qualification evidence and is not pooled with r2. These results are bounded to the pinned stack and workload; they do not establish reboot survival, indefinite reliability, maximum context, or a global optimum.
+
+## Bounded 64k profiler observation
+
+A healthy 64k-prefill workload captured four host steps per rank over 3.878–4.133 seconds. Within each rank, NCCL all-reduce accounted for 33.3–37.0% of **summed CUDA-kernel durations**, EXL3 MoE/GEMM for 33.9–35.7%, and sparse MLA for 4.8–5.1%. These shares use kernel-duration sums as their denominator, not request wall time or fabric utilization.
+
+This is an early window of a workload that includes overlapping short probes, not a whole-64k or steady-decode profile. GPU annotation mirrors are excluded from host-step counts and spans. Kernels can overlap, and NCCL duration includes peer synchronization and waiting; these measurements do not isolate the switch or wire, or predict an end-to-end speedup.
+
+## Comparable-source boundary
+
+[Tech2Wild's EXL3 recipe](https://github.com/tonyd2wild/GLM-5.3-Flash-EXL3-on-2x-NVIDIA-DGX-Spark/tree/dc91a125fc60349ce99498d65dac5bc772a43c54) is TP2. Its public TP4 recipe uses a different [NVFP4/Marlin stack](https://github.com/tonyd2wild/GLM-5.3-Flash-NVFP4-1M-KV-4x-DGX-Spark/tree/8fd2fcd27c04c7fa93e770000b818657f338875d), so neither its headline nor topology belongs in an EXL3/native1024 comparison. [`antirez/ds4`](https://github.com/antirez/ds4/tree/b6af0adf8ca97c89145c9f9c15be70c9fd6c4507) documents a single-GPU DGX Spark GLM path and in-host CUDA multi-GPU mode; its pinned sources do not establish Spark-to-Spark RDMA tensor parallelism. These are implementation references, not local performance evidence.
+
+## Capacity evidence provenance
+
+The full r2 workload window was 7 September 2026, 18:31:07–21:17:48 UTC; native/gateway restoration completed at 21:28:29 UTC. The frozen workload and scorer were unchanged. Raw receipts remain private because they contain node state and generated output; these are their exact SHA-256 commitments:
+
+| Receipt | SHA-256 |
+|---|---|
+| seq16-full-r2-full-workload.json | `7a2ba45ad411aa45678c0924b97c009b730a56a4a824f7877c9aae28619ca778` |
+| seq16-full-r2-controller.json | `392716943650d7fe1e3a4455321605bdb95aaaf6fc833a855e8d33a78be54272` |
+| seq16-full-r2-final-release-qualification-review.json | `408932a76169e678324b15e5754e56214fcb3e4fcdc57391501f9bb24525d507` |
+| final-capacity-decision.json | `58bfd2dbac59dab7bd63cb5a0f675887edc02ab61bf96222b02b3d811d49654c` |
+
+The 16-worker protocol deliberately differs from the historical four-worker qualification; its worker count, exact phases, frozen hard gates, identity, request accounting and service handback were independently reviewed. No failed receipt was relabeled to pass. The early profiler remains a diagnostic window and is not pooled with unprofiled benchmark timings.

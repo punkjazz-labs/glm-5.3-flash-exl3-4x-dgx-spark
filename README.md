@@ -6,7 +6,7 @@ with FP8 KV cache, DFlash2 at three speculative tokens, eager execution, a
 batch, and native long-prefill threshold 1024. It launches a compatible, pinned upstream
 image and runtime root; it is not a standalone vLLM distribution.
 
-Native1024 completed one bounded 150-minute mixed-load qualification and was deployed on 7 September after a successful deliberate rollback drill.
+Native1024 with eight sequences completed one bounded 150-minute mixed-load qualification and was deployed on 7 September after a successful deliberate rollback drill. A separately qualified 16-sequence batch setting is documented below; it trades interactive latency for capacity and is not the default.
 It is not fresh-install, reboot, indefinite-stability, maximum-context, or
 global-optimum evidence. See [EVIDENCE.md](EVIDENCE.md) and the
 [historical H16 baseline projection](qualification-attention64h16.json).
@@ -31,6 +31,45 @@ configuration's qualification; use the selected settings and commands below.
 `qualification-attention64h16.json` remains the historical H16/off baseline
 projection. The native result is bounded evidence for this workload and revision,
 not fresh-install, reboot, indefinite-stability, maximum-context, or global-optimum evidence.
+
+## September 7 bounded capacity and transport screens
+
+The selected native1024 eight-sequence recipe remains the qualified default. The following later measurements use the same model/backend lane and frozen workload, but do not replace its qualification.
+
+| Screen | Matched observation | Status |
+|---|---|---|
+| `MAX_NUM_SEQS=16`, initial capacity screen | C16 aggregate completion `+36.26%` | Screen only |
+| `MAX_NUM_SEQS=16`, forward mixed pair | C16 `187.52` vs `133.18` tok/s (`+40.80%`) | Default guard failed: short-completion p95 `+49.13%` |
+| `MAX_NUM_SEQS=16`, reverse mixed pair | C16 `188.19` vs `132.19` tok/s (`+42.36%`) | Capacity evidence only; does not repair the forward default-guard failure |
+| Native prefill threshold 1536 | Cold prefill `+3.23%` | Rejected: below the predeclared 5% target |
+| Native prefill threshold 2048 | Cold prefill `+4.39%` | Rejected: below the predeclared 5% target |
+| DFlash draft length 4 | Declared target did not reach 5% in its fresh-control screen | Rejected |
+| Outer batch 4096 | Mixed aggregate output `+0.42%` | Rejected: below the predeclared 5% target |
+| QPS4 plus split-data transport | Long generation `28.87` vs `31.82` tok/s (`-9.27%`) | Rejected; short screen only, **NO SOAK** |
+
+The capacity rows describe aggregate work at offered concurrency 16. They are not a claim that a single interactive stream is 40% faster. The forward pair fails the interactive-default guard, so native1024 remains selected. The QPS candidate changed only `NCCL_IB_QPS_PER_CONNECTION=4` and `NCCL_IB_SPLIT_DATA_ON_QPS=1`; its observed decode difference is not causal attribution to either setting. The recipe already uses both HCAs, cross-NIC routing and four channels. [NVIDIA describes the two PCIe paths](https://docs.nvidia.com/dgx/dgx-spark/spark-clustering.html); NCCL documents [QPs per connection](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html#nccl-ib-qps-per-connection) and [split-data behavior](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html#nccl-ib-split-data-on-qps). A supplied [two-Spark result](https://x.com/Khen_na_/status/2096709963263418515) motivated this fresh test; its DeepSeek/direct-cable result is not a local GLM TP4 measurement.
+
+### Qualified optional batch capacity
+
+The fresh r2 protocol and independent review passed: 16 actual workers, all frozen gates, unchanged four-rank source and identity across 34 snapshots, complete HTTP accounting, exact native restoration, real gateway inference, and the signed runtime gate. Native1024 with `MAX_NUM_SEQS=8` remains the serving default; the 16-sequence setting is an opt-in batch/capacity choice.
+
+| Full r2 observation | Result |
+|---|---:|
+| Varied soak duration / requests | 153.1 min / 493 |
+| Accounted HTTP 200 / non-200 / foreign requests | 634 / 0 / 0 |
+| Exact long-prompt retrieval | 120 / 120 |
+| Minimum available memory across ranks | 17.70 GiB |
+| Coding aggregate completion | 59.33 tok/s |
+| Natural 4,096-token long decode | 30.42 tok/s |
+| Cold prefill, 281,750 prompt tokens | 1,010.8 tok/s |
+| C4 / C8 / C12 / C16 aggregate completion | 89.20 / 130.14 / 164.14 / 181.37 tok/s |
+| Mixed aggregate completion / prompt throughput | 46.70 / 782.90 tok/s |
+| Mixed short completion / first-token p95, n=185 | 181.912 / 169.948 s |
+| Mixed long-generation decode p50 | 3.42 tok/s |
+
+The 16-worker mixed saturation has unacceptable latency for the interactive default. Its 46.70 tok/s mixed output is not a matched improvement over the native default's 34.43 tok/s result: that qualification offered four workers. The earlier matched capacity pairs used four mixed workers plus fixed C16 bursts. Their C16 median per-request decode fell from 17.60 to 12.945 tok/s forward and 17.13 to 12.615 tok/s in reverse, even while aggregate completion increased. More capacity does not mean faster individual decoding.
+
+The first full16 attempt was invalid and aborted: its transient launcher expanded Bash rank arrays before the child shell sourced configuration, leaving empty SSH hosts for memory probes. The launcher was corrected and its real memory transport checked before r2. R1 contributes no qualification evidence and is not pooled with r2. These results are bounded to the pinned stack and workload; they do not establish reboot survival, indefinite reliability, maximum context, or a global optimum.
 
 ## September 6 one-knob screens (provisional)
 
@@ -213,7 +252,30 @@ deltas. That evidence does not support replacing the switch as a remedy.
 - [Pinned SGLang TP4 recipe](https://github.com/joesinvestments/GLM-5.3-Flash-FP8-4x-DGX-Spark/tree/880efbc7793d06a21908afd590d34cd59ca2e00b) is a credible native-FP8 alternative, but differs in engine, weights, speculation, context limit and validation duration. It needs a fresh matched qualification.
 - [NVIDIA DGX Spark clustering](https://docs.nvidia.com/dgx/dgx-spark/spark-clustering.html), [vLLM](https://github.com/vllm-project/vllm), and [FlashInfer](https://github.com/flashinfer-ai/flashinfer) describe the upstream platform components.
 
-Both matched orders met the declared completion-tail screen. R1 reduced short wall p95
-19.573s to 7.030s (+0.14% aggregate output); reverse r2 reduced it 22.562s to
-17.331s (-1.22% aggregate output). TTFT and long decode traded direction across
-orders. See [the detailed result](EVIDENCE.md#matched-20-minute-workload-result).
+## Bounded 64k profiler observation
+
+A healthy 64k-prefill workload captured four host steps per rank over 3.878–4.133 seconds. Within each rank, NCCL all-reduce accounted for 33.3–37.0% of **summed CUDA-kernel durations**, EXL3 MoE/GEMM for 33.9–35.7%, and sparse MLA for 4.8–5.1%. These shares use kernel-duration sums as their denominator, not request wall time or fabric utilization.
+
+This is an early window of a workload that includes overlapping short probes, not a whole-64k or steady-decode profile. GPU annotation mirrors are excluded from host-step counts and spans. Kernels can overlap, and NCCL duration includes peer synchronization and waiting; these measurements do not isolate the switch or wire, or predict an end-to-end speedup.
+
+## Comparable-source boundary
+
+[Tech2Wild's EXL3 recipe](https://github.com/tonyd2wild/GLM-5.3-Flash-EXL3-on-2x-NVIDIA-DGX-Spark/tree/dc91a125fc60349ce99498d65dac5bc772a43c54) is TP2. Its public TP4 recipe uses a different [NVFP4/Marlin stack](https://github.com/tonyd2wild/GLM-5.3-Flash-NVFP4-1M-KV-4x-DGX-Spark/tree/8fd2fcd27c04c7fa93e770000b818657f338875d), so neither its headline nor topology belongs in an EXL3/native1024 comparison. [`antirez/ds4`](https://github.com/antirez/ds4/tree/b6af0adf8ca97c89145c9f9c15be70c9fd6c4507) documents a single-GPU DGX Spark GLM path and in-host CUDA multi-GPU mode; its pinned sources do not establish Spark-to-Spark RDMA tensor parallelism. These are implementation references, not local performance evidence.
+
+## Optional batch-capacity setting
+
+To reproduce the qualified batch setting, copy your validated site configuration to `capacity16.env`, change `MAX_NUM_SEQS` to `16`, and give it distinct `TAG` and `MAINT` values. Retain the default configuration. If a group is already serving, enter planned maintenance and stop it using its existing configuration before launching the capacity group. Qualify the result on your own hardware with the full workload:
+
+```bash
+CFG="$(pwd)/capacity16.env"  # configured for this site; distinct TAG and MAINT
+./recipe/tp4-cluster.sh "$CFG" preflight
+./recipe/tp4-cluster.sh "$CFG" launch
+./recipe/tp4-cluster.sh "$CFG" wait
+CFG="$CFG" SOAK_MIN=150 SOAK_WORKERS=16 LONGGEN_TOKENS=4096 \
+  SOAK_LONGGEN_TOKENS=4096 COLD_TOKENS=280000 CONC_LEVELS=4,8,12,16 \
+  SOAK_KINDS=short,coding,medium_gen,long_prompt,short,long_gen,long_prompt_96k,short \
+  ./recipe/workload-run.sh capacity16 \
+  warmup,sanity,coding,longgen,cold,conc,cancel,soak,sanity_end
+```
+
+`tp4-cluster.sh` sources the configuration and refuses to launch over an existing same-tag group. `workload-run.sh` sources `CFG` and forwards `SOAK_WORKERS` and `CONC_LEVELS`. The recorded qualification covers our pinned stack; the command reproduces its workload on another site and does not confer qualification on that site.
