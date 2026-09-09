@@ -165,7 +165,7 @@ and [Jasl revision `2dd63d85`](https://github.com/jasl/vllm/tree/2dd63d85f4133cf
 |---|---|
 | EXL3 checkpoint | [`Mia-AiLab/GLM-5.3-Flash-EXL3-TR3-4bpw`](https://huggingface.co/Mia-AiLab/GLM-5.3-Flash-EXL3-TR3-4bpw) @ `25a44fdbf16862a46b7cc9921142c6c81350af2f` |
 | DFlash2 drafter | [`incoai/GLM-5.3-Flash-DFlash2`](https://huggingface.co/incoai/GLM-5.3-Flash-DFlash2) @ `dc77ff1c99eeb2df044ee3d4f0094eb033fee410` |
-| Upstream image source / overlays | [MiaAI-Lab recipe](https://github.com/MiaAI-Lab/GLM-5.3-Flash-EXL3-2x-DGX-Sparks/tree/c190db1ae17ba8dff20129ed1f308d10c63cf37d) @ `c190db1ae17ba8dff20129ed1f308d10c63cf37d` |
+| Upstream runtime root / overlays | [MiaAI-Lab recipe](https://github.com/MiaAI-Lab/GLM-5.3-Flash-EXL3-2x-DGX-Sparks/tree/c190db1ae17ba8dff20129ed1f308d10c63cf37d) @ `c190db1ae17ba8dff20129ed1f308d10c63cf37d` |
 | Effective engine build | `vllm-0.1.dev20051+g487ecf187-tp4-d6e0b989` |
 | Runtime libraries | FlashInfer 0.6.17; Torch 2.13.0+cu130; CUDA runtime 13.0.96; NCCL 2.30.7; Triton 3.7.1 |
 | Driver / CUDA observation | NVIDIA 580.173.02; CUDA driver API 13000; CUDA runtime 13.0.96 |
@@ -173,11 +173,17 @@ and [Jasl revision `2dd63d85`](https://github.com/jasl/vllm/tree/2dd63d85f4133cf
 | Sparse MLA patch | `recipe/patch_sparse_mla_slice.py`: source `d665ef…cd01`; patched `f1854c…620c6` |
 
 The selected template is an explicit local replacement, not the unmodified
-template from upstream `c190db1`. Qualification used independently built image
-digests on each rank; their source and patched-backend hashes matched. Use a
+template from upstream `c190db1`. Qualification used independently built images
+on each rank; their recorded overlay/template and patched-backend hashes matched. Use a
 compatible image digest on each of your ranks, then verify the hashes at
 startup. Do not infer that one image digest was used everywhere in the source
 qualification.
+
+For recorded per-rank **local image IDs**, E2 kernel-path evidence, dated
+kernel/clock observations, the exact long-generation request and a short
+diagnostic protocol, see [reproduction details](REQUIREMENTS.md#recorded-native1024-build-identities).
+These records do not provide a pullable qualification image or prove that a
+different image with the same service fingerprint is equivalent.
 
 The root model is [GLM-5.3-Flash](https://huggingface.co/zai-org/GLM-5.3-Flash).
 Read [NOTICE.md](NOTICE.md) before serving: DFlash2 makes the selected stack
@@ -229,6 +235,9 @@ absolute `CFG` path for all three. `functional.py` posts to
 installer into each fresh container. Do not set
 `VLLM_SM120_SPARSE_MLA_SLICE_TOKENS=64` for another image revision: the patch
 rejects a different preimage.
+Slicing 64 is required for this selected **TP4/H16** recipe; the node launcher
+rejects TP2 with slicing enabled before starting a container. Value 0 is an
+unqualified diagnostic path. See [compatibility and startup notes](REQUIREMENTS.md#tp4-slice-compatibility-and-startup).
 
 ## Operation and recovery
 

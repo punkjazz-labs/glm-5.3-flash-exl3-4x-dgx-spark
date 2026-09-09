@@ -2,7 +2,7 @@
 # GLM-5.3-Flash EXL3 TP4 — node-local rank launcher (runs on each rank, no SSH inside).
 # Required env: NODE_RANK HEAD_IP FABRIC_IP RDV PORT IMG ROOT HF VC TAG DK SPEC_METHOD DRAFT_TP
 # Optional env: MAX_MODEL_LEN GPU_MEM_UTIL MAX_NUM_SEQS MAX_NUM_BATCHED_TOKENS KV_CACHE_DTYPE DFLASH_TOKENS NCCL_DEBUG EXTRA_ARGS
-#               TP_SIZE NNODES (default 4/4; 2/2 runs the same launcher on a two-node pair)
+#               TP_SIZE NNODES (default 4/4; 2/2 requires slicing disabled and is not this qualified recipe)
 # EXL3_FAT_KERNEL (0/1): E2 fat-expert prefill kernel of upstream PR77 (images built from c190db1 or later; ignored by 493cb88)
 # SWAPPINESS (0-100): set vm.swappiness on this rank before launch (runtime only; persist it yourself in /etc/sysctl.d)
 # MIXED_PREFILL_CHUNK (skip default = never mix a new prefill with running decodes; N = cap mixed chunk; off = stock chunked prefill)
@@ -12,6 +12,7 @@ slice_env=()
 case "${VLLM_SM120_SPARSE_MLA_SLICE_TOKENS:-0}" in
   0) ;;
   64)
+    [ "${TP_SIZE:-4}" = 4 ] || { echo 'attention slice=64 requires TP_SIZE=4 (H16); TP2 slicing is unsupported. Use a separately qualified TP2 recipe.' >&2; exit 2; }
     [ -n "${SPARSE_MLA_PATCH_B64:-}" ] || { echo 'missing pinned attention patch' >&2; exit 2; }
     slice_env=(-e VLLM_SM120_SPARSE_MLA_SLICE_TOKENS=64 -e SPARSE_MLA_PATCH_B64="$SPARSE_MLA_PATCH_B64")
     ;;
