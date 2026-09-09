@@ -32,6 +32,32 @@ configuration's qualification; use the selected settings and commands below.
 projection. The native result is bounded evidence for this workload and revision,
 not fresh-install, reboot, indefinite-stability, maximum-context, or global-optimum evidence.
 
+## September 9 RigMark challenger screen
+
+A pinned short RigMark comparison found faster coding and cold prefill with a
+separate NVFP4/Marlin recipe, alongside replay-latency and first-use concurrency
+trade-offs. The EXL3 recipe above remains the qualified default.
+
+| RigMark metric (median) | EXL3 TP4 | NVFP4 TP4 | NVFP4 change |
+|---|---:|---:|---:|
+| Code decode | 49.6 tok/s | 68.0 tok/s | +37.1% |
+| Prose decode | 28.6 tok/s | 28.4 tok/s | -0.6% |
+| Structured decode | 55.9 tok/s | 91.3 tok/s | +63.3% |
+| 64k cold prefill | 1,087 tok/s | 1,393 tok/s | +28.2% |
+| 64k replay TTFT | 1.158 s | 2.353 s | +103.2% (slower) |
+| C4 aggregate | 93.1 tok/s | 81.3 tok/s | -12.6% |
+
+Both passed 9/9 basic decode-output checks and 35/35 expected benchmark POSTs.
+NVFP4's two C4 rounds were 62.9 and 99.7 tok/s; the first overlaps an inference-time
+compilation warning. Both rounds remain in the result. This is a whole-recipe
+comparison, with three decode samples per category, one prefill/replay pair per
+depth and two concurrency rounds. It is not semantic coding-quality evidence,
+a new soak, or directly comparable with the qualification table above.
+
+A separate JSpark3-inspired 2 ms queue-spin trial showed no material decode gain
+and lower C4 throughput; it was rejected. A TP4 KDA projection prototype remains
+microbenchmark-only. See [the full protocol, source pins and evidence](EVIDENCE.md#september-9-matched-rigmark-screening).
+
 ## September 7 bounded capacity and transport screens
 
 The selected native1024 eight-sequence recipe remains the qualified default. The following later measurements use the same model/backend lane and frozen workload, but do not replace its qualification.

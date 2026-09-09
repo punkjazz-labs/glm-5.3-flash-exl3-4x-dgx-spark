@@ -170,3 +170,127 @@ The full r2 workload window was 7 September 2026, 18:31:07–21:17:48 UTC; nativ
 | final-capacity-decision.json | `58bfd2dbac59dab7bd63cb5a0f675887edc02ab61bf96222b02b3d811d49654c` |
 
 The 16-worker protocol deliberately differs from the historical four-worker qualification; its worker count, exact phases, frozen hard gates, identity, request accounting and service handback were independently reviewed. No failed receipt was relabeled to pass. The early profiler remains a diagnostic window and is not pooled with unprofiled benchmark timings.
+
+
+## September 9 matched RigMark screening
+
+This later screen does not replace the selected Native1024 qualification. It used
+[RigMark revision c671b52a97f3cc01919c18d8d1f8e4f01243290c](https://github.com/alexellis/rigmark/tree/c671b52a97f3cc01919c18d8d1f8e4f01243290c),
+protocol 1.1.0, with the reviewed direct bench.py / report.py path. The source
+archive and per-file hashes were pinned. The scoped static review found no
+package installation, shell execution, dynamic execution, generated-code
+execution, credential persistence, or non-Git subprocess launch in that direct
+path. It is not a general malware guarantee for an endpoint, interpreter, or
+dependency. audit_code.py, which can execute generated code in Docker, was not
+used.
+
+Both arms used three decode runs per code, prose, and structured prompt; one
+cold/replay prefill pair at 8k, 32k, and 64k; and two C1/C2/C4 concurrency
+rounds with a 256-token cap. Reasoning was disabled. Both arms accounted for
+35 HTTP requests and passed 9/9 basic decode-output checks. A visible completion
+or structured response is not a semantic coding-correctness test, and a capped
+concurrency response is a capacity observation rather than a completed task.
+
+| Metric | Retained queue setting | 2 ms queue setting | Change |
+|---|---:|---:|---:|
+| Code decode | 49.616 tok/s | 49.629 tok/s | +0.026% |
+| C4 aggregate | 93.098 tok/s | 87.487 tok/s | -6.0% |
+| Coding TTFT | 0.454 s | 0.608 s | +33.9% |
+| 8k cold prefill | 1,052.709 tok/s | 1,029.454 tok/s | -2.2% |
+
+The queue-spin and KDA ideas came from [JSpark3 at 70210556801c1c187e625b7700f4085763ed1840](https://github.com/jakejharris/jspark3/tree/70210556801c1c187e625b7700f4085763ed1840). The local KDA prototype retained TP4 geometry; TP3 padding was not imported.
+
+The 2 ms setting is rejected for this recipe: it did not meet the declared
+material decode-gain screen, C4 regressed, and coding TTFT rose. These results
+are comparable within this RigMark screen only; they are not comparable with
+the earlier mixed-soak table.
+
+A TP4 BF16 f/g projection-batching prototype measured isolated class-level
+CUDA timings only: 17.184 to 14.048 microseconds at one token, 17.344 to
+13.824 at three, and 106.480 to 96.800 at 2,048. The corresponding 34-layer
+arithmetic estimates are 0.107, 0.120, and 0.329 ms per forward. It is not
+adopted: this is not end-to-end throughput, latency, quality, memory, or
+reliability evidence.
+
+The public [GX10 source](https://github.com/mmastrac/glm-5.3-flash-4x-gx10/tree/a30d4b24f2341ec2d36a516c38c3ba1fd967a884)
+and [TP4 NVFP4/Marlin source](https://github.com/tonyd2wild/GLM-5.3-Flash-NVFP4-1M-KV-4x-DGX-Spark/tree/8fd2fcd27c04c7fa93e770000b818657f338875d)
+remain hypothesis sources. Their weights/quantization, template, runtime,
+scheduler, graph mode, speculative configuration, context, and workload differ,
+so their figures do not establish a speedup for this EXL3/native recipe.
+
+### NVFP4 matched result
+
+Pinned artifacts: [NVFP4 weights at 240131d6a447c8d89acd428c5ddfc85598651744](https://huggingface.co/RedHatAI/GLM-5.3-Flash-NVFP4/tree/240131d6a447c8d89acd428c5ddfc85598651744), [DFlash2 draft at bf582e4eacc1810f76656d1811693ff6c6737d2a](https://huggingface.co/incoai/GLM-5.3-Flash-DFlash2/tree/bf582e4eacc1810f76656d1811693ff6c6737d2a), and Tony's image manifest `sha256:4def0ef644cb2e9814136dcffd5e385e21bc594f48f3b292234051904abe85a6`. The candidate used Marlin, FP8 KV (24 GiB), DFlash k7, a 16,384-token batch budget, 64 sequences and FULL_AND_PIECEWISE graphs. The retained EXL3 control used k3, batch 2,048, eight sequences and eager H16/slice64 Native1024.
+
+The ordinary Tony NVFP4/Marlin recipe completed the frozen short benchmark.
+It passed exact-text, JSON and forced tool-call argument smoke checks, plus
+retrieval from a prompt containing 25,000 filler repetitions, followed by 9/9 basic RigMark decode-output checks and exactly 35/35
+expected benchmark POST responses with HTTP 200. Independent access-log
+accounting found no extra POSTs or non-200 responses in that window.
+Exact retained-container/source/environment restoration, post-trial inference
+checks and the signed runtime gate passed. The qualified EXL3 default was
+returned to production after the screen; NVFP4 was not promoted.
+
+| Metric (median) | EXL3 TP4 | NVFP4 TP4 | Change |
+|---|---:|---:|---:|
+| code decode | 49.616 tok/s | 68.021 tok/s | +37.1% |
+| prose decode | 28.569 tok/s | 28.399 tok/s | -0.6% |
+| structured decode | 55.892 tok/s | 91.291 tok/s | +63.3% |
+| Code TTFT | 0.454 s | 0.342 s | -24.7% |
+| 8k cold prefill | 1052.709 tok/s | 1452.279 tok/s | +38.0% |
+| 8k replay TTFT | 1.098 s | 2.465 s | +124.5% |
+| 32k cold prefill | 1086.398 tok/s | 1256.012 tok/s | +15.6% |
+| 32k replay TTFT | 0.768 s | 1.986 s | +158.6% |
+| 64k cold prefill | 1086.988 tok/s | 1393.382 tok/s | +28.2% |
+| 64k replay TTFT | 1.158 s | 2.353 s | +103.2% |
+| C1 aggregate | 40.400 tok/s | 43.261 tok/s | +7.1% |
+| C1 stream TTFT | 0.421 s | 0.339 s | -19.5% |
+| C2 aggregate | 65.780 tok/s | 70.445 tok/s | +7.1% |
+| C2 stream TTFT | 0.567 s | 0.481 s | -15.2% |
+| C4 aggregate | 93.098 tok/s | 81.345 tok/s | -12.6% |
+| C4 stream TTFT | 0.772 s | 3.674 s | +375.9% |
+
+The tool smoke checked the selected function and parsed arguments; it did not
+assert the API finish reason or qualify the complete tool protocol.
+
+This is a whole-recipe comparison, including weights, quantization, chat
+templates, runtime, graph mode, scheduler and speculative settings. Both used
+the same pinned RigMark source, prompt digest, comparison identifier, seed,
+request settings, sample counts and no-thinking mode. It is not a quality
+comparison or a long reliability qualification. The control was an already
+warm retained process; the candidate was newly started and passed the stated
+smokes. The benchmark added no extra unscored warmup in either arm.
+
+C4 was variable: NVFP4 returned 62.941 then 99.749 aggregate tok/s, with
+median stream TTFT 6.697 then 0.652 s. The EXL3 rounds were 97.046 and
+89.150 tok/s. Keep both measured rounds: the candidate's second result alone
+is not its headline. The first C4 interval overlaps a warning that the TileLang
+`mhc_pre_big_fuse_with_norm_tilelang` kernel compiled during inference. That
+supports a compilation contribution, without attributing the entire delay
+or establishing steady-state capacity from two rounds.
+
+**Decision: retain the qualified EXL3 default.** NVFP4 is a promising candidate
+for coding and prefill, but this screen does not meet the no-more-than-5-percent
+throughput-regression guard, and replay TTFT worsened. These data do not support
+"double all metrics" or production promotion. The next focused experiment is
+warmup coverage and a matched warmed C4/replay comparison; changing speculative
+length is a separate hypothesis, not a proven fix. No new soak was run.
+
+The earlier failed attempts are retained separately: the first omitted an MTP
+file referenced by the pinned index; the second reached API readiness but hit
+a quoting error in the external smoke harness before inference. Neither is
+counted as a measured model failure. Both restored the retained runtime.
+
+### Screening receipt hashes
+
+These SHA-256 references identify private raw receipts; they do not make the
+private logs, generated outputs, host identities or deployment records public.
+
+| Receipt | SHA-256 |
+|---|---|
+| EXL3 RigMark control | `fc48b69a3c33157086fc5f5d685c43e6561d2efbbf63667df02b94d3c17190b3` |
+| 2ms RigMark candidate | `d97aa316e8407223b78f7e71fb86c19b955f0436684fb0e754a1de0c101c4179` |
+| NVFP4 RigMark candidate | `6e4c27c9ffbe3bae22d614ee0d4f263f960d24c0a1ce54007e26fc5a3a8f2ef2` |
+| NVFP4 final controller | `ea4d226814535d9650b2421cd6c4a26c4899c1e6c3c3f1f578ec4c9022aca97d` |
+| NVFP4 timed POST proof | `d867b55405d43327c56143a789b5dac6c011423a0e4f8409698602e6f813a364` |
+| KDA actual-class numerical/microbenchmark | `9bc6c7fb43772879c044227060cc3355e4ef5273e358d3230d91ef21fffb064c` |
