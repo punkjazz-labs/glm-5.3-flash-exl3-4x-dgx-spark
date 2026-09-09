@@ -1,5 +1,11 @@
 # GLM-5.3-Flash EXL3 TP4 sparse-attention recipe
 
+**Build provenance:** qualification used local per-rank image builds. The upstream
+GHCR `:exl3` image is not the artifact we qualified, and equivalence has not been
+established. This repository does not yet provide a pullable qualified image or
+a verified reproducible build. See [recorded image IDs, overlay hashes and
+reproduction details](REQUIREMENTS.md#recorded-native1024-build-identities).
+
 This recipe selects one four-rank GB10 configuration: EXL3
 with FP8 KV cache, DFlash2 at three speculative tokens, eager execution, a
 64-row sparse-MLA attention slice, mixed prefill `off`, a 2,048-token outer
